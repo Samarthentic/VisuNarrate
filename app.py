@@ -8,6 +8,12 @@ Provides:
 """
 
 import os
+
+# Enforce offline execution mode for Hugging Face & set Matplotlib temp dir
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ["MPLCONFIGDIR"] = "/tmp/matplotlib"
+
 import time
 import logging
 from typing import Set
