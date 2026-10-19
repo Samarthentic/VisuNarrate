@@ -121,10 +121,11 @@ class EvidenceFusionEngine:
         )
 
         # Evaluate primary actor vs background person detections
-        person_boxes = [obj for obj in yolo_objects if obj.get("label") == "person"]
-        dominant_person_count = yolo_person_count
+        valid_person_boxes = [obj for obj in yolo_objects if obj.get("label") == "person" and obj.get("confidence", 0.0) >= 0.25]
+        actual_person_count = len(valid_person_boxes)
+        has_dominant_person = False
 
-        if len(person_boxes) >= 2:
+        if actual_person_count >= 2:
             # Sort by area * confidence
             def box_prominence(b):
                 bbox = b.get("bbox", {})
@@ -132,19 +133,18 @@ class EvidenceFusionEngine:
                 h = abs(bbox.get("y2", 0) - bbox.get("y1", 0))
                 return (w * h) * b.get("confidence", 0.5)
 
-            sorted_boxes = sorted(person_boxes, key=box_prominence, reverse=True)
+            sorted_boxes = sorted(valid_person_boxes, key=box_prominence, reverse=True)
             p1_prom = box_prominence(sorted_boxes[0])
             p2_prom = box_prominence(sorted_boxes[1])
 
-            # If primary person is >3.5x more prominent than secondary and caption is singular
-            caption_is_singular = any(w in summary_text for w in ["a man", "a woman", "a person", "someone", "the man", "the woman"])
-            if p1_prom > 3.5 * p2_prom and caption_is_singular:
-                dominant_person_count = 1
+            # Dominant person is significantly larger in foreground (>3.0x prominence)
+            if p1_prom > 3.0 * max(p2_prom, 1e-5):
+                has_dominant_person = True
 
         evidence_reasons = []
 
-        if yolo_person_count > 0:
-            evidence_reasons.append(f"YOLOv8n detected {yolo_person_count} person instance(s) [Detector Evidence]")
+        if actual_person_count > 0:
+            evidence_reasons.append(f"YOLOv8n detected {actual_person_count} person instance(s) [Detector Evidence]")
             if caption_has_person:
                 evidence_reasons.append("BLIP caption independently identified human subject [Caption Evidence]")
                 status = "present"
@@ -153,7 +153,7 @@ class EvidenceFusionEngine:
                 evidence_reasons.append("BLIP caption did not explicitly highlight person")
                 status = "present"
                 confidence_level = "supported"
-            estimated_count = dominant_person_count
+            estimated_count = actual_person_count
 
         else:
             evidence_reasons.append("YOLOv8n detected 0 person instances [Detector Evidence]")
@@ -168,13 +168,14 @@ class EvidenceFusionEngine:
                 confidence_level = "uncertain"
                 estimated_count = 0
 
-        logger.info(f"[EvidenceFusion] Person Presence: {status.upper()} ({confidence_level}) | Count: {estimated_count}")
+        logger.info(f"[EvidenceFusion] Person Presence: {status.upper()} ({confidence_level}) | Count: {estimated_count} | Dominant: {has_dominant_person}")
 
         return {
             "status": status,
             "confidence_level": confidence_level,
             "count": estimated_count,
             "raw_detector_count": yolo_person_count,
+            "has_dominant_person": has_dominant_person,
             "evidence_reasons": evidence_reasons,
         }
 
@@ -458,40 +459,103 @@ class EvidenceFusionEngine:
             })
 
         # =====================================================================
-        # 5. Mobility / Vehicle Candidate (Bicycle, Skateboard)
+        # 5. Mobility / Vehicle Candidate (Bicycle, Skateboard, Motorcycle)
         # =====================================================================
-        has_yolo_mob = any(k in yolo_counts for k in ["bicycle", "motorcycle", "skateboard"])
-        conf_mob = max([yolo_max_conf.get(k, 0.0) for k in ["bicycle", "motorcycle", "skateboard"]] + [0.0])
-        has_cap_mob = any(k in caption_text for k in ["bike", "bicycle", "riding", "skateboard", "motorcycle"])
-        has_vqa_mob = any(k in vqa_holding or k in vqa_doing for k in ["bike", "bicycle", "riding", "skateboard"])
+        has_yolo_bicycle = ("bicycle" in yolo_counts)
+        conf_bicycle = yolo_max_conf.get("bicycle", 0.0)
+        has_cap_bicycle = any(k in caption_text for k in ["bike", "bicycle"])
+        has_vqa_bicycle = any(k in vqa_holding or k in vqa_doing for k in ["bike", "bicycle"])
 
-        if has_yolo_mob or has_cap_mob or has_vqa_mob:
+        has_yolo_skate = ("skateboard" in yolo_counts)
+        conf_skate = yolo_max_conf.get("skateboard", 0.0)
+        has_cap_skate = ("skateboard" in caption_text)
+        has_vqa_skate = ("skateboard" in vqa_holding or "skateboard" in vqa_doing)
+
+        has_yolo_moto = ("motorcycle" in yolo_counts)
+        conf_moto = yolo_max_conf.get("motorcycle", 0.0)
+        has_cap_moto = ("motorcycle" in caption_text)
+        has_vqa_moto = ("motorcycle" in vqa_holding or "motorcycle" in vqa_doing)
+
+        if has_yolo_bicycle or has_cap_bicycle or (has_vqa_bicycle and (has_yolo_bicycle or has_cap_bicycle)):
             score = 0.0
             sources = []
             counter = []
 
-            target_mob = "bicycle" if ("bike" in caption_text or "bike" in vqa_doing or "bicycle" in yolo_counts) else "skateboard" if ("skateboard" in vqa_holding or "skateboard" in yolo_counts) else "vehicle"
-
-            if has_yolo_mob:
-                score += 50.0 + (conf_mob * 20.0)
-                sources.append(f"YOLOv8n Detector: '{target_mob}' (conf: {conf_mob:.1%})")
+            if has_yolo_bicycle:
+                score += 50.0 + (conf_bicycle * 20.0)
+                sources.append(f"YOLOv8n Detector: 'bicycle' (conf: {conf_bicycle:.1%})")
             else:
-                counter.append(f"YOLOv8n Detector: '{target_mob}' bounding box not detected")
+                counter.append("YOLOv8n Detector: Bicycle bounding box not detected")
 
-            if has_cap_mob:
+            if has_cap_bicycle:
                 score += 35.0
-                sources.append("BLIP Caption: mentions mobility / riding")
+                sources.append("BLIP Caption: mentions bicycle / riding")
 
-            if has_vqa_mob:
+            if has_vqa_bicycle:
                 score += 35.0
-                sources.append(f"BLIP-VQA: confirmed '{vqa_holding or vqa_doing}'")
+                sources.append(f"BLIP-VQA: confirmed '{vqa_doing or vqa_holding}'")
+
+            # Grounding Constraint: If NO detector and NO caption, bicycle claim is ungrounded
+            if not has_yolo_bicycle and not has_cap_bicycle:
+                status = "uncertain"
+                score = min(score, 30.0)
+            else:
+                status = "confirmed" if score >= 80.0 else "supported" if score >= 40.0 else "uncertain"
+
+            candidates.append({
+                "subject": "person",
+                "relation": "riding / operating",
+                "target": "bicycle",
+                "status": status,
+                "score": score,
+                "evidence_sources": sources,
+                "counter_evidence": counter,
+            })
+        elif has_yolo_skate or has_cap_skate:
+            score = 0.0
+            sources = []
+            counter = []
+
+            if has_yolo_skate:
+                score += 50.0 + (conf_skate * 20.0)
+                sources.append(f"YOLOv8n Detector: 'skateboard' (conf: {conf_skate:.1%})")
+            else:
+                counter.append("YOLOv8n Detector: Skateboard bounding box not detected")
+
+            if has_cap_skate:
+                score += 35.0
+                sources.append("BLIP Caption: mentions skateboard")
+
+            if has_vqa_skate:
+                score += 35.0
+                sources.append(f"BLIP-VQA: confirmed '{vqa_doing or vqa_holding}'")
 
             status = "confirmed" if score >= 80.0 else "supported" if score >= 40.0 else "uncertain"
 
             candidates.append({
                 "subject": "person",
                 "relation": "riding / operating",
-                "target": target_mob,
+                "target": "skateboard",
+                "status": status,
+                "score": score,
+                "evidence_sources": sources,
+                "counter_evidence": counter,
+            })
+        elif has_yolo_moto and (has_cap_moto or has_vqa_moto):
+            score = 50.0 + (conf_moto * 20.0)
+            sources = [f"YOLOv8n Detector: 'motorcycle' (conf: {conf_moto:.1%})"]
+            counter = []
+            if has_cap_moto:
+                score += 35.0
+                sources.append("BLIP Caption: mentions motorcycle")
+            if has_vqa_moto:
+                score += 35.0
+                sources.append(f"BLIP-VQA: confirmed '{vqa_doing or vqa_holding}'")
+            status = "confirmed" if score >= 80.0 else "supported" if score >= 40.0 else "uncertain"
+            candidates.append({
+                "subject": "person",
+                "relation": "riding / operating",
+                "target": "motorcycle",
                 "status": status,
                 "score": score,
                 "evidence_sources": sources,
@@ -542,7 +606,54 @@ class EvidenceFusionEngine:
         is_graphic = scene_type_info.get("is_graphic", False)
 
         # ---------------------------------------------------------------------
-        # 1. Primary Subject Determination
+        # 1. Object Evidence Filtering & Sanity Check (Priority 1 Grounding)
+        # ---------------------------------------------------------------------
+        yolo_objs = object_evidence.get("objects", [])
+        MIN_STANDALONE_CONFIDENCE = 0.35
+        ANOMALOUS_OUTDOOR_LABELS = {
+            "frisbee", "sports ball", "kite", "remote", "cell phone", "mouse",
+            "toaster", "microwave", "toothbrush", "hair drier"
+        }
+
+        combined_caption_str = (
+            caption_evidence.get("summary", "").lower() + " " +
+            caption_evidence.get("observations", {}).get("subject", "").lower()
+        )
+
+        for obj in yolo_objs:
+            lbl = obj.get("label", "").lower()
+            conf = obj.get("confidence", 0.0)
+
+            in_caption = lbl in combined_caption_str
+            in_vqa = any(lbl in str(v).lower() for v in vqa_map.values())
+            is_corroborated = in_caption or in_vqa
+
+            # Rule 1: Frisbee or anomalous object in landscape/graphic without human (Issue 7)
+            if (lbl in ANOMALOUS_OUTDOOR_LABELS or (is_graphic and lbl == "frisbee")) and not is_person_present and not is_corroborated:
+                conflicts.append({
+                    "topic": "False Positive Suppression",
+                    "description": f"Suppressed anomalous '{lbl}' ({conf:.1%}) in non-human scene lacking corroborating evidence.",
+                    "evidence": [f"YOLOv8n: '{lbl}'"],
+                    "counter_evidence": ["No human presence", "Not mentioned in caption or VQA"],
+                    "resolution": f"Discounted spurious '{lbl}' detection.",
+                    "resolution_status": "discounted_artifact",
+                })
+                continue
+
+            # Rule 2: Minimum confidence threshold for uncorroborated detections (Issue 7)
+            if conf < MIN_STANDALONE_CONFIDENCE and not is_corroborated:
+                continue
+
+            fused_objects.append({
+                "label": obj["label"],
+                "confidence": conf,
+                "bbox": obj.get("bbox", {}),
+                "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+                "status": "confirmed" if (obj["label"] == "person" and is_person_present) or is_corroborated else "supported",
+            })
+
+        # ---------------------------------------------------------------------
+        # 2. Primary Subject Determination
         # ---------------------------------------------------------------------
         if is_person_present:
             person_count = person_presence.get("count", 1)
@@ -565,14 +676,33 @@ class EvidenceFusionEngine:
             vqa_sub = vqa_map.get("What is the main subject in the image?", "")
             caption_sub = caption_evidence.get("observations", {}).get("subject", "")
 
-            if is_graphic:
+            # Prioritize laptops, books, and monitors in non-person workspace scenes (Issue 4)
+            fused_labels = [o["label"].lower() for o in fused_objects]
+            has_laptops = "laptop" in fused_labels
+            has_books = "book" in fused_labels
+            has_monitors = any(m in fused_labels for m in ["tv", "monitor"])
+            is_desk_scene = has_laptops or has_books or has_monitors or "desk" in caption_evidence.get("summary", "").lower()
+
+            if is_desk_scene and has_laptops:
+                laptop_cnt = sum(1 for o in fused_objects if o["label"].lower() == "laptop")
+                if laptop_cnt > 1:
+                    subject_desc = "a desk with laptops and books" if has_books else "a desk with laptops"
+                else:
+                    subject_desc = "a desk with a laptop and books" if has_books else "a desk with a laptop"
+                subject_status = "confirmed"
+                sources = ["YOLOv8n Detector Grounding (Priority 1)", "BLIP Caption Evidence"]
+            elif is_graphic:
                 subject_desc = caption_sub if caption_sub else (vqa_sub or "Graphic Illustration")
                 subject_status = "supported"
                 sources = ["BLIP Caption Semantic Evidence"]
                 if vqa_sub and vqa_sub.lower() not in {"computer", "laptop", "unknown"}:
                     sources.append("BLIP-VQA Scene Subject")
             else:
-                subject_desc = vqa_sub if vqa_sub and vqa_sub.lower() != "unknown" else caption_sub
+                # If VQA says "backpack" or another minor item but laptops exist, laptop wins
+                if has_laptops and vqa_sub.lower() in {"backpack", "bag", "potted plant", "chair"}:
+                    subject_desc = "a desk with a laptop"
+                else:
+                    subject_desc = vqa_sub if vqa_sub and vqa_sub.lower() != "unknown" else caption_sub
                 if not subject_desc:
                     subject_desc = caption_evidence.get("summary", "Unspecified Subject")
                 subject_status = "supported"
@@ -585,11 +715,23 @@ class EvidenceFusionEngine:
             }
 
         # ---------------------------------------------------------------------
-        # 2. Activity / Posture Determination
+        # 3. Activity / Posture Determination
         # ---------------------------------------------------------------------
         if is_person_present:
             vqa_action = vqa_map.get("What is the person doing?", "")
             caption_action = caption_evidence.get("observations", {}).get("action", "")
+
+            # Grounding check on dynamic actions claiming ungrounded objects (Issue 2)
+            if vqa_action:
+                vqa_act_lower = vqa_action.lower()
+                if any(k in vqa_act_lower for k in ["bike", "bicycle"]):
+                    has_bike = any(o.get("label") == "bicycle" for o in yolo_objs) or any(k in combined_caption_str for k in ["bike", "bicycle"])
+                    if not has_bike:
+                        vqa_action = ""
+                elif "skateboard" in vqa_act_lower:
+                    has_skate = any(o.get("label") == "skateboard" for o in yolo_objs) or "skateboard" in combined_caption_str
+                    if not has_skate:
+                        vqa_action = ""
 
             if vqa_action and "dancing" in vqa_action.lower():
                 uncertainty_flags.append({
@@ -623,7 +765,7 @@ class EvidenceFusionEngine:
             }
 
         # ---------------------------------------------------------------------
-        # 3. Environment & Setting Determination
+        # 4. Environment & Setting Determination
         # ---------------------------------------------------------------------
         vqa_loc = vqa_map.get("Is the person indoors or outdoors?", "") or vqa_map.get("Is the scene indoors or outdoors?", "")
         caption_env = caption_evidence.get("observations", {}).get("environment", "")
@@ -640,31 +782,6 @@ class EvidenceFusionEngine:
             "status": "supported" if vqa_loc else "uncertain",
             "sources": ["BLIP-VQA Location Evidence", "BLIP Environment Evidence"],
         }
-
-        # ---------------------------------------------------------------------
-        # 4. Object Evidence Filtering
-        # ---------------------------------------------------------------------
-        yolo_objs = object_evidence.get("objects", [])
-
-        for obj in yolo_objs:
-            if is_graphic and obj["label"] == "frisbee":
-                conflicts.append({
-                    "topic": "Object Identification",
-                    "description": "YOLOv8n detected 'frisbee' (43.9% conf), but context is an illustration/graphic.",
-                    "evidence": ["YOLOv8n detector: 'frisbee'"],
-                    "counter_evidence": ["BLIP Caption: 'illustration of pyramids'", "Heuristic: Graphic media classification"],
-                    "resolution": "Classified as 2D graphic artifact; discounted from physical scene objects.",
-                    "resolution_status": "discounted_artifact",
-                })
-                continue
-
-            fused_objects.append({
-                "label": obj["label"],
-                "confidence": obj.get("confidence", 0.0),
-                "bbox": obj.get("bbox", {}),
-                "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
-                "status": "confirmed" if obj["label"] == "person" and is_person_present else "supported",
-            })
 
         # ---------------------------------------------------------------------
         # 5. Multi-Source Object Interaction Scoring & Deterministic Ranking

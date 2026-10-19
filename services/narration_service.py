@@ -11,6 +11,7 @@ Avoids robotic labels, machine prefixes, and unnecessary clothing details by def
 Zero external LLM dependencies / 100% deterministic and offline.
 """
 
+import re
 import logging
 from typing import Dict, Any, Optional, List
 
@@ -43,6 +44,7 @@ class NarrationService:
         person_presence = fused_scene.get("person_presence", {})
         is_person_present = (person_presence.get("status") == "present")
         person_count = person_presence.get("count", 0)
+        has_dominant_person = person_presence.get("has_dominant_person", False)
 
         primary_subject = fused_scene.get("primary_subject", {}).get("value", "")
         activity = fused_scene.get("activity", {}).get("value", "")
@@ -54,26 +56,29 @@ class NarrationService:
         # 1. Person-Centric Storytelling (Action-Prioritized)
         # ---------------------------------------------------------------------
         if is_person_present:
-            return self._build_person_narrative(
+            raw = self._build_person_narrative(
                 primary_subject=primary_subject,
                 activity=activity,
                 environment=environment,
                 interactions=interactions,
                 objects=objects,
                 person_count=person_count,
+                has_dominant_person=has_dominant_person,
             )
-
         # ---------------------------------------------------------------------
         # 2. Graphic / Illustration Media
         # ---------------------------------------------------------------------
         elif is_graphic:
-            return self._build_graphic_narrative(primary_subject, environment)
-
+            raw = self._build_graphic_narrative(primary_subject, environment)
         # ---------------------------------------------------------------------
         # 3. Photographic Environment / Non-Person Scene
         # ---------------------------------------------------------------------
         else:
-            return self._build_environment_narrative(primary_subject, environment, objects)
+            raw = self._build_environment_narrative(primary_subject, environment, objects)
+
+        cleaned = self._clean_grammar(raw)
+        logger.info(f"[NarrationService] Synthesized Action-Prioritized Narrative: '{cleaned}'")
+        return cleaned
 
     def _build_person_narrative(
         self,
@@ -83,17 +88,26 @@ class NarrationService:
         interactions: List[Dict[str, Any]],
         objects: List[Dict[str, Any]],
         person_count: int,
+        has_dominant_person: bool = False,
     ) -> str:
         """Generates natural, active-voice storytelling prioritizing actions over clothing."""
         sub_lower = primary_subject.lower()
 
         # 1. Actor Identification (clean without default clothing details)
-        if "man" in sub_lower:
+        # If one person is clearly dominant in foreground, narrate as singular main actor (Issue 1)
+        if has_dominant_person:
+            if "man" in sub_lower:
+                actor = "A man"
+            elif "woman" in sub_lower:
+                actor = "A woman"
+            else:
+                actor = "A person"
+        elif person_count >= 2:
+            actor = f"{person_count} people" if person_count > 2 else "Two people"
+        elif "man" in sub_lower:
             actor = "A man"
         elif "woman" in sub_lower:
             actor = "A woman"
-        elif person_count >= 2:
-            actor = f"{person_count} people" if person_count > 2 else "Two people"
         else:
             actor = "A person"
 
@@ -102,12 +116,12 @@ class NarrationService:
 
         is_seated = any(w in act_lower for w in ["sit", "sitting", "seated", "table", "chair", "desk"])
         is_standing = any(w in act_lower for w in ["stand", "standing"])
-        is_walking = any(w in act_lower for w in ["walk", "walking", "skateboard", "riding"])
+        is_walking = any(w in act_lower for w in ["walk", "walking", "street", "sidewalk"])
 
         has_table = any(obj.get("label") in {"dining table", "table", "desk"} for obj in objects)
         has_chair = any(obj.get("label") in {"chair", "couch"} for obj in objects)
         is_indoors = "indoor" in env_lower or "room" in env_lower or "cafe" in env_lower or "restaurant" in env_lower
-        is_outdoors = "outdoor" in env_lower or "street" in env_lower or "park" in env_lower
+        is_outdoors = "outdoor" in env_lower or "street" in env_lower or "park" in env_lower or "sidewalk" in act_lower
 
         # 2. Identify Focal Interaction & Action
         action_verb = ""
@@ -134,12 +148,15 @@ class NarrationService:
                 elif "book" in target or "magazine" in target or "reading" in act_lower:
                     action_verb = "reading a book"
                     interaction_target = "book"
-                elif "skateboard" in target or "skateboard" in act_lower:
+                elif "skateboard" in target:
                     action_verb = "riding a skateboard"
                     interaction_target = "skateboard"
                 elif "bicycle" in target or "bike" in target:
                     action_verb = "riding a bicycle"
                     interaction_target = "bicycle"
+                elif "motorcycle" in target:
+                    action_verb = "on a motorcycle"
+                    interaction_target = "motorcycle"
                 elif "food" in target or "plate" in target or "meal" in target:
                     action_verb = "having a meal"
                     interaction_target = "food"
@@ -156,25 +173,65 @@ class NarrationService:
                 action_verb = "having a meal"
             elif "drinking" in act_lower or "coffee" in act_lower or "cup" in sub_lower:
                 action_verb = "holding a cup and drinking"
-            elif "skateboard" in act_lower:
+            elif "skateboard" in act_lower and any(o.get("label") == "skateboard" for o in objects):
                 action_verb = "riding a skateboard"
             elif "conversation" in act_lower or "talking" in act_lower:
                 action_verb = "engaged in conversation"
 
-        # 3. Formulate Fluent Natural Story Sentence
-        if person_count >= 2:
-            if has_table and action_verb:
-                sentence = f"{actor} are sitting together at a table, {action_verb}."
-            elif is_seated:
-                sentence = f"{actor} are sitting together, {action_verb}." if action_verb else f"{actor} are sitting together."
-            elif is_standing:
-                sentence = f"{actor} are standing together, {action_verb}." if action_verb else f"{actor} are standing together."
-            elif is_outdoors:
-                sentence = f"{actor} are outdoors, {action_verb}." if action_verb else f"{actor} are outdoors together."
+        # 3. Detect Relevant Second Object (Issue 5)
+        # When a second object has high confidence and is relevant, mention it briefly
+        second_object_phrase = ""
+        obj_labels_conf = [(o.get("label", "").lower(), o.get("confidence", 0.0)) for o in objects]
+
+        if interaction_target == "laptop":
+            # Relevant second objects near a laptop: cup, mug, sandwich, book
+            has_cup = any(lbl in {"cup", "bottle"} and conf >= 0.50 for lbl, conf in obj_labels_conf)
+            has_sw = any(lbl == "sandwich" and conf >= 0.50 for lbl, conf in obj_labels_conf)
+            if has_cup:
+                second_object_phrase = "with a cup nearby"
+            elif has_sw:
+                second_object_phrase = "with a snack nearby"
+        elif interaction_target == "cup":
+            # Relevant second objects with a drink: sandwich, food, bowl, laptop
+            has_sw = any(lbl in {"sandwich", "bowl"} and conf >= 0.50 for lbl, conf in obj_labels_conf)
+            has_lap = any(lbl == "laptop" and conf >= 0.50 for lbl, conf in obj_labels_conf)
+            if has_sw:
+                second_object_phrase = "with food on the table"
+            elif has_lap:
+                second_object_phrase = "with a laptop on the desk"
+        elif interaction_target == "book":
+            has_cup = any(lbl in {"cup", "bottle"} and conf >= 0.50 for lbl, conf in obj_labels_conf)
+            if has_cup:
+                second_object_phrase = "with a cup nearby"
+
+        # 4. Formulate Fluent Natural Story Sentence
+        # Case A: True Group Scene without a dominant individual (Issue 3)
+        if person_count >= 2 and not has_dominant_person:
+            # Group vs Object (Issue 3): Do not claim everyone is operating a single laptop/book/phone
+            if action_verb in {"working on a laptop", "using a smartphone", "reading a book"}:
+                item_name = "a laptop" if "laptop" in action_verb else "a smartphone" if "smartphone" in action_verb else "books"
+                if has_table:
+                    sentence = f"{actor} are sitting together at a table with {item_name}."
+                elif is_seated:
+                    sentence = f"{actor} are sitting together, with {item_name} nearby."
+                elif is_outdoors:
+                    sentence = f"{actor} are outdoors together, with {item_name} nearby."
+                else:
+                    sentence = f"{actor} are gathered together, with {item_name} nearby."
             else:
-                sentence = f"{actor} are together, {action_verb}." if action_verb else f"{actor} are gathered together."
+                if has_table and action_verb:
+                    sentence = f"{actor} are sitting together at a table, {action_verb}."
+                elif is_seated:
+                    sentence = f"{actor} are sitting together, {action_verb}." if action_verb else f"{actor} are sitting together."
+                elif is_standing:
+                    sentence = f"{actor} are standing together, {action_verb}." if action_verb else f"{actor} are standing together."
+                elif is_outdoors:
+                    sentence = f"{actor} are outdoors, {action_verb}." if action_verb else f"{actor} are outdoors together."
+                else:
+                    sentence = f"{actor} are together, {action_verb}." if action_verb else f"{actor} are gathered together."
+
+        # Case B: Single Person or Dominant Person Scene (Issue 1 & Issue 5)
         else:
-            # Single Person Phrasing
             if is_seated or has_table or has_chair:
                 if has_table and interaction_target in {"cup", "bottle", "food"}:
                     sentence = f"{actor} is sitting at a table, {action_verb}."
@@ -199,11 +256,11 @@ class NarrationService:
                     sentence = f"{actor} is standing indoors."
                 else:
                     sentence = f"{actor} is standing."
-            elif is_walking or "skateboard" in action_verb:
+            elif is_walking:
                 if is_outdoors:
-                    sentence = f"{actor} is outdoors, {action_verb}." if action_verb else f"{actor} is walking outdoors."
+                    sentence = f"{actor} is walking outdoors."
                 else:
-                    sentence = f"{actor} is {action_verb}." if action_verb else f"{actor} is walking."
+                    sentence = f"{actor} is walking."
             elif is_indoors:
                 sentence = f"{actor} is sitting indoors, {action_verb}." if action_verb else f"{actor} is indoors."
             elif is_outdoors:
@@ -211,23 +268,43 @@ class NarrationService:
             else:
                 sentence = f"{actor} is {action_verb}." if action_verb else f"{actor} is present in the scene."
 
+            # Append second object mention if relevant (Issue 5)
+            if second_object_phrase:
+                sentence = sentence.rstrip(".") + f", {second_object_phrase}."
+
+            # Append nearby people when dominant person is in foreground (Issue 1)
+            if has_dominant_person and person_count >= 2:
+                others_count = person_count - 1
+                nearby_phrase = "with another person nearby" if others_count == 1 else "with several other people nearby"
+                sentence = sentence.rstrip(".") + f", {nearby_phrase}."
+
         # Polish grammar
         sentence = sentence.replace("sitting indoors, working on a laptop", "sitting at a desk, working on a laptop")
         sentence = sentence.replace("sitting indoors, holding a cup and drinking", "sitting at a table, holding a cup and drinking")
 
-        logger.info(f"[NarrationService] Synthesized Action-Prioritized Narrative: '{sentence}'")
         return sentence
 
     def _build_graphic_narrative(self, primary_subject: str, environment: str) -> str:
         """Generates natural description for illustrations and graphics."""
-        sub = primary_subject.strip().lower() if primary_subject else "scene"
-        sub = sub.replace("the image depicts", "").replace("a photo of", "").strip()
-        if sub.startswith("a ") or sub.startswith("an "):
-            sub = sub[2:].strip()
+        sub = primary_subject.strip() if primary_subject else "scene"
+        sub = re.sub(r'^(the image depicts|a photo of|a picture of)\s*', '', sub, flags=re.IGNORECASE).strip()
+
+        # Handle articles cleanly to avoid "a the pyramids" (Issue 6)
+        sub_lower = sub.lower()
+        if sub_lower.startswith("the "):
+            clean_sub = sub[4:].strip()
+            phrase = f"the {clean_sub}"
+        elif sub_lower.startswith("a ") or sub_lower.startswith("an "):
+            phrase = sub[0].lower() + sub[1:]
+        elif sub_lower.endswith("s") and not sub_lower.endswith("ss"):
+            phrase = f"the {sub}"
+        else:
+            art = "an" if sub_lower[0] in "aeiou" else "a"
+            phrase = f"{art} {sub}"
 
         if environment and "outdoor" in environment.lower():
-            return f"A digital illustration portraying an outdoor {sub} composition."
-        return f"A graphic illustration depicting a {sub}."
+            return f"A digital illustration portraying an outdoor {phrase} composition."
+        return f"A graphic illustration depicting {phrase}."
 
     def _build_environment_narrative(
         self,
@@ -242,6 +319,25 @@ class NarrationService:
         env_lower = environment.lower() if environment else ""
         is_outdoor = "outdoor" in env_lower or "mountain" in sub_lower or "sky" in sub_lower or "nature" in sub_lower
 
+        # Desk / workspace scenes without people (Issue 4):
+        # Prioritize laptops, books, and monitors over bags and decor
+        laptop_count = sum(1 for o in objects if o.get("label") == "laptop")
+        book_count = sum(1 for o in objects if o.get("label") == "book")
+        cup_count = sum(1 for o in objects if o.get("label") == "cup")
+
+        if laptop_count >= 1 or "laptop" in sub_lower or "desk" in sub_lower:
+            if laptop_count > 1 and book_count >= 1:
+                desk_items = "a desk with laptops and books"
+            elif laptop_count > 1:
+                desk_items = "a desk with laptops"
+            elif book_count >= 1:
+                desk_items = "a desk with a laptop and books"
+            else:
+                desk_items = "a desk with a laptop"
+            if cup_count >= 1:
+                desk_items += ", with a cup on the desk"
+            return f"A quiet scene showing {desk_items}."
+
         if "mountain" in sub_lower:
             return "A wide scenic landscape featuring mountains under an open sky."
         elif "beach" in sub_lower or "ocean" in sub_lower:
@@ -254,3 +350,46 @@ class NarrationService:
             return f"A quiet scene showing {sub_lower}."
         else:
             return "A calm visual scene with steady ambient details."
+
+    def _clean_grammar(self, text: str) -> str:
+        """Cleans up articles, repeated words, and punctuation artifacts (Issue 6)."""
+        if not text:
+            return text
+
+        # 1. Remove duplicate adjacent identical words (e.g. "wet wet", "the the", "a a")
+        text = re.sub(r'\b(\w+)\s+\1\b', r'\1', text, flags=re.IGNORECASE)
+
+        # 2. Fix double articles (e.g. "a the pyramids", "a the", "an the", "the a")
+        text = re.sub(r'\b(a|an)\s+the\b', 'the', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bthe\s+(a|an)\b', 'a', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b(a|an)\s+(a|an)\b', r'\1', text, flags=re.IGNORECASE)
+
+        # 3. Fix missing articles in "capturing <noun>" / "showing <noun>"
+        # e.g. "capturing lake" -> "capturing a lake", "showing backpack" -> "showing a backpack"
+        def add_article_if_missing(match):
+            prefix = match.group(1)
+            noun_phrase = match.group(2).strip()
+            first_word = noun_phrase.split()[0].lower() if noun_phrase else ""
+            if first_word in {"a", "an", "the", "some", "this", "that", "several", "two", "three", "multiple"}:
+                return f"{prefix} {noun_phrase}"
+            if first_word.endswith("s") and not first_word.endswith("ss"):
+                return f"{prefix} {noun_phrase}"
+            article = "an" if first_word[0] in "aeiou" else "a"
+            return f"{prefix} {article} {noun_phrase}"
+
+        text = re.sub(r'\b(capturing|showing)\s+([a-zA-Z]+(?:\s+[a-zA-Z]+)?)\b', add_article_if_missing, text)
+        text = re.sub(r'\b(depicting|showing|capturing)\s+A\s+', r'\1 a ', text)
+        text = re.sub(r'\b(depicting|showing|capturing)\s+An\s+', r'\1 an ', text)
+
+        # 4. Clean extra spaces before punctuation
+        text = re.sub(r'\s+([,\.\?!])', r'\1', text)
+        text = re.sub(r'\s{2,}', ' ', text)
+
+        # 5. Ensure capitalization and ending period
+        text = text.strip()
+        if text and not text[0].isupper():
+            text = text[0].upper() + text[1:]
+        if text and not text.endswith(('.', '!', '?')):
+            text += '.'
+
+        return text
