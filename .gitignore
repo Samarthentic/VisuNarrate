@@ -1,0 +1,38 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Uploaded media (preserve directory via .gitkeep)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Large local model binaries (if stored directly in project)
+models/*
+!models/.gitkeep
+!models/blip_base/.gitkeep
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Unit test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE & OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo

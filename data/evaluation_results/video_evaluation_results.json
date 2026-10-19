@@ -1,0 +1,470 @@
+{
+  "timestamp": "2026-08-20T17:40:36Z",
+  "metadata": {
+    "file_path": "/Users/samarthduttargavi/Downloads/Veridyn/VisuNarrate/data/test_videos/test_transition_activity.mp4",
+    "filename": "test_transition_activity.mp4",
+    "width": 1024,
+    "height": 768,
+    "resolution": "1024x768",
+    "fps": 24.0,
+    "total_frames": 144,
+    "duration_seconds": 6.0,
+    "fourcc": "FMP4"
+  },
+  "telemetry": {
+    "video_duration_seconds": 6.0,
+    "total_video_frames": 144,
+    "fps": 24.0,
+    "sampled_frames_count": 6,
+    "target_fps_sample": 1.0,
+    "full_analyses_count": 2,
+    "redundant_frames_count": 3,
+    "key_changes_count": 1,
+    "inherited_frames_count": 3,
+    "model_initialization_ms": 20354.58,
+    "warmup_ms": 20618.56,
+    "actual_video_processing_ms": 11376.44,
+    "average_frame_latency_full_ms": 3738.61,
+    "average_frame_latency_all_ms": 1894.77,
+    "total_wall_clock_ms": 52398.84,
+    "min_frame_latency_ms": 44.66,
+    "max_frame_latency_ms": 5363.86,
+    "temporal_ms": 0.13,
+    "narration_ms": 0.06,
+    "total_pipeline_ms": 52399.63
+  },
+  "temporal_analysis": {
+    "total_frames_analyzed": 6,
+    "full_analyses_count": 2,
+    "redundant_frames_count": 3,
+    "key_changes_count": 1,
+    "stable_facts": {
+      "dominant_subject": "A person wearing a long sleeved shirt",
+      "dominant_environment": "Indoors with blurry",
+      "persistent_objects": [
+        "person",
+        "cup",
+        "potted plant",
+        "chair",
+        "cell phone",
+        "book",
+        "couch"
+      ],
+      "mean_person_count": 1.0
+    },
+    "changes_count": 2,
+    "changes": [
+      {
+        "timestamp_seconds": 3.0,
+        "frame_index": 72,
+        "type": "activity_change",
+        "from": "using smartphone",
+        "to": "reading",
+        "description": "Subject transitions from using smartphone to reading."
+      },
+      {
+        "timestamp_seconds": 3.0,
+        "frame_index": 72,
+        "type": "interaction_change",
+        "from": "cell phone",
+        "to": "book",
+        "description": "Interaction shifts from cell phone to book."
+      }
+    ],
+    "key_moments_count": 3,
+    "key_moments": [
+      {
+        "timestamp_seconds": 0.0,
+        "frame_index": 0,
+        "event_type": "scene_start",
+        "activity": "using smartphone",
+        "interaction_target": "cell phone",
+        "description": "Scene opens with subject using smartphone in indoors with blurry."
+      },
+      {
+        "timestamp_seconds": 3.0,
+        "frame_index": 72,
+        "event_type": "activity_transition",
+        "activity": "reading",
+        "interaction_target": "book",
+        "description": "Subject transitions from using smartphone to reading."
+      },
+      {
+        "timestamp_seconds": 3.0,
+        "frame_index": 72,
+        "event_type": "interaction_shift",
+        "activity": "reading",
+        "interaction_target": "book",
+        "description": "Interaction shifts from cell phone to book."
+      }
+    ]
+  },
+  "video_narration": "The video initially captures a person wearing a long sleeved shirt in an indoor environment while holding / interacting with a cell phone. As the scene progresses at 3.0s, the activity transitions from using smartphone to reading. At 3.0s, the focus shifts as the subject begins interacting with book. Key persistent elements identified across the timeline include cup, potted plant, chair, cell phone.",
+  "frame_sequence": [
+    {
+      "sample_number": 1,
+      "frame_index": 0,
+      "timestamp_seconds": 0.0,
+      "processing_mode": "FULL_ANALYSIS",
+      "visual_change_score": 1.0,
+      "semantic_change": false,
+      "inherited": false,
+      "source_frame_timestamp": 0.0,
+      "scene_type": "photographic_scene",
+      "person_presence": "present",
+      "person_count": 1,
+      "primary_subject": "A man",
+      "activity": "Texting",
+      "environment": "Indoors with blurry",
+      "detected_objects": {
+        "person": 1,
+        "cup": 1,
+        "potted plant": 1,
+        "chair": 1,
+        "cell phone": 1,
+        "book": 1
+      },
+      "total_objects_count": 6,
+      "interactions": [
+        {
+          "subject": "person",
+          "relation": "holding / interacting with",
+          "target": "cell phone",
+          "status": "supported",
+          "evidence_sources": [
+            "BLIP Caption Evidence: 'holding a cell'",
+            "BLIP-VQA Holding Evidence: 'Phone'",
+            "YOLOv8n Detector Evidence: 'cell phone'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "reading / holding",
+          "target": "book",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: 'book'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "interacting with",
+          "target": "cup",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: Food/Beverage item"
+          ],
+          "counter_evidence": []
+        }
+      ],
+      "conflicts": [],
+      "uncertainty_flags": [],
+      "scene_narration": "A man is prominently visible. The subject appears to be holding / interacting with a cell phone. The surrounding environment indicates an indoor setting.",
+      "predictive_narration": "Likely next activity: the person continues interacting with the smartphone.",
+      "prediction_status": "supported_prediction",
+      "prediction_type": "interaction_continuation",
+      "frame_latency_ms": 5363.86
+    },
+    {
+      "sample_number": 2,
+      "frame_index": 24,
+      "timestamp_seconds": 1.0,
+      "processing_mode": "FULL_ANALYSIS",
+      "visual_change_score": 0.0035,
+      "semantic_change": false,
+      "inherited": false,
+      "source_frame_timestamp": 1.0,
+      "scene_type": "photographic_scene",
+      "person_presence": "present",
+      "person_count": 1,
+      "primary_subject": "A person wearing a black shirt",
+      "activity": "Texting",
+      "environment": "Indoors with blurry",
+      "detected_objects": {
+        "person": 1,
+        "cup": 1,
+        "potted plant": 1,
+        "chair": 1,
+        "cell phone": 1,
+        "couch": 2,
+        "book": 1
+      },
+      "total_objects_count": 8,
+      "interactions": [
+        {
+          "subject": "person",
+          "relation": "holding / interacting with",
+          "target": "cell phone",
+          "status": "supported",
+          "evidence_sources": [
+            "BLIP Caption Evidence: 'holding a cell'",
+            "BLIP-VQA Holding Evidence: 'Phone'",
+            "YOLOv8n Detector Evidence: 'cell phone'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "reading / holding",
+          "target": "book",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: 'book'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "interacting with",
+          "target": "cup",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: Food/Beverage item"
+          ],
+          "counter_evidence": []
+        }
+      ],
+      "conflicts": [],
+      "uncertainty_flags": [],
+      "scene_narration": "A person wearing a black shirt is prominently visible. The subject appears to be holding / interacting with a cell phone. The surrounding environment indicates an indoor setting.",
+      "predictive_narration": "Likely next activity: the person continues interacting with the smartphone.",
+      "prediction_status": "supported_prediction",
+      "prediction_type": "interaction_continuation",
+      "frame_latency_ms": 2912.93
+    },
+    {
+      "sample_number": 3,
+      "frame_index": 48,
+      "timestamp_seconds": 2.0,
+      "processing_mode": "REDUNDANT",
+      "visual_change_score": 0.0,
+      "semantic_change": false,
+      "inherited": true,
+      "source_frame_timestamp": 1.0,
+      "scene_type": "photographic_scene",
+      "person_presence": "present",
+      "person_count": 1,
+      "primary_subject": "A person wearing a black shirt",
+      "activity": "Texting",
+      "environment": "Indoors with blurry",
+      "detected_objects": {
+        "person": 1,
+        "cup": 1,
+        "potted plant": 1,
+        "chair": 1,
+        "cell phone": 1,
+        "couch": 2,
+        "book": 1
+      },
+      "total_objects_count": 8,
+      "interactions": [
+        {
+          "subject": "person",
+          "relation": "holding / interacting with",
+          "target": "cell phone",
+          "status": "supported",
+          "evidence_sources": [
+            "BLIP Caption Evidence: 'holding a cell'",
+            "BLIP-VQA Holding Evidence: 'Phone'",
+            "YOLOv8n Detector Evidence: 'cell phone'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "reading / holding",
+          "target": "book",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: 'book'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "interacting with",
+          "target": "cup",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: Food/Beverage item"
+          ],
+          "counter_evidence": []
+        }
+      ],
+      "conflicts": [],
+      "uncertainty_flags": [],
+      "scene_narration": "A person wearing a black shirt is prominently visible. The subject appears to be holding / interacting with a cell phone. The surrounding environment indicates an indoor setting.",
+      "predictive_narration": "Likely next activity: the person continues interacting with the smartphone.",
+      "prediction_status": "supported_prediction",
+      "prediction_type": "interaction_continuation",
+      "frame_latency_ms": 59.4
+    },
+    {
+      "sample_number": 4,
+      "frame_index": 72,
+      "timestamp_seconds": 3.0,
+      "processing_mode": "KEY_CHANGE",
+      "visual_change_score": 0.197,
+      "semantic_change": true,
+      "inherited": false,
+      "source_frame_timestamp": 3.0,
+      "scene_type": "photographic_scene",
+      "person_presence": "present",
+      "person_count": 1,
+      "primary_subject": "A person wearing a long sleeved shirt",
+      "activity": "Reading",
+      "environment": "Indoors with blurry",
+      "detected_objects": {
+        "person": 1,
+        "cup": 2,
+        "potted plant": 1,
+        "chair": 1,
+        "book": 5
+      },
+      "total_objects_count": 10,
+      "interactions": [
+        {
+          "subject": "person",
+          "relation": "reading / holding",
+          "target": "book",
+          "status": "supported",
+          "evidence_sources": [
+            "BLIP Caption Evidence: 'reading'",
+            "BLIP-VQA Evidence: 'Book'",
+            "YOLOv8n Detector Evidence: 'book'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "interacting with",
+          "target": "cup",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: Food/Beverage item"
+          ],
+          "counter_evidence": []
+        }
+      ],
+      "conflicts": [],
+      "uncertainty_flags": [],
+      "scene_narration": "A person wearing a long sleeved shirt is prominently visible. The subject appears to be reading / holding a book. The surrounding environment indicates an indoor setting.",
+      "predictive_narration": "Likely next activity: the person continues reading.",
+      "prediction_status": "supported_prediction",
+      "prediction_type": "task_continuation",
+      "frame_latency_ms": 2939.03
+    },
+    {
+      "sample_number": 5,
+      "frame_index": 96,
+      "timestamp_seconds": 4.0,
+      "processing_mode": "REDUNDANT",
+      "visual_change_score": 0.0,
+      "semantic_change": false,
+      "inherited": true,
+      "source_frame_timestamp": 3.0,
+      "scene_type": "photographic_scene",
+      "person_presence": "present",
+      "person_count": 1,
+      "primary_subject": "A person wearing a long sleeved shirt",
+      "activity": "Reading",
+      "environment": "Indoors with blurry",
+      "detected_objects": {
+        "person": 1,
+        "cup": 2,
+        "potted plant": 1,
+        "chair": 1,
+        "book": 5
+      },
+      "total_objects_count": 10,
+      "interactions": [
+        {
+          "subject": "person",
+          "relation": "reading / holding",
+          "target": "book",
+          "status": "supported",
+          "evidence_sources": [
+            "BLIP Caption Evidence: 'reading'",
+            "BLIP-VQA Evidence: 'Book'",
+            "YOLOv8n Detector Evidence: 'book'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "interacting with",
+          "target": "cup",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: Food/Beverage item"
+          ],
+          "counter_evidence": []
+        }
+      ],
+      "conflicts": [],
+      "uncertainty_flags": [],
+      "scene_narration": "A person wearing a long sleeved shirt is prominently visible. The subject appears to be reading / holding a book. The surrounding environment indicates an indoor setting.",
+      "predictive_narration": "Likely next activity: the person continues reading.",
+      "prediction_status": "supported_prediction",
+      "prediction_type": "task_continuation",
+      "frame_latency_ms": 48.76
+    },
+    {
+      "sample_number": 6,
+      "frame_index": 143,
+      "timestamp_seconds": 5.96,
+      "processing_mode": "REDUNDANT",
+      "visual_change_score": 0.0003,
+      "semantic_change": false,
+      "inherited": true,
+      "source_frame_timestamp": 3.0,
+      "scene_type": "photographic_scene",
+      "person_presence": "present",
+      "person_count": 1,
+      "primary_subject": "A person wearing a long sleeved shirt",
+      "activity": "Reading",
+      "environment": "Indoors with blurry",
+      "detected_objects": {
+        "person": 1,
+        "cup": 2,
+        "potted plant": 1,
+        "chair": 1,
+        "book": 5
+      },
+      "total_objects_count": 10,
+      "interactions": [
+        {
+          "subject": "person",
+          "relation": "reading / holding",
+          "target": "book",
+          "status": "supported",
+          "evidence_sources": [
+            "BLIP Caption Evidence: 'reading'",
+            "BLIP-VQA Evidence: 'Book'",
+            "YOLOv8n Detector Evidence: 'book'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "interacting with",
+          "target": "cup",
+          "status": "supported",
+          "evidence_sources": [
+            "YOLOv8n Detector Evidence: Food/Beverage item"
+          ],
+          "counter_evidence": []
+        }
+      ],
+      "conflicts": [],
+      "uncertainty_flags": [],
+      "scene_narration": "A person wearing a long sleeved shirt is prominently visible. The subject appears to be reading / holding a book. The surrounding environment indicates an indoor setting.",
+      "predictive_narration": "Likely next activity: the person continues reading.",
+      "prediction_status": "supported_prediction",
+      "prediction_type": "task_continuation",
+      "frame_latency_ms": 44.66
+    }
+  ]
+}
