@@ -9,10 +9,18 @@ Provides:
 
 import os
 
-# Enforce offline execution mode for Hugging Face & set Matplotlib temp dir
+# Enforce offline execution mode for Hugging Face, Ultralytics & set Matplotlib temp dir
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ["YOLO_OFFLINE"] = "1"
 os.environ["MPLCONFIGDIR"] = "/tmp/matplotlib"
+
+# Disable Ultralytics telemetry/analytics (must run after YOLO_OFFLINE is set)
+try:
+    from ultralytics.utils import SETTINGS
+    SETTINGS.update({"sync": False})
+except Exception:
+    pass  # App must start even if Ultralytics settings are unavailable
 
 import time
 import logging
@@ -72,6 +80,26 @@ image_engine = ImageEngine(
 video_engine = VideoEngine(image_engine=image_engine)
 temporal_service = TemporalService()
 video_narration_service = VideoNarrationService()
+
+# Startup warm-up: pre-load all models and run one dummy inference
+# so the first real user request is fast.
+logger.info("[Warm-up] Running startup warm-up inference ...")
+_warmup_start = time.time()
+try:
+    _dummy_img = Image.new("RGB", (64, 64), (128, 128, 128))
+    _dummy_path = os.path.join(UPLOAD_FOLDER, "_warmup_dummy.jpg")
+    _dummy_img.save(_dummy_path)
+    image_engine.analyze_scene(_dummy_path)
+    os.remove(_dummy_path)
+    _warmup_ms = round((time.time() - _warmup_start) * 1000, 2)
+    logger.info(f"[Warm-up] Complete in {_warmup_ms} ms — all models loaded and hot.")
+except Exception as _warmup_err:
+    logger.warning(f"[Warm-up] Failed ({_warmup_err}), first request will be cold.")
+finally:
+    # Clean up dummy file if it still exists
+    _dummy_cleanup = os.path.join(UPLOAD_FOLDER, "_warmup_dummy.jpg")
+    if os.path.exists(_dummy_cleanup):
+        os.remove(_dummy_cleanup)
 
 
 def is_allowed_file(filename: str) -> bool:
