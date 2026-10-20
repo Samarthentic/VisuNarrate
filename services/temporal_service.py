@@ -1,4 +1,4 @@
-"""VisuNarrate - Temporal Aggregation & Change Detection Service (Stage 5.0).
+"""VisuNarrate - Temporal Aggregation & Change Detection Service (Stage 5.1).
 
 Conceptual Architecture:
 FRAME-BY-FRAME STRUCTURED SCENE EVIDENCE
@@ -9,13 +9,9 @@ STABLE PERSISTENT EVIDENCE EXTRACTION
   ↓
 DISCRETE STATE TRANSITION DETECTION (Activity, Interactions, Actor Count, Environment)
   ↓
-STRUCTURED TEMPORAL TIMELINE
-
-Key Principles:
-1. Deterministic Rule-Based Aggregation: Evaluates semantic equivalence across structured frame representations.
-2. Noise Filtering: Suppresses transient detector flicker to isolate genuine physical/activity transitions.
-3. Timestamp-Linked Key Moments: Anchors observed changes to video timeline seconds.
-4. Explains continuity vs change cleanly for Video Narration synthesis.
+CONSECUTIVE SEGMENT MERGING (Temporal Spans with Representative Keyframes)
+  ↓
+STRUCTURED TEMPORAL TIMELINE & SEGMENTS
 """
 
 import logging
@@ -25,10 +21,10 @@ logger = logging.getLogger("TemporalService")
 
 
 class TemporalService:
-    """Aggregates frame-level evidence sequences, identifies persistence, and detects state transitions."""
+    """Aggregates frame-level evidence sequences, identifies persistence, detects state transitions, and merges segments."""
 
     def __init__(self):
-        logger.info("[TemporalService] Initialized Temporal Aggregation Engine (Stage 5.0).")
+        logger.info("[TemporalService] Initialized Temporal Aggregation Engine (Stage 5.1).")
 
     def normalize_activity_label(self, activity_str: str) -> str:
         """Normalizes activity text to a canonical semantic descriptor."""
@@ -55,14 +51,17 @@ class TemporalService:
             return "riding bicycle"
         return act if act else "static pose"
 
-    def detect_temporal_transitions(self, frame_sequence: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Analyzes a sequence of structured frames to extract persistent facts and discrete changes.
+    def detect_temporal_transitions(
+        self, frame_sequence: List[Dict[str, Any]], video_duration: float = 0.0
+    ) -> Dict[str, Any]:
+        """Analyzes a sequence of structured frames to extract persistent facts, discrete changes, and merged segments.
 
         Args:
             frame_sequence: List of frame records produced by VideoEngine.
+            video_duration: Overall video duration in seconds.
 
         Returns:
-            Dictionary containing stable_facts, detected changes, and key moments.
+            Dictionary containing stable_facts, detected changes, key moments, and merged timeline segments.
         """
         if not frame_sequence:
             return {
@@ -70,6 +69,7 @@ class TemporalService:
                 "stable_facts": {},
                 "changes": [],
                 "key_moments": [],
+                "segments": [],
             }
 
         # ---------------------------------------------------------------------
@@ -78,18 +78,17 @@ class TemporalService:
         all_subjects = [f.get("primary_subject", "") for f in frame_sequence if f.get("primary_subject")]
         all_environments = [f.get("environment", "") for f in frame_sequence if f.get("environment")]
         all_person_counts = [f.get("person_count", 0) for f in frame_sequence]
-        
-        # Determine dominant persistent environment
+
         dominant_env = max(set(all_environments), key=all_environments.count) if all_environments else "General Environment"
         dominant_subject = max(set(all_subjects), key=all_subjects.count) if all_subjects else "Subject"
 
-        # Track persistent object labels across frames (present in >= 40% of frames)
+        # Track persistent object labels across frames (present in >= 35% of frames)
         object_frequency: Dict[str, int] = {}
         for f in frame_sequence:
             for label in f.get("detected_objects", {}).keys():
                 object_frequency[label] = object_frequency.get(label, 0) + 1
 
-        min_appearance_thresh = max(1, int(len(frame_sequence) * 0.4))
+        min_appearance_thresh = max(1, int(len(frame_sequence) * 0.35))
         persistent_objects = [
             lbl for lbl, count in object_frequency.items()
             if count >= min_appearance_thresh
@@ -108,7 +107,6 @@ class TemporalService:
         changes: List[Dict[str, Any]] = []
         key_moments: List[Dict[str, Any]] = []
 
-        # Record Initial State (Frame 0)
         first_frame = frame_sequence[0]
         initial_activity = self.normalize_activity_label(first_frame.get("activity", "static pose"))
         first_top_interaction = first_frame.get("interactions", [{}])[0] if first_frame.get("interactions") else {}
@@ -121,6 +119,7 @@ class TemporalService:
             "activity": initial_activity,
             "interaction_target": initial_target,
             "description": f"Scene opens with subject {initial_activity} in {dominant_env.lower()}.",
+            "thumbnail_url": first_frame.get("thumbnail_url"),
         })
 
         prev_activity = initial_activity
@@ -147,7 +146,7 @@ class TemporalService:
                     "type": "activity_change",
                     "from": prev_activity,
                     "to": curr_activity,
-                    "description": f"Subject transitions from {prev_activity} to {curr_activity}.",
+                    "description": f"Activity transitions from {prev_activity} to {curr_activity}.",
                 }
                 changes.append(change_item)
                 key_moments.append({
@@ -157,6 +156,7 @@ class TemporalService:
                     "activity": curr_activity,
                     "interaction_target": curr_target,
                     "description": change_item["description"],
+                    "thumbnail_url": curr_frame.get("thumbnail_url"),
                 })
                 prev_activity = curr_activity
 
@@ -178,6 +178,7 @@ class TemporalService:
                     "activity": curr_activity,
                     "interaction_target": curr_target,
                     "description": change_item["description"],
+                    "thumbnail_url": curr_frame.get("thumbnail_url"),
                 })
                 prev_target = curr_target
 
@@ -189,9 +190,18 @@ class TemporalService:
                     "type": "person_count_change",
                     "from": prev_person_count,
                     "to": curr_person_count,
-                    "description": f"Actor count changes from {prev_person_count} to {curr_person_count}.",
+                    "description": f"Actor presence shifts from {prev_person_count} to {curr_person_count} visible person(s).",
                 }
                 changes.append(change_item)
+                key_moments.append({
+                    "timestamp_seconds": curr_ts,
+                    "frame_index": curr_frame_idx,
+                    "event_type": "actor_count_shift",
+                    "activity": curr_activity,
+                    "interaction_target": curr_target,
+                    "description": change_item["description"],
+                    "thumbnail_url": curr_frame.get("thumbnail_url"),
+                })
                 prev_person_count = curr_person_count
 
             # 2d. Detect Scene Type Shift
@@ -207,13 +217,22 @@ class TemporalService:
                 changes.append(change_item)
                 prev_scene_type = curr_scene_type
 
+        # ---------------------------------------------------------------------
+        # 3. Merge Consecutive Moments into Cohesive Segments
+        # ---------------------------------------------------------------------
+        segments = self.merge_consecutive_segments(
+            frame_sequence=frame_sequence,
+            changes=changes,
+            video_duration=video_duration or (frame_sequence[-1].get("timestamp_seconds", 0.0) if frame_sequence else 0.0),
+        )
+
         full_count = sum(1 for f in frame_sequence if f.get("processing_mode") == "FULL_ANALYSIS")
         red_count = sum(1 for f in frame_sequence if f.get("processing_mode") == "REDUNDANT")
         key_count = sum(1 for f in frame_sequence if f.get("processing_mode") == "KEY_CHANGE")
 
         logger.info(
-            f"[TemporalService] Temporal analysis complete: {len(changes)} discrete change(s) "
-            f"(Full: {full_count}, Redundant: {red_count}, Key Changes: {key_count}) across {len(frame_sequence)} frames."
+            f"[TemporalService] Temporal analysis complete: {len(changes)} discrete change(s), "
+            f"{len(segments)} segment(s) merged across {len(frame_sequence)} frames."
         )
 
         return {
@@ -226,4 +245,86 @@ class TemporalService:
             "changes": changes,
             "key_moments_count": len(key_moments),
             "key_moments": key_moments,
+            "segments_count": len(segments),
+            "segments": segments,
+        }
+
+    def merge_consecutive_segments(
+        self,
+        frame_sequence: List[Dict[str, Any]],
+        changes: List[Dict[str, Any]],
+        video_duration: float,
+    ) -> List[Dict[str, Any]]:
+        """Merges consecutive frames into distinct narrative timeline segments based on detected changes."""
+        if not frame_sequence:
+            return []
+
+        # Map change timestamps
+        change_timestamps = {round(chg["timestamp_seconds"], 2) for chg in changes}
+
+        segments: List[Dict[str, Any]] = []
+        current_segment_frames: List[Dict[str, Any]] = [frame_sequence[0]]
+        segment_id = 1
+
+        for idx in range(1, len(frame_sequence)):
+            frame = frame_sequence[idx]
+            ts = round(frame.get("timestamp_seconds", 0.0), 2)
+
+            # Check if this frame marks a new segment
+            is_transition = (ts in change_timestamps) or (frame.get("processing_mode") == "KEY_CHANGE")
+
+            if is_transition and current_segment_frames:
+                # Finalize previous segment
+                seg = self._construct_segment(segment_id, current_segment_frames, next_frame_ts=ts)
+                segments.append(seg)
+                segment_id += 1
+                current_segment_frames = [frame]
+            else:
+                current_segment_frames.append(frame)
+
+        # Finalize the last segment
+        if current_segment_frames:
+            last_seg_end = max(video_duration, current_segment_frames[-1].get("timestamp_seconds", 0.0))
+            seg = self._construct_segment(segment_id, current_segment_frames, next_frame_ts=last_seg_end)
+            segments.append(seg)
+
+        return segments
+
+    def _construct_segment(
+        self, segment_id: int, frames: List[Dict[str, Any]], next_frame_ts: float
+    ) -> Dict[str, Any]:
+        """Builds a consolidated segment dict from a sequence of consecutive frames."""
+        first_frame = frames[0]
+        start_ts = first_frame.get("timestamp_seconds", 0.0)
+        end_ts = max(start_ts, next_frame_ts)
+        duration = round(end_ts - start_ts, 2)
+
+        # Find representative frame (prefer non-redundant, otherwise first frame)
+        rep_frame = next((f for f in frames if f.get("processing_mode") in {"FULL_ANALYSIS", "KEY_CHANGE"}), first_frame)
+
+        # Aggregate detected objects across the segment
+        merged_objects: Dict[str, int] = {}
+        for f in frames:
+            for lbl, cnt in f.get("detected_objects", {}).items():
+                merged_objects[lbl] = max(merged_objects.get(lbl, 0), cnt)
+
+        narration = rep_frame.get("scene_narration", "")
+        activity = rep_frame.get("activity", "Static pose")
+        subject = rep_frame.get("primary_subject", "Person")
+        env = rep_frame.get("environment", "General Environment")
+
+        return {
+            "segment_id": segment_id,
+            "start_seconds": round(start_ts, 2),
+            "end_seconds": round(end_ts, 2),
+            "duration_seconds": duration,
+            "time_range": f"{start_ts:.1f}s – {end_ts:.1f}s",
+            "activity": activity,
+            "primary_subject": subject,
+            "environment": env,
+            "scene_narration": narration,
+            "thumbnail_url": rep_frame.get("thumbnail_url") or first_frame.get("thumbnail_url"),
+            "detected_objects": merged_objects,
+            "keyframe_count": len(frames),
+            "source_sample_numbers": [f.get("sample_number") for f in frames],
         }

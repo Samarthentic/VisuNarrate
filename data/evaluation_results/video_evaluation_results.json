@@ -1,15 +1,19 @@
 {
-  "timestamp": "2026-08-20T17:40:36Z",
+  "timestamp": "2026-10-20T18:09:56Z",
   "metadata": {
     "file_path": "/Users/samarthduttargavi/Downloads/Veridyn/VisuNarrate/data/test_videos/test_transition_activity.mp4",
     "filename": "test_transition_activity.mp4",
     "width": 1024,
     "height": 768,
+    "raw_width": 1024,
+    "raw_height": 768,
     "resolution": "1024x768",
     "fps": 24.0,
     "total_frames": 144,
     "duration_seconds": 6.0,
-    "fourcc": "FMP4"
+    "rotation_angle": 0.0,
+    "is_portrait": false,
+    "size_mb": 0.78
   },
   "telemetry": {
     "video_duration_seconds": 6.0,
@@ -21,17 +25,18 @@
     "redundant_frames_count": 3,
     "key_changes_count": 1,
     "inherited_frames_count": 3,
-    "model_initialization_ms": 20354.58,
-    "warmup_ms": 20618.56,
-    "actual_video_processing_ms": 11376.44,
-    "average_frame_latency_full_ms": 3738.61,
-    "average_frame_latency_all_ms": 1894.77,
-    "total_wall_clock_ms": 52398.84,
-    "min_frame_latency_ms": 44.66,
-    "max_frame_latency_ms": 5363.86,
-    "temporal_ms": 0.13,
-    "narration_ms": 0.06,
-    "total_pipeline_ms": 52399.63
+    "model_initialization_ms": 22163.35,
+    "warmup_ms": 24883.75,
+    "actual_video_processing_ms": 12044.03,
+    "average_frame_latency_full_ms": 3963.11,
+    "average_frame_latency_all_ms": 2006.67,
+    "total_wall_clock_ms": 59170.17,
+    "min_frame_latency_ms": 47.75,
+    "max_frame_latency_ms": 4878.77,
+    "is_cancelled": false,
+    "temporal_ms": 0.14,
+    "narration_ms": 0.08,
+    "total_pipeline_ms": 59170.88
   },
   "temporal_analysis": {
     "total_frames_analyzed": 6,
@@ -60,7 +65,7 @@
         "type": "activity_change",
         "from": "using smartphone",
         "to": "reading",
-        "description": "Subject transitions from using smartphone to reading."
+        "description": "Activity transitions from using smartphone to reading."
       },
       {
         "timestamp_seconds": 3.0,
@@ -79,7 +84,8 @@
         "event_type": "scene_start",
         "activity": "using smartphone",
         "interaction_target": "cell phone",
-        "description": "Scene opens with subject using smartphone in indoors with blurry."
+        "description": "Scene opens with subject using smartphone in indoors with blurry.",
+        "thumbnail_url": null
       },
       {
         "timestamp_seconds": 3.0,
@@ -87,7 +93,8 @@
         "event_type": "activity_transition",
         "activity": "reading",
         "interaction_target": "book",
-        "description": "Subject transitions from using smartphone to reading."
+        "description": "Activity transitions from using smartphone to reading.",
+        "thumbnail_url": null
       },
       {
         "timestamp_seconds": 3.0,
@@ -95,11 +102,121 @@
         "event_type": "interaction_shift",
         "activity": "reading",
         "interaction_target": "book",
-        "description": "Interaction shifts from cell phone to book."
+        "description": "Interaction shifts from cell phone to book.",
+        "thumbnail_url": null
+      }
+    ],
+    "segments_count": 2,
+    "segments": [
+      {
+        "segment_id": 1,
+        "start_seconds": 0.0,
+        "end_seconds": 3.0,
+        "duration_seconds": 3.0,
+        "time_range": "0.0s – 3.0s",
+        "activity": "Texting",
+        "primary_subject": "A man",
+        "environment": "Indoors with blurry",
+        "scene_narration": "A man is sitting indoors, using a smartphone.",
+        "thumbnail_url": null,
+        "detected_objects": {
+          "person": 1,
+          "cup": 1,
+          "potted plant": 1,
+          "chair": 1,
+          "cell phone": 1,
+          "book": 1,
+          "couch": 2
+        },
+        "keyframe_count": 3,
+        "source_sample_numbers": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "segment_id": 2,
+        "start_seconds": 3.0,
+        "end_seconds": 6.0,
+        "duration_seconds": 3.0,
+        "time_range": "3.0s – 6.0s",
+        "activity": "Reading",
+        "primary_subject": "A person wearing a long sleeved shirt",
+        "environment": "Indoors with blurry",
+        "scene_narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+        "thumbnail_url": null,
+        "detected_objects": {
+          "person": 1,
+          "cup": 2,
+          "potted plant": 1,
+          "chair": 1,
+          "book": 5
+        },
+        "keyframe_count": 3,
+        "source_sample_numbers": [
+          4,
+          5,
+          6
+        ]
       }
     ]
   },
-  "video_narration": "The video initially captures a person wearing a long sleeved shirt in an indoor environment while holding / interacting with a cell phone. As the scene progresses at 3.0s, the activity transitions from using smartphone to reading. At 3.0s, the focus shifts as the subject begins interacting with book. Key persistent elements identified across the timeline include cup, potted plant, chair, cell phone.",
+  "video_narration": "The video opens showing a person wearing a long sleeved shirt in an indoor setting, texting while holding / interacting with a cell phone. At 3.0s, the activity shifts from using smartphone to reading. At 3.0s, the interaction transitions toward book. Prominent persistent elements include cup, potted plant, chair.",
+  "video_prediction": {
+    "prediction": "They'll likely take a sip from the cup and continue reading.",
+    "text": "They'll likely take a sip from the cup and continue reading.",
+    "status": "supported_prediction",
+    "prediction_type": "task_continuation",
+    "hypotheses": [
+      {
+        "text": "They'll likely take a sip from the cup and continue reading.",
+        "evidence": [
+          "Detected book and cup",
+          "Reading activity confirmed",
+          "Beverage vessel nearby",
+          "Observed transition: Interaction shifts from cell phone to book."
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Reading with a nearby drink affords periodic sips during continued reading."
+      },
+      {
+        "text": "They'll likely continue reading or turn to the next page.",
+        "evidence": [
+          "Book reading engagement"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Sustained text reading leads naturally to turning pages."
+      },
+      {
+        "text": "They may set the cup or book down on a nearby surface.",
+        "evidence": [
+          "Reading materials and cup on surface"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "The reader may take a break or conclude the reading session."
+      }
+    ],
+    "reasoning": [
+      "Confirmed human presence through spatial object detector and visual grounding.",
+      "Multi-object reading affordance (book + beverage vessel) evaluated.",
+      "Temporal momentum established following observed transition at 3.0s."
+    ],
+    "source_facts": [
+      "Subject: A person wearing a long sleeved shirt (supported)",
+      "Activity: Reading (supported)",
+      "Environment: Indoors with blurry (supported)",
+      "Person Count: 1",
+      "Primary Interaction: book",
+      "Secondary Affordance: cup",
+      "Recent State Shift: Interaction shifts from cell phone to book."
+    ],
+    "affordance_candidates": [
+      "They'll likely take a sip from the cup and continue reading.",
+      "They'll likely continue reading or turn to the next page.",
+      "They may set the cup or book down on a nearby surface."
+    ]
+  },
   "frame_sequence": [
     {
       "sample_number": 1,
@@ -110,6 +227,7 @@
       "semantic_change": false,
       "inherited": false,
       "source_frame_timestamp": 0.0,
+      "thumbnail_url": null,
       "scene_type": "photographic_scene",
       "person_presence": "present",
       "person_count": 1,
@@ -130,11 +248,23 @@
           "subject": "person",
           "relation": "holding / interacting with",
           "target": "cell phone",
-          "status": "supported",
+          "status": "confirmed",
+          "score": 85.0,
           "evidence_sources": [
-            "BLIP Caption Evidence: 'holding a cell'",
-            "BLIP-VQA Holding Evidence: 'Phone'",
-            "YOLOv8n Detector Evidence: 'cell phone'"
+            "YOLOv8n Detector: 'cell phone' marginal detection (conf: 36.7%)",
+            "BLIP Caption: mentions phone interaction",
+            "BLIP-VQA: confirmed 'phone'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "holding / drinking from",
+          "target": "cup",
+          "status": "supported",
+          "score": 66.86,
+          "evidence_sources": [
+            "YOLOv8n Detector: 'cup' (conf: 84.3%)"
           ],
           "counter_evidence": []
         },
@@ -143,29 +273,176 @@
           "relation": "reading / holding",
           "target": "book",
           "status": "supported",
+          "score": 56.2,
           "evidence_sources": [
-            "YOLOv8n Detector Evidence: 'book'"
-          ],
-          "counter_evidence": []
-        },
-        {
-          "subject": "person",
-          "relation": "interacting with",
-          "target": "cup",
-          "status": "supported",
-          "evidence_sources": [
-            "YOLOv8n Detector Evidence: Food/Beverage item"
+            "YOLOv8n Detector: 'book' (conf: 31.0%)"
           ],
           "counter_evidence": []
         }
       ],
       "conflicts": [],
       "uncertainty_flags": [],
-      "scene_narration": "A man is prominently visible. The subject appears to be holding / interacting with a cell phone. The surrounding environment indicates an indoor setting.",
-      "predictive_narration": "Likely next activity: the person continues interacting with the smartphone.",
+      "scene_narration": "A man is sitting indoors, using a smartphone.",
+      "predictive_narration": "They'll likely continue using the smartphone.",
       "prediction_status": "supported_prediction",
       "prediction_type": "interaction_continuation",
-      "frame_latency_ms": 5363.86
+      "frame_latency_ms": 4878.77,
+      "raw_fused_scene": {
+        "summary": "A man is texting in an indoors with blurry setting. The subject appears to be holding / interacting with a cell phone.",
+        "scene_type": {
+          "scene_type": "photographic_scene",
+          "trust_level": "full_photographic_mode",
+          "rationale": [
+            "Detector identified real-world physical entities; caption exhibits natural photographic semantics"
+          ],
+          "is_graphic": false
+        },
+        "person_presence": {
+          "status": "present",
+          "confidence_level": "confirmed",
+          "count": 1,
+          "raw_detector_count": 1,
+          "has_dominant_person": false,
+          "evidence_reasons": [
+            "YOLOv8n detected 1 person instance(s) [Detector Evidence]",
+            "BLIP caption independently identified human subject [Caption Evidence]"
+          ]
+        },
+        "primary_subject": {
+          "value": "A man",
+          "status": "supported",
+          "sources": [
+            "YOLOv8n Detector Evidence",
+            "BLIP Caption Evidence",
+            "BLIP-VQA Attribute Evidence"
+          ]
+        },
+        "activity": {
+          "value": "Texting",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Action / Posture Evidence"
+          ]
+        },
+        "environment": {
+          "value": "Indoors with blurry",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Location Evidence",
+            "BLIP Environment Evidence"
+          ]
+        },
+        "objects": [
+          {
+            "label": "person",
+            "confidence": 0.901,
+            "bbox": {
+              "x1": 29.1,
+              "y1": 18.3,
+              "x2": 808.5,
+              "y2": 766.2
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.843,
+            "bbox": {
+              "x1": 903.2,
+              "y1": 651.1,
+              "x2": 1023.6,
+              "y2": 767.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.824,
+            "bbox": {
+              "x1": 0.0,
+              "y1": 575.0,
+              "x2": 135.2,
+              "y2": 766.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "chair",
+            "confidence": 0.633,
+            "bbox": {
+              "x1": 1.1,
+              "y1": 457.3,
+              "x2": 79.5,
+              "y2": 590.9
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.367,
+            "bbox": {
+              "x1": 588.6,
+              "y1": 414.9,
+              "x2": 736.8,
+              "y2": 502.3
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          }
+        ],
+        "interactions": [
+          {
+            "subject": "person",
+            "relation": "holding / interacting with",
+            "target": "cell phone",
+            "status": "confirmed",
+            "score": 85.0,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cell phone' marginal detection (conf: 36.7%)",
+              "BLIP Caption: mentions phone interaction",
+              "BLIP-VQA: confirmed 'phone'"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "holding / drinking from",
+            "target": "cup",
+            "status": "supported",
+            "score": 66.86,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cup' (conf: 84.3%)"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "reading / holding",
+            "target": "book",
+            "status": "supported",
+            "score": 56.2,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'book' (conf: 31.0%)"
+            ],
+            "counter_evidence": []
+          }
+        ],
+        "conflicts": [],
+        "uncertainty_flags": [],
+        "skipped_questions": [
+          "What is the main subject in the image? [Gated: Human presence established]",
+          "Is the scene indoors or outdoors? [Gated: Human setting question active]"
+        ],
+        "evidence_sources": {
+          "caption": true,
+          "object_detection": true,
+          "vqa": true
+        }
+      }
     },
     {
       "sample_number": 2,
@@ -176,6 +453,7 @@
       "semantic_change": false,
       "inherited": false,
       "source_frame_timestamp": 1.0,
+      "thumbnail_url": null,
       "scene_type": "photographic_scene",
       "person_presence": "present",
       "person_count": 1,
@@ -197,11 +475,23 @@
           "subject": "person",
           "relation": "holding / interacting with",
           "target": "cell phone",
-          "status": "supported",
+          "status": "confirmed",
+          "score": 85.0,
           "evidence_sources": [
-            "BLIP Caption Evidence: 'holding a cell'",
-            "BLIP-VQA Holding Evidence: 'Phone'",
-            "YOLOv8n Detector Evidence: 'cell phone'"
+            "YOLOv8n Detector: 'cell phone' marginal detection (conf: 49.1%)",
+            "BLIP Caption: mentions phone interaction",
+            "BLIP-VQA: confirmed 'phone'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "holding / drinking from",
+          "target": "cup",
+          "status": "supported",
+          "score": 67.58,
+          "evidence_sources": [
+            "YOLOv8n Detector: 'cup' (conf: 87.9%)"
           ],
           "counter_evidence": []
         },
@@ -210,29 +500,200 @@
           "relation": "reading / holding",
           "target": "book",
           "status": "supported",
+          "score": 56.28,
           "evidence_sources": [
-            "YOLOv8n Detector Evidence: 'book'"
-          ],
-          "counter_evidence": []
-        },
-        {
-          "subject": "person",
-          "relation": "interacting with",
-          "target": "cup",
-          "status": "supported",
-          "evidence_sources": [
-            "YOLOv8n Detector Evidence: Food/Beverage item"
+            "YOLOv8n Detector: 'book' (conf: 31.4%)"
           ],
           "counter_evidence": []
         }
       ],
       "conflicts": [],
       "uncertainty_flags": [],
-      "scene_narration": "A person wearing a black shirt is prominently visible. The subject appears to be holding / interacting with a cell phone. The surrounding environment indicates an indoor setting.",
-      "predictive_narration": "Likely next activity: the person continues interacting with the smartphone.",
+      "scene_narration": "A person is sitting indoors, using a smartphone.",
+      "predictive_narration": "They'll likely continue using the smartphone.",
       "prediction_status": "supported_prediction",
       "prediction_type": "interaction_continuation",
-      "frame_latency_ms": 2912.93
+      "frame_latency_ms": 3582.59,
+      "raw_fused_scene": {
+        "summary": "A person wearing a black shirt is texting in an indoors with blurry setting. The subject appears to be holding / interacting with a cell phone.",
+        "scene_type": {
+          "scene_type": "photographic_scene",
+          "trust_level": "full_photographic_mode",
+          "rationale": [
+            "Detector identified real-world physical entities; caption exhibits natural photographic semantics"
+          ],
+          "is_graphic": false
+        },
+        "person_presence": {
+          "status": "present",
+          "confidence_level": "confirmed",
+          "count": 1,
+          "raw_detector_count": 1,
+          "has_dominant_person": false,
+          "evidence_reasons": [
+            "YOLOv8n detected 1 person instance(s) [Detector Evidence]",
+            "BLIP caption independently identified human subject [Caption Evidence]"
+          ]
+        },
+        "primary_subject": {
+          "value": "A person wearing a black shirt",
+          "status": "supported",
+          "sources": [
+            "YOLOv8n Detector Evidence",
+            "BLIP Caption Evidence",
+            "BLIP-VQA Attribute Evidence"
+          ]
+        },
+        "activity": {
+          "value": "Texting",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Action / Posture Evidence"
+          ]
+        },
+        "environment": {
+          "value": "Indoors with blurry",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Location Evidence",
+            "BLIP Environment Evidence"
+          ]
+        },
+        "objects": [
+          {
+            "label": "person",
+            "confidence": 0.906,
+            "bbox": {
+              "x1": 27.9,
+              "y1": 19.6,
+              "x2": 807.6,
+              "y2": 765.8
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.879,
+            "bbox": {
+              "x1": 903.1,
+              "y1": 651.6,
+              "x2": 1023.5,
+              "y2": 767.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.805,
+            "bbox": {
+              "x1": 0.0,
+              "y1": 574.9,
+              "x2": 133.7,
+              "y2": 766.9
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "chair",
+            "confidence": 0.657,
+            "bbox": {
+              "x1": 2.6,
+              "y1": 458.1,
+              "x2": 79.7,
+              "y2": 593.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.491,
+            "bbox": {
+              "x1": 588.6,
+              "y1": 414.7,
+              "x2": 737.1,
+              "y2": 502.2
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "couch",
+            "confidence": 0.392,
+            "bbox": {
+              "x1": 56.0,
+              "y1": 382.8,
+              "x2": 1024.0,
+              "y2": 764.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "couch",
+            "confidence": 0.327,
+            "bbox": {
+              "x1": 710.8,
+              "y1": 384.6,
+              "x2": 1023.3,
+              "y2": 737.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          }
+        ],
+        "interactions": [
+          {
+            "subject": "person",
+            "relation": "holding / interacting with",
+            "target": "cell phone",
+            "status": "confirmed",
+            "score": 85.0,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cell phone' marginal detection (conf: 49.1%)",
+              "BLIP Caption: mentions phone interaction",
+              "BLIP-VQA: confirmed 'phone'"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "holding / drinking from",
+            "target": "cup",
+            "status": "supported",
+            "score": 67.58,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cup' (conf: 87.9%)"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "reading / holding",
+            "target": "book",
+            "status": "supported",
+            "score": 56.28,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'book' (conf: 31.4%)"
+            ],
+            "counter_evidence": []
+          }
+        ],
+        "conflicts": [],
+        "uncertainty_flags": [],
+        "skipped_questions": [
+          "What is the main subject in the image? [Gated: Human presence established]",
+          "Is the scene indoors or outdoors? [Gated: Human setting question active]"
+        ],
+        "evidence_sources": {
+          "caption": true,
+          "object_detection": true,
+          "vqa": true
+        }
+      }
     },
     {
       "sample_number": 3,
@@ -243,6 +704,7 @@
       "semantic_change": false,
       "inherited": true,
       "source_frame_timestamp": 1.0,
+      "thumbnail_url": null,
       "scene_type": "photographic_scene",
       "person_presence": "present",
       "person_count": 1,
@@ -264,11 +726,23 @@
           "subject": "person",
           "relation": "holding / interacting with",
           "target": "cell phone",
-          "status": "supported",
+          "status": "confirmed",
+          "score": 85.0,
           "evidence_sources": [
-            "BLIP Caption Evidence: 'holding a cell'",
-            "BLIP-VQA Holding Evidence: 'Phone'",
-            "YOLOv8n Detector Evidence: 'cell phone'"
+            "YOLOv8n Detector: 'cell phone' marginal detection (conf: 49.1%)",
+            "BLIP Caption: mentions phone interaction",
+            "BLIP-VQA: confirmed 'phone'"
+          ],
+          "counter_evidence": []
+        },
+        {
+          "subject": "person",
+          "relation": "holding / drinking from",
+          "target": "cup",
+          "status": "supported",
+          "score": 67.58,
+          "evidence_sources": [
+            "YOLOv8n Detector: 'cup' (conf: 87.9%)"
           ],
           "counter_evidence": []
         },
@@ -277,29 +751,200 @@
           "relation": "reading / holding",
           "target": "book",
           "status": "supported",
+          "score": 56.28,
           "evidence_sources": [
-            "YOLOv8n Detector Evidence: 'book'"
-          ],
-          "counter_evidence": []
-        },
-        {
-          "subject": "person",
-          "relation": "interacting with",
-          "target": "cup",
-          "status": "supported",
-          "evidence_sources": [
-            "YOLOv8n Detector Evidence: Food/Beverage item"
+            "YOLOv8n Detector: 'book' (conf: 31.4%)"
           ],
           "counter_evidence": []
         }
       ],
       "conflicts": [],
       "uncertainty_flags": [],
-      "scene_narration": "A person wearing a black shirt is prominently visible. The subject appears to be holding / interacting with a cell phone. The surrounding environment indicates an indoor setting.",
-      "predictive_narration": "Likely next activity: the person continues interacting with the smartphone.",
+      "scene_narration": "A person is sitting indoors, using a smartphone.",
+      "predictive_narration": "They'll likely continue using the smartphone.",
       "prediction_status": "supported_prediction",
       "prediction_type": "interaction_continuation",
-      "frame_latency_ms": 59.4
+      "frame_latency_ms": 47.75,
+      "raw_fused_scene": {
+        "summary": "A person wearing a black shirt is texting in an indoors with blurry setting. The subject appears to be holding / interacting with a cell phone.",
+        "scene_type": {
+          "scene_type": "photographic_scene",
+          "trust_level": "full_photographic_mode",
+          "rationale": [
+            "Detector identified real-world physical entities; caption exhibits natural photographic semantics"
+          ],
+          "is_graphic": false
+        },
+        "person_presence": {
+          "status": "present",
+          "confidence_level": "confirmed",
+          "count": 1,
+          "raw_detector_count": 1,
+          "has_dominant_person": false,
+          "evidence_reasons": [
+            "YOLOv8n detected 1 person instance(s) [Detector Evidence]",
+            "BLIP caption independently identified human subject [Caption Evidence]"
+          ]
+        },
+        "primary_subject": {
+          "value": "A person wearing a black shirt",
+          "status": "supported",
+          "sources": [
+            "YOLOv8n Detector Evidence",
+            "BLIP Caption Evidence",
+            "BLIP-VQA Attribute Evidence"
+          ]
+        },
+        "activity": {
+          "value": "Texting",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Action / Posture Evidence"
+          ]
+        },
+        "environment": {
+          "value": "Indoors with blurry",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Location Evidence",
+            "BLIP Environment Evidence"
+          ]
+        },
+        "objects": [
+          {
+            "label": "person",
+            "confidence": 0.906,
+            "bbox": {
+              "x1": 27.9,
+              "y1": 19.6,
+              "x2": 807.6,
+              "y2": 765.8
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.879,
+            "bbox": {
+              "x1": 903.1,
+              "y1": 651.6,
+              "x2": 1023.5,
+              "y2": 767.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.805,
+            "bbox": {
+              "x1": 0.0,
+              "y1": 574.9,
+              "x2": 133.7,
+              "y2": 766.9
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "chair",
+            "confidence": 0.657,
+            "bbox": {
+              "x1": 2.6,
+              "y1": 458.1,
+              "x2": 79.7,
+              "y2": 593.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.491,
+            "bbox": {
+              "x1": 588.6,
+              "y1": 414.7,
+              "x2": 737.1,
+              "y2": 502.2
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "couch",
+            "confidence": 0.392,
+            "bbox": {
+              "x1": 56.0,
+              "y1": 382.8,
+              "x2": 1024.0,
+              "y2": 764.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "couch",
+            "confidence": 0.327,
+            "bbox": {
+              "x1": 710.8,
+              "y1": 384.6,
+              "x2": 1023.3,
+              "y2": 737.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          }
+        ],
+        "interactions": [
+          {
+            "subject": "person",
+            "relation": "holding / interacting with",
+            "target": "cell phone",
+            "status": "confirmed",
+            "score": 85.0,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cell phone' marginal detection (conf: 49.1%)",
+              "BLIP Caption: mentions phone interaction",
+              "BLIP-VQA: confirmed 'phone'"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "holding / drinking from",
+            "target": "cup",
+            "status": "supported",
+            "score": 67.58,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cup' (conf: 87.9%)"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "reading / holding",
+            "target": "book",
+            "status": "supported",
+            "score": 56.28,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'book' (conf: 31.4%)"
+            ],
+            "counter_evidence": []
+          }
+        ],
+        "conflicts": [],
+        "uncertainty_flags": [],
+        "skipped_questions": [
+          "What is the main subject in the image? [Gated: Human presence established]",
+          "Is the scene indoors or outdoors? [Gated: Human setting question active]"
+        ],
+        "evidence_sources": {
+          "caption": true,
+          "object_detection": true,
+          "vqa": true
+        }
+      }
     },
     {
       "sample_number": 4,
@@ -310,6 +955,7 @@
       "semantic_change": true,
       "inherited": false,
       "source_frame_timestamp": 3.0,
+      "thumbnail_url": null,
       "scene_type": "photographic_scene",
       "person_presence": "present",
       "person_count": 1,
@@ -329,32 +975,239 @@
           "subject": "person",
           "relation": "reading / holding",
           "target": "book",
-          "status": "supported",
+          "status": "confirmed",
+          "score": 127.02,
           "evidence_sources": [
-            "BLIP Caption Evidence: 'reading'",
-            "BLIP-VQA Evidence: 'Book'",
-            "YOLOv8n Detector Evidence: 'book'"
+            "YOLOv8n Detector: 'book' (conf: 35.1%)",
+            "BLIP Caption: mentions book / reading",
+            "BLIP-VQA: confirmed 'book'"
           ],
           "counter_evidence": []
         },
         {
           "subject": "person",
-          "relation": "interacting with",
+          "relation": "holding / drinking from",
           "target": "cup",
           "status": "supported",
+          "score": 67.86,
           "evidence_sources": [
-            "YOLOv8n Detector Evidence: Food/Beverage item"
+            "YOLOv8n Detector: 'cup' (conf: 89.3%)"
           ],
           "counter_evidence": []
         }
       ],
       "conflicts": [],
       "uncertainty_flags": [],
-      "scene_narration": "A person wearing a long sleeved shirt is prominently visible. The subject appears to be reading / holding a book. The surrounding environment indicates an indoor setting.",
-      "predictive_narration": "Likely next activity: the person continues reading.",
+      "scene_narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+      "predictive_narration": "They'll likely take a sip from the cup and continue reading.",
       "prediction_status": "supported_prediction",
       "prediction_type": "task_continuation",
-      "frame_latency_ms": 2939.03
+      "frame_latency_ms": 3427.96,
+      "raw_fused_scene": {
+        "summary": "A person wearing a long sleeved shirt is reading in an indoors with blurry setting. The subject appears to be reading / holding a book.",
+        "scene_type": {
+          "scene_type": "photographic_scene",
+          "trust_level": "full_photographic_mode",
+          "rationale": [
+            "Detector identified real-world physical entities; caption exhibits natural photographic semantics"
+          ],
+          "is_graphic": false
+        },
+        "person_presence": {
+          "status": "present",
+          "confidence_level": "confirmed",
+          "count": 1,
+          "raw_detector_count": 1,
+          "has_dominant_person": false,
+          "evidence_reasons": [
+            "YOLOv8n detected 1 person instance(s) [Detector Evidence]",
+            "BLIP caption independently identified human subject [Caption Evidence]"
+          ]
+        },
+        "primary_subject": {
+          "value": "A person wearing a long sleeved shirt",
+          "status": "supported",
+          "sources": [
+            "YOLOv8n Detector Evidence",
+            "BLIP Caption Evidence",
+            "BLIP-VQA Attribute Evidence"
+          ]
+        },
+        "activity": {
+          "value": "Reading",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Action / Posture Evidence"
+          ]
+        },
+        "environment": {
+          "value": "Indoors with blurry",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Location Evidence",
+            "BLIP Environment Evidence"
+          ]
+        },
+        "objects": [
+          {
+            "label": "person",
+            "confidence": 0.924,
+            "bbox": {
+              "x1": 30.3,
+              "y1": 92.8,
+              "x2": 702.4,
+              "y2": 767.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.893,
+            "bbox": {
+              "x1": 796.4,
+              "y1": 626.9,
+              "x2": 947.9,
+              "y2": 758.3
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.557,
+            "bbox": {
+              "x1": 974.4,
+              "y1": 651.3,
+              "x2": 1023.6,
+              "y2": 768.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.44,
+            "bbox": {
+              "x1": 803.4,
+              "y1": 239.7,
+              "x2": 1023.4,
+              "y2": 732.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "chair",
+            "confidence": 0.378,
+            "bbox": {
+              "x1": 621.4,
+              "y1": 610.4,
+              "x2": 741.3,
+              "y2": 767.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.351,
+            "bbox": {
+              "x1": 102.8,
+              "y1": 204.5,
+              "x2": 141.9,
+              "y2": 345.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.35,
+            "bbox": {
+              "x1": 134.3,
+              "y1": 196.3,
+              "x2": 165.2,
+              "y2": 344.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.273,
+            "bbox": {
+              "x1": 112.1,
+              "y1": 211.1,
+              "x2": 138.6,
+              "y2": 343.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.27,
+            "bbox": {
+              "x1": 80.0,
+              "y1": 207.7,
+              "x2": 105.0,
+              "y2": 342.9
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.267,
+            "bbox": {
+              "x1": 142.4,
+              "y1": 199.9,
+              "x2": 179.1,
+              "y2": 344.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          }
+        ],
+        "interactions": [
+          {
+            "subject": "person",
+            "relation": "reading / holding",
+            "target": "book",
+            "status": "confirmed",
+            "score": 127.02,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'book' (conf: 35.1%)",
+              "BLIP Caption: mentions book / reading",
+              "BLIP-VQA: confirmed 'book'"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "holding / drinking from",
+            "target": "cup",
+            "status": "supported",
+            "score": 67.86,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cup' (conf: 89.3%)"
+            ],
+            "counter_evidence": []
+          }
+        ],
+        "conflicts": [],
+        "uncertainty_flags": [],
+        "skipped_questions": [
+          "What is the main subject in the image? [Gated: Human presence established]",
+          "Is the scene indoors or outdoors? [Gated: Human setting question active]"
+        ],
+        "evidence_sources": {
+          "caption": true,
+          "object_detection": true,
+          "vqa": true
+        }
+      }
     },
     {
       "sample_number": 5,
@@ -365,6 +1218,7 @@
       "semantic_change": false,
       "inherited": true,
       "source_frame_timestamp": 3.0,
+      "thumbnail_url": null,
       "scene_type": "photographic_scene",
       "person_presence": "present",
       "person_count": 1,
@@ -384,32 +1238,239 @@
           "subject": "person",
           "relation": "reading / holding",
           "target": "book",
-          "status": "supported",
+          "status": "confirmed",
+          "score": 127.02,
           "evidence_sources": [
-            "BLIP Caption Evidence: 'reading'",
-            "BLIP-VQA Evidence: 'Book'",
-            "YOLOv8n Detector Evidence: 'book'"
+            "YOLOv8n Detector: 'book' (conf: 35.1%)",
+            "BLIP Caption: mentions book / reading",
+            "BLIP-VQA: confirmed 'book'"
           ],
           "counter_evidence": []
         },
         {
           "subject": "person",
-          "relation": "interacting with",
+          "relation": "holding / drinking from",
           "target": "cup",
           "status": "supported",
+          "score": 67.86,
           "evidence_sources": [
-            "YOLOv8n Detector Evidence: Food/Beverage item"
+            "YOLOv8n Detector: 'cup' (conf: 89.3%)"
           ],
           "counter_evidence": []
         }
       ],
       "conflicts": [],
       "uncertainty_flags": [],
-      "scene_narration": "A person wearing a long sleeved shirt is prominently visible. The subject appears to be reading / holding a book. The surrounding environment indicates an indoor setting.",
-      "predictive_narration": "Likely next activity: the person continues reading.",
+      "scene_narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+      "predictive_narration": "They'll likely take a sip from the cup and continue reading.",
       "prediction_status": "supported_prediction",
       "prediction_type": "task_continuation",
-      "frame_latency_ms": 48.76
+      "frame_latency_ms": 51.9,
+      "raw_fused_scene": {
+        "summary": "A person wearing a long sleeved shirt is reading in an indoors with blurry setting. The subject appears to be reading / holding a book.",
+        "scene_type": {
+          "scene_type": "photographic_scene",
+          "trust_level": "full_photographic_mode",
+          "rationale": [
+            "Detector identified real-world physical entities; caption exhibits natural photographic semantics"
+          ],
+          "is_graphic": false
+        },
+        "person_presence": {
+          "status": "present",
+          "confidence_level": "confirmed",
+          "count": 1,
+          "raw_detector_count": 1,
+          "has_dominant_person": false,
+          "evidence_reasons": [
+            "YOLOv8n detected 1 person instance(s) [Detector Evidence]",
+            "BLIP caption independently identified human subject [Caption Evidence]"
+          ]
+        },
+        "primary_subject": {
+          "value": "A person wearing a long sleeved shirt",
+          "status": "supported",
+          "sources": [
+            "YOLOv8n Detector Evidence",
+            "BLIP Caption Evidence",
+            "BLIP-VQA Attribute Evidence"
+          ]
+        },
+        "activity": {
+          "value": "Reading",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Action / Posture Evidence"
+          ]
+        },
+        "environment": {
+          "value": "Indoors with blurry",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Location Evidence",
+            "BLIP Environment Evidence"
+          ]
+        },
+        "objects": [
+          {
+            "label": "person",
+            "confidence": 0.924,
+            "bbox": {
+              "x1": 30.3,
+              "y1": 92.8,
+              "x2": 702.4,
+              "y2": 767.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.893,
+            "bbox": {
+              "x1": 796.4,
+              "y1": 626.9,
+              "x2": 947.9,
+              "y2": 758.3
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.557,
+            "bbox": {
+              "x1": 974.4,
+              "y1": 651.3,
+              "x2": 1023.6,
+              "y2": 768.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.44,
+            "bbox": {
+              "x1": 803.4,
+              "y1": 239.7,
+              "x2": 1023.4,
+              "y2": 732.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "chair",
+            "confidence": 0.378,
+            "bbox": {
+              "x1": 621.4,
+              "y1": 610.4,
+              "x2": 741.3,
+              "y2": 767.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.351,
+            "bbox": {
+              "x1": 102.8,
+              "y1": 204.5,
+              "x2": 141.9,
+              "y2": 345.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.35,
+            "bbox": {
+              "x1": 134.3,
+              "y1": 196.3,
+              "x2": 165.2,
+              "y2": 344.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.273,
+            "bbox": {
+              "x1": 112.1,
+              "y1": 211.1,
+              "x2": 138.6,
+              "y2": 343.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.27,
+            "bbox": {
+              "x1": 80.0,
+              "y1": 207.7,
+              "x2": 105.0,
+              "y2": 342.9
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.267,
+            "bbox": {
+              "x1": 142.4,
+              "y1": 199.9,
+              "x2": 179.1,
+              "y2": 344.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          }
+        ],
+        "interactions": [
+          {
+            "subject": "person",
+            "relation": "reading / holding",
+            "target": "book",
+            "status": "confirmed",
+            "score": 127.02,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'book' (conf: 35.1%)",
+              "BLIP Caption: mentions book / reading",
+              "BLIP-VQA: confirmed 'book'"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "holding / drinking from",
+            "target": "cup",
+            "status": "supported",
+            "score": 67.86,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cup' (conf: 89.3%)"
+            ],
+            "counter_evidence": []
+          }
+        ],
+        "conflicts": [],
+        "uncertainty_flags": [],
+        "skipped_questions": [
+          "What is the main subject in the image? [Gated: Human presence established]",
+          "Is the scene indoors or outdoors? [Gated: Human setting question active]"
+        ],
+        "evidence_sources": {
+          "caption": true,
+          "object_detection": true,
+          "vqa": true
+        }
+      }
     },
     {
       "sample_number": 6,
@@ -420,6 +1481,7 @@
       "semantic_change": false,
       "inherited": true,
       "source_frame_timestamp": 3.0,
+      "thumbnail_url": null,
       "scene_type": "photographic_scene",
       "person_presence": "present",
       "person_count": 1,
@@ -439,32 +1501,239 @@
           "subject": "person",
           "relation": "reading / holding",
           "target": "book",
-          "status": "supported",
+          "status": "confirmed",
+          "score": 127.02,
           "evidence_sources": [
-            "BLIP Caption Evidence: 'reading'",
-            "BLIP-VQA Evidence: 'Book'",
-            "YOLOv8n Detector Evidence: 'book'"
+            "YOLOv8n Detector: 'book' (conf: 35.1%)",
+            "BLIP Caption: mentions book / reading",
+            "BLIP-VQA: confirmed 'book'"
           ],
           "counter_evidence": []
         },
         {
           "subject": "person",
-          "relation": "interacting with",
+          "relation": "holding / drinking from",
           "target": "cup",
           "status": "supported",
+          "score": 67.86,
           "evidence_sources": [
-            "YOLOv8n Detector Evidence: Food/Beverage item"
+            "YOLOv8n Detector: 'cup' (conf: 89.3%)"
           ],
           "counter_evidence": []
         }
       ],
       "conflicts": [],
       "uncertainty_flags": [],
-      "scene_narration": "A person wearing a long sleeved shirt is prominently visible. The subject appears to be reading / holding a book. The surrounding environment indicates an indoor setting.",
-      "predictive_narration": "Likely next activity: the person continues reading.",
+      "scene_narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+      "predictive_narration": "They'll likely take a sip from the cup and continue reading.",
       "prediction_status": "supported_prediction",
       "prediction_type": "task_continuation",
-      "frame_latency_ms": 44.66
+      "frame_latency_ms": 51.07,
+      "raw_fused_scene": {
+        "summary": "A person wearing a long sleeved shirt is reading in an indoors with blurry setting. The subject appears to be reading / holding a book.",
+        "scene_type": {
+          "scene_type": "photographic_scene",
+          "trust_level": "full_photographic_mode",
+          "rationale": [
+            "Detector identified real-world physical entities; caption exhibits natural photographic semantics"
+          ],
+          "is_graphic": false
+        },
+        "person_presence": {
+          "status": "present",
+          "confidence_level": "confirmed",
+          "count": 1,
+          "raw_detector_count": 1,
+          "has_dominant_person": false,
+          "evidence_reasons": [
+            "YOLOv8n detected 1 person instance(s) [Detector Evidence]",
+            "BLIP caption independently identified human subject [Caption Evidence]"
+          ]
+        },
+        "primary_subject": {
+          "value": "A person wearing a long sleeved shirt",
+          "status": "supported",
+          "sources": [
+            "YOLOv8n Detector Evidence",
+            "BLIP Caption Evidence",
+            "BLIP-VQA Attribute Evidence"
+          ]
+        },
+        "activity": {
+          "value": "Reading",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Action / Posture Evidence"
+          ]
+        },
+        "environment": {
+          "value": "Indoors with blurry",
+          "status": "supported",
+          "sources": [
+            "BLIP-VQA Location Evidence",
+            "BLIP Environment Evidence"
+          ]
+        },
+        "objects": [
+          {
+            "label": "person",
+            "confidence": 0.924,
+            "bbox": {
+              "x1": 30.3,
+              "y1": 92.8,
+              "x2": 702.4,
+              "y2": 767.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.893,
+            "bbox": {
+              "x1": 796.4,
+              "y1": 626.9,
+              "x2": 947.9,
+              "y2": 758.3
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "cup",
+            "confidence": 0.557,
+            "bbox": {
+              "x1": 974.4,
+              "y1": 651.3,
+              "x2": 1023.6,
+              "y2": 768.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.44,
+            "bbox": {
+              "x1": 803.4,
+              "y1": 239.7,
+              "x2": 1023.4,
+              "y2": 732.6
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "supported"
+          },
+          {
+            "label": "chair",
+            "confidence": 0.378,
+            "bbox": {
+              "x1": 621.4,
+              "y1": 610.4,
+              "x2": 741.3,
+              "y2": 767.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.351,
+            "bbox": {
+              "x1": 102.8,
+              "y1": 204.5,
+              "x2": 141.9,
+              "y2": 345.4
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.35,
+            "bbox": {
+              "x1": 134.3,
+              "y1": 196.3,
+              "x2": 165.2,
+              "y2": 344.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.273,
+            "bbox": {
+              "x1": 112.1,
+              "y1": 211.1,
+              "x2": 138.6,
+              "y2": 343.0
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.27,
+            "bbox": {
+              "x1": 80.0,
+              "y1": 207.7,
+              "x2": 105.0,
+              "y2": 342.9
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          },
+          {
+            "label": "book",
+            "confidence": 0.267,
+            "bbox": {
+              "x1": 142.4,
+              "y1": 199.9,
+              "x2": 179.1,
+              "y2": 344.7
+            },
+            "source": "YOLOv8n Object Detector (Priority 1 Grounding)",
+            "status": "confirmed"
+          }
+        ],
+        "interactions": [
+          {
+            "subject": "person",
+            "relation": "reading / holding",
+            "target": "book",
+            "status": "confirmed",
+            "score": 127.02,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'book' (conf: 35.1%)",
+              "BLIP Caption: mentions book / reading",
+              "BLIP-VQA: confirmed 'book'"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "subject": "person",
+            "relation": "holding / drinking from",
+            "target": "cup",
+            "status": "supported",
+            "score": 67.86,
+            "evidence_sources": [
+              "YOLOv8n Detector: 'cup' (conf: 89.3%)"
+            ],
+            "counter_evidence": []
+          }
+        ],
+        "conflicts": [],
+        "uncertainty_flags": [],
+        "skipped_questions": [
+          "What is the main subject in the image? [Gated: Human presence established]",
+          "Is the scene indoors or outdoors? [Gated: Human setting question active]"
+        ],
+        "evidence_sources": {
+          "caption": true,
+          "object_detection": true,
+          "vqa": true
+        }
+      }
     }
   ]
 }

@@ -1,0 +1,598 @@
+[
+  {
+    "index": 1,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_31_28 PM.png",
+    "yolo_counts": {
+      "person": 1,
+      "cup": 1,
+      "potted plant": 1,
+      "chair": 1,
+      "couch": 2,
+      "book": 2
+    },
+    "caption": "A man sitting on a couch looking at his phone",
+    "narration": "A person is sitting indoors, using a smartphone.",
+    "prediction": "They'll likely continue using the smartphone.",
+    "hypotheses": [
+      {
+        "text": "They'll likely continue using the smartphone.",
+        "evidence": [
+          "Confirmed smartphone interaction",
+          "Active screen engagement"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Handheld mobile device affordances center on screen interaction, browsing, or messaging."
+      },
+      {
+        "text": "They may take a sip from the cup or set the phone down.",
+        "evidence": [
+          "Cup detected nearby"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A resting beverage invites a sip during a pause in phone usage."
+      },
+      {
+        "text": "They may put the phone in a pocket or set it on a surface.",
+        "evidence": [
+          "Handheld mobile device"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Mobile devices are stowed once digital tasks or communications conclude."
+      }
+    ],
+    "latency_s": 3.76
+  },
+  {
+    "index": 2,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_33_23 PM.png",
+    "yolo_counts": {
+      "laptop": 1,
+      "cup": 1,
+      "person": 2,
+      "chair": 2,
+      "potted plant": 1,
+      "cell phone": 1
+    },
+    "caption": "A man sitting at a table using a laptop",
+    "narration": "A person is sitting at a desk, working on a laptop, with a cup on the desk and another person nearby.",
+    "prediction": "They'll likely take a sip from the cup, then return to typing on the laptop.",
+    "hypotheses": [
+      {
+        "text": "They'll likely take a sip from the cup, then return to typing on the laptop.",
+        "evidence": [
+          "Detected laptop and cup on desk",
+          "Confirmed laptop interaction",
+          "Cup positioned within reach"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "A beverage vessel on an active workspace affords intermittent sipping between computer tasks."
+      },
+      {
+        "text": "They'll likely keep working on the laptop.",
+        "evidence": [
+          "Active workstation engagement"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Deep focus on typing or reading on screen may delay beverage consumption."
+      },
+      {
+        "text": "They may interact with the other person nearby.",
+        "evidence": [
+          "1 other person nearby"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Co-located colleagues or companions may initiate conversation."
+      }
+    ],
+    "latency_s": 2.89
+  },
+  {
+    "index": 3,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_35_05 PM.png",
+    "yolo_counts": {
+      "person": 1,
+      "cup": 2,
+      "book": 4,
+      "potted plant": 1,
+      "chair": 2
+    },
+    "caption": "A man sitting in a chair reading a book",
+    "narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+    "prediction": "They'll likely take a sip from the cup and continue reading.",
+    "hypotheses": [
+      {
+        "text": "They'll likely take a sip from the cup and continue reading.",
+        "evidence": [
+          "Detected book and cup",
+          "Reading activity confirmed",
+          "Beverage vessel nearby"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Reading with a nearby drink affords periodic sips during continued reading."
+      },
+      {
+        "text": "They'll likely continue reading or turn to the next page.",
+        "evidence": [
+          "Book reading engagement"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Sustained text reading leads naturally to turning pages."
+      },
+      {
+        "text": "They may set the cup or book down on a nearby surface.",
+        "evidence": [
+          "Reading materials and cup on surface"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "The reader may take a break or conclude the reading session."
+      }
+    ],
+    "latency_s": 2.89
+  },
+  {
+    "index": 4,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_35_58 PM.png",
+    "yolo_counts": {
+      "person": 3,
+      "bowl": 1,
+      "sandwich": 2,
+      "cup": 1,
+      "chair": 2,
+      "dining table": 2
+    },
+    "caption": "A man sitting at a table eating a sandwich and drinking a cup of coffee",
+    "narration": "A person is sitting at a table, holding a cup and drinking, with food on the table and several other people nearby.",
+    "prediction": "They'll likely take another bite of food and take a sip from the cup.",
+    "hypotheses": [
+      {
+        "text": "They'll likely take another bite of food and take a sip from the cup.",
+        "evidence": [
+          "Detected food and cup",
+          "Meal activity at dining table",
+          "Drinking and eating affordances"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Meal consumption alternates naturally between eating food and drinking beverage."
+      },
+      {
+        "text": "They'll likely set the cup down and continue eating.",
+        "evidence": [
+          "Food and beverage on dining table"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Resting the drink allows two-handed engagement with food."
+      },
+      {
+        "text": "They may converse with the other people nearby.",
+        "evidence": [
+          "2 other people nearby"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Dining tables with multiple people encourage social sharing or discussion."
+      }
+    ],
+    "latency_s": 3.36
+  },
+  {
+    "index": 5,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_36_59 PM.png",
+    "yolo_counts": {
+      "cup": 1,
+      "person": 1,
+      "potted plant": 2,
+      "laptop": 1,
+      "dining table": 1,
+      "couch": 3,
+      "book": 1,
+      "chair": 1
+    },
+    "caption": "A man sitting on a couch looking at his phone",
+    "narration": "A person is sitting indoors, using a smartphone.",
+    "prediction": "They'll likely continue using the smartphone.",
+    "hypotheses": [
+      {
+        "text": "They'll likely continue using the smartphone.",
+        "evidence": [
+          "Confirmed smartphone interaction",
+          "Active screen engagement"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Handheld mobile device affordances center on screen interaction, browsing, or messaging."
+      },
+      {
+        "text": "They may take a sip from the cup or set the phone down.",
+        "evidence": [
+          "Cup detected nearby"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A resting beverage invites a sip during a pause in phone usage."
+      },
+      {
+        "text": "They may put the phone in a pocket or set it on a surface.",
+        "evidence": [
+          "Handheld mobile device"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Mobile devices are stowed once digital tasks or communications conclude."
+      }
+    ],
+    "latency_s": 3.73
+  },
+  {
+    "index": 6,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_37_57 PM.png",
+    "yolo_counts": {
+      "person": 5
+    },
+    "caption": "A man in a black hoodie is standing on a sidewalk",
+    "narration": "A person is walking outdoors, with several other people nearby.",
+    "prediction": "The person will likely continue walking along the walkway.",
+    "hypotheses": [
+      {
+        "text": "The person will likely continue walking along the walkway.",
+        "evidence": [
+          "Detected 5 persons",
+          "Walking activity confirmed by visual evidence",
+          "Walkway / outdoor setting"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "A walking pedestrian typically sustains directional locomotion along a pedestrian pathway."
+      },
+      {
+        "text": "They will likely stay in the same area as the other people nearby.",
+        "evidence": [
+          "4 other people nearby"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Pedestrians sharing a walkway often move at similar paces through common public areas."
+      },
+      {
+        "text": "The person may pause or change walking direction.",
+        "evidence": [
+          "Pedestrian pathway"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Walkers may stop at crossings or adjust their path."
+      }
+    ],
+    "latency_s": 3.31
+  },
+  {
+    "index": 7,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_38_57 PM.png",
+    "yolo_counts": {
+      "person": 7,
+      "laptop": 1,
+      "cell phone": 2,
+      "chair": 1,
+      "book": 1
+    },
+    "caption": "A group of people sitting at a table with laptops",
+    "narration": "7 people are gathered together, with a laptop nearby.",
+    "prediction": "The group will likely continue their discussion at the table.",
+    "hypotheses": [
+      {
+        "text": "The group will likely continue their discussion at the table.",
+        "evidence": [
+          "7 people gathered",
+          "Indoor table setting",
+          "Collaborative group presence"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "People gathered around a table typically engage in collaborative discussion or shared social time."
+      },
+      {
+        "text": "Someone in the group may refer to or use the laptop nearby.",
+        "evidence": [
+          "Laptop detected nearby",
+          "Tabletop workspace items"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A nearby computing device may be accessed by group members during their meeting."
+      },
+      {
+        "text": "The group may pack up their belongings and conclude the gathering.",
+        "evidence": [
+          "Group gathering at table"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Gatherings eventually conclude or participants transition to other tasks."
+      }
+    ],
+    "latency_s": 2.92
+  },
+  {
+    "index": 8,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_40_13 PM.png",
+    "yolo_counts": {
+      "person": 12,
+      "laptop": 1,
+      "backpack": 3
+    },
+    "caption": "A group of people sitting on a bench",
+    "narration": "12 people are outdoors together, with a laptop nearby.",
+    "prediction": "The group will likely remain gathered together outdoors.",
+    "hypotheses": [
+      {
+        "text": "The group will likely remain gathered together outdoors.",
+        "evidence": [
+          "12 people outdoors",
+          "Shared outdoor gathering"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "A social gathering outdoors maintains shared group presence."
+      },
+      {
+        "text": "Someone may check or pack up the laptop nearby.",
+        "evidence": [
+          "Laptop detected nearby",
+          "Gathered group setting (12 persons)"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A portable device brought outdoors may be referenced or stowed by the group."
+      },
+      {
+        "text": "Members of the group may stand up or move to another spot.",
+        "evidence": [
+          "Outdoor group presence"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Outdoor groups occasionally relocate or move around."
+      }
+    ],
+    "latency_s": 2.89
+  },
+  {
+    "index": 9,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_41_18 PM.png",
+    "yolo_counts": {},
+    "caption": "A lake in the middle of a green field",
+    "narration": "An open outdoor scene capturing a lake.",
+    "prediction": "The scene will likely remain steady.",
+    "hypotheses": [
+      {
+        "text": "The scene will likely remain steady.",
+        "evidence": [
+          "Environment: Outdoors with a sunset",
+          "No active human agents or moving entities detected"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Natural landscape environments remain in physical equilibrium over short horizons."
+      }
+    ],
+    "latency_s": 4.46
+  },
+  {
+    "index": 10,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_42_24 PM.png",
+    "yolo_counts": {
+      "car": 2,
+      "person": 3,
+      "motorcycle": 1,
+      "parking meter": 1,
+      "bus": 1
+    },
+    "caption": "A wet wet street",
+    "narration": "A person is standing, with several other people nearby.",
+    "prediction": "The pedestrians will likely stay on the walkway and navigate around street traffic.",
+    "hypotheses": [
+      {
+        "text": "The pedestrians will likely stay on the walkway and navigate around street traffic.",
+        "evidence": [
+          "Detected 3 persons",
+          "Detected vehicles: motorcycle, car",
+          "Street environment"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Pedestrians in urban traffic environments prioritize walkway safety and watch for vehicles."
+      },
+      {
+        "text": "Vehicles on the road will likely continue moving through the street.",
+        "evidence": [
+          "Detected vehicles: motorcycle, car"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Vehicular road traffic maintains directional forward progression along the street."
+      },
+      {
+        "text": "A pedestrian may wait for a break in traffic before crossing.",
+        "evidence": [
+          "Pedestrians near roadway"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Street pedestrians may prepare to cross when traffic permits."
+      }
+    ],
+    "latency_s": 2.62
+  },
+  {
+    "index": 11,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_44_22 PM.png",
+    "yolo_counts": {
+      "mouse": 1,
+      "laptop": 2,
+      "potted plant": 1,
+      "cup": 1,
+      "book": 5,
+      "cell phone": 1
+    },
+    "caption": "A laptop computer sitting on top of a wooden desk",
+    "narration": "A quiet scene showing a desk with laptops and books, with a cup on the desk.",
+    "prediction": "The workspace will likely remain steady until someone uses it.",
+    "hypotheses": [
+      {
+        "text": "The workspace will likely remain steady until someone uses it.",
+        "evidence": [
+          "Workstation objects present: book (5), laptop (2)",
+          "No active person detected"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Static workstation equipment remains in physical equilibrium until an operator engages with it."
+      },
+      {
+        "text": "Someone may sit down at the desk to work.",
+        "evidence": [
+          "Equipped desk setup with study/computing items"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A prepared desk setup is intended for active computer or study work."
+      }
+    ],
+    "latency_s": 2.44
+  },
+  {
+    "index": 12,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_45_33 PM.png",
+    "yolo_counts": {
+      "laptop": 2,
+      "potted plant": 1,
+      "backpack": 1,
+      "bottle": 1,
+      "mouse": 1,
+      "book": 3,
+      "dining table": 1,
+      "remote": 1
+    },
+    "caption": "A desk with a laptop, notebook, and other items on it",
+    "narration": "A quiet scene showing a desk with laptops and books.",
+    "prediction": "The workspace will likely remain steady until someone uses it.",
+    "hypotheses": [
+      {
+        "text": "The workspace will likely remain steady until someone uses it.",
+        "evidence": [
+          "Workstation objects present: book (3), dining table (1), laptop (2)",
+          "No active person detected"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Static workstation equipment remains in physical equilibrium until an operator engages with it."
+      },
+      {
+        "text": "Someone may sit down at the desk to work.",
+        "evidence": [
+          "Equipped desk setup with study/computing items"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A prepared desk setup is intended for active computer or study work."
+      }
+    ],
+    "latency_s": 3.01
+  },
+  {
+    "index": 13,
+    "filename": "mountain_landscape.jpg",
+    "yolo_counts": {
+      "frisbee": 1
+    },
+    "caption": "The pyramids of egypt, with the sun in the background",
+    "narration": "A graphic illustration depicting the pyramids.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "hypotheses": [
+      {
+        "text": "Predictive storytelling is paused for static illustrations.",
+        "evidence": [
+          "Media classification: illustration_or_graphic"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Static non-photographic graphics lack real-world physical continuity."
+      }
+    ],
+    "latency_s": 3.1
+  },
+  {
+    "index": 14,
+    "filename": "portrait_smartphone.jpg",
+    "yolo_counts": {
+      "person": 2
+    },
+    "caption": "A man in a plaid shirt holding a cell",
+    "narration": "A person is standing indoors, using a smartphone, with another person nearby.",
+    "prediction": "They'll likely continue using the smartphone.",
+    "hypotheses": [
+      {
+        "text": "They'll likely continue using the smartphone.",
+        "evidence": [
+          "Confirmed smartphone interaction",
+          "Active screen engagement"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Handheld mobile device affordances center on screen interaction, browsing, or messaging."
+      },
+      {
+        "text": "They may set the phone aside or speak to the person nearby.",
+        "evidence": [
+          "1 other person nearby"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "A nearby companion may prompt social engagement."
+      },
+      {
+        "text": "They may put the phone in a pocket or set it on a surface.",
+        "evidence": [
+          "Handheld mobile device"
+        ],
+        "likelihood_label": "less likely",
+        "rationale": "Mobile devices are stowed once digital tasks or communications conclude."
+      }
+    ],
+    "latency_s": 3.36
+  },
+  {
+    "index": 15,
+    "filename": "synthetic_graphic.jpg",
+    "yolo_counts": {},
+    "caption": "A blue square frame with the words'you are here'",
+    "narration": "A graphic illustration depicting a square with a blue border.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "hypotheses": [
+      {
+        "text": "Predictive storytelling is paused for static illustrations.",
+        "evidence": [
+          "Media classification: illustration_or_graphic"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Static non-photographic graphics lack real-world physical continuity."
+      }
+    ],
+    "latency_s": 3.08
+  },
+  {
+    "index": 16,
+    "filename": "mountain_landscape.jpg",
+    "yolo_counts": {
+      "frisbee": 1
+    },
+    "caption": "The pyramids of egypt, with the sun in the background",
+    "narration": "A graphic illustration depicting the pyramids.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "hypotheses": [
+      {
+        "text": "Predictive storytelling is paused for static illustrations.",
+        "evidence": [
+          "Media classification: illustration_or_graphic"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Static non-photographic graphics lack real-world physical continuity."
+      }
+    ],
+    "latency_s": 2.8
+  },
+  {
+    "index": 17,
+    "filename": "test_scene.jpg",
+    "yolo_counts": {},
+    "caption": "A blue square frame with the words'you are here'",
+    "narration": "A graphic illustration depicting a square with a blue border.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "hypotheses": [
+      {
+        "text": "Predictive storytelling is paused for static illustrations.",
+        "evidence": [
+          "Media classification: illustration_or_graphic"
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Static non-photographic graphics lack real-world physical continuity."
+      }
+    ],
+    "latency_s": 3.05
+  }
+]

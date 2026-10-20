@@ -342,7 +342,7 @@ class PredictionService:
                     },
                     {
                         "text": "Someone may check or pack up the laptop nearby.",
-                        "evidence": ["Laptop detected nearby", f"Narration asserts: '{state['narration']}'"],
+                        "evidence": ["Laptop detected nearby", f"Gathered group setting ({person_count} persons)"],
                         "likelihood_label": "possible",
                         "rationale": "A portable device brought outdoors may be referenced or stowed by the group."
                     },
@@ -357,7 +357,7 @@ class PredictionService:
                 hypotheses = [
                     {
                         "text": "The group will likely continue their discussion at the table.",
-                        "evidence": [f"{person_count} people gathered", "Indoor table setting", f"Narration asserts: '{state['narration']}'"],
+                        "evidence": [f"{person_count} people gathered", "Indoor table setting", "Collaborative group presence"],
                         "likelihood_label": "most likely",
                         "rationale": "People gathered around a table typically engage in collaborative discussion or shared social time."
                     },

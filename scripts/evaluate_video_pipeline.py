@@ -61,21 +61,28 @@ def evaluate_video():
         max_frames=10,
     )
 
+    meta = video_result["metadata"]
     t_temp_start = time.time()
-    temporal_analysis = temporal_service.detect_temporal_transitions(video_result["frame_sequence"])
+    temporal_analysis = temporal_service.detect_temporal_transitions(
+        frame_sequence=video_result["frame_sequence"],
+        video_duration=meta.get("duration_seconds", 0.0),
+    )
     temporal_ms = round((time.time() - t_temp_start) * 1000, 2)
 
     t_narr_start = time.time()
     video_narration = video_narration_service.synthesize_video_narrative(
         temporal_analysis=temporal_analysis,
         frame_sequence=video_result["frame_sequence"],
-        video_metadata=video_result["metadata"],
+        video_metadata=meta,
+    )
+    video_prediction = video_narration_service.generate_video_prediction(
+        temporal_analysis=temporal_analysis,
+        frame_sequence=video_result["frame_sequence"],
+        video_metadata=meta,
     )
     narr_ms = round((time.time() - t_narr_start) * 1000, 2)
 
     total_pipeline_ms = round((time.time() - t_start) * 1000, 2)
-
-    meta = video_result["metadata"]
     telemetry = video_result["telemetry"]
     frames = video_result["frame_sequence"]
     changes = temporal_analysis["changes"]
@@ -121,10 +128,18 @@ def evaluate_video():
     print("SYNTHESIZED VIDEO NARRATIVE:")
     print(f"  \"{video_narration}\"")
     print("-" * 120)
+    print("ANTICIPATED NEXT ACTION & STRUCTURED HYPOTHESES:")
+    print(f"  • Top Prediction: {video_prediction.get('prediction')}")
+    for h in video_prediction.get("hypotheses", []):
+        print(f"    - [{h.get('likelihood_label').upper()}] {h.get('text')}")
+        print(f"      Rationale: {h.get('rationale')}")
+        print(f"      Evidence:  {', '.join(h.get('evidence', []))}")
+    print("-" * 120)
     print("STABLE / PERSISTENT CONTEXT:")
     print(f"  • Dominant Subject:          {temporal_analysis['stable_facts']['dominant_subject']}")
     print(f"  • Dominant Environment:      {temporal_analysis['stable_facts']['dominant_environment']}")
     print(f"  • Persistent Objects:        {', '.join(temporal_analysis['stable_facts']['persistent_objects'])}")
+    print(f"  • Timeline Segments Count:   {len(temporal_analysis.get('segments', []))}")
     print("=" * 120 + "\n")
 
     # Export full JSON
@@ -139,6 +154,7 @@ def evaluate_video():
         },
         "temporal_analysis": temporal_analysis,
         "video_narration": video_narration,
+        "video_prediction": video_prediction,
         "frame_sequence": frames,
     }
     json_path = results_dir / "video_evaluation_results.json"
