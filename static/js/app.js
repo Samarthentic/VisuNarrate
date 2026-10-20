@@ -130,15 +130,17 @@ document.addEventListener("DOMContentLoaded", () => {
         tabVideo.classList.remove("active");
         tabWebcam.classList.remove("active");
         if (imageModeView) imageModeView.classList.remove("hidden");
+        if (videoModeView) videoModeView.classList.add("hidden");
         if (previewModeNotice) previewModeNotice.classList.add("hidden");
     });
 
     tabVideo.addEventListener("click", () => {
-        if (previewModeNotice) {
-            previewModalTitle.textContent = "Video Storytelling (Preview)";
-            previewModalText.textContent = "Temporal video analysis and chronological scene summarization are currently in preview staging for subsequent release.";
-            previewModeNotice.classList.remove("hidden");
-        }
+        tabVideo.classList.add("active");
+        tabImage.classList.remove("active");
+        tabWebcam.classList.remove("active");
+        if (videoModeView) videoModeView.classList.remove("hidden");
+        if (imageModeView) imageModeView.classList.add("hidden");
+        if (previewModeNotice) previewModeNotice.classList.add("hidden");
     });
 
     tabWebcam.addEventListener("click", () => {
@@ -155,6 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
             tabImage.classList.add("active");
             tabVideo.classList.remove("active");
             tabWebcam.classList.remove("active");
+            if (imageModeView) imageModeView.classList.remove("hidden");
+            if (videoModeView) videoModeView.classList.add("hidden");
         });
     }
 
@@ -732,5 +736,575 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement("div");
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    // =========================================================================
+    // 10. Video Mode Controller (Stage 5 End-to-End)
+    // =========================================================================
+
+    // Video DOM Elements
+    const videoDropzone = document.getElementById("videoDropzone");
+    const videoFileInput = document.getElementById("videoFileInput");
+    const videoDropzonePrompt = document.getElementById("videoDropzonePrompt");
+    const videoBrowseBtn = document.getElementById("videoBrowseBtn");
+    const videoBrowseLink = document.getElementById("videoBrowseLink");
+    const videoUploadProgress = document.getElementById("videoUploadProgress");
+    const videoUploadProgressText = document.getElementById("videoUploadProgressText");
+
+    const videoPreviewCard = document.getElementById("videoPreviewCard");
+    const videoPreviewPlayer = document.getElementById("videoPreviewPlayer");
+    const vidMetaFilename = document.getElementById("vidMetaFilename");
+    const vidMetaResolution = document.getElementById("vidMetaResolution");
+    const vidMetaDuration = document.getElementById("vidMetaDuration");
+    const vidMetaFps = document.getElementById("vidMetaFps");
+    const vidMetaSize = document.getElementById("vidMetaSize");
+    const vidMetaFrames = document.getElementById("vidMetaFrames");
+    const chkDeleteAfter = document.getElementById("chkDeleteAfter");
+    const changeVideoBtn = document.getElementById("changeVideoBtn");
+    const analyzeVideoBtn = document.getElementById("analyzeVideoBtn");
+
+    // Video Progress Card
+    const videoProgressCard = document.getElementById("videoProgressCard");
+    const videoProgressBarFill = document.getElementById("videoProgressBarFill");
+    const videoProgressPercent = document.getElementById("videoProgressPercent");
+    const videoStageText = document.getElementById("videoStageText");
+    const videoFrameCountText = document.getElementById("videoFrameCountText");
+    const videoEtaText = document.getElementById("videoEtaText");
+    const btnCancelVideo = document.getElementById("btnCancelVideo");
+
+    // Video Results Elements
+    const videoStoryText = document.getElementById("videoStoryText");
+    const videoStoryBadge = document.getElementById("videoStoryBadge");
+    const videoNarrativeText = document.getElementById("videoNarrativeText");
+    const videoNarrativeBadge = document.getElementById("videoNarrativeBadge");
+    const videoPredictText = document.getElementById("videoPredictText");
+    const videoPredictBadge = document.getElementById("videoPredictBadge");
+    const videoHypothesesContainer = document.getElementById("videoHypothesesContainer");
+    const videoSegmentsBadge = document.getElementById("videoSegmentsBadge");
+    const videoTimelineEmpty = document.getElementById("videoTimelineEmpty");
+    const videoTimelineList = document.getElementById("videoTimelineList");
+    const videoFramesBadge = document.getElementById("videoFramesBadge");
+    const videoFramesEmpty = document.getElementById("videoFramesEmpty");
+    const videoKeyframesGrid = document.getElementById("videoKeyframesGrid");
+    const videoChangesEmpty = document.getElementById("videoChangesEmpty");
+    const videoChangesList = document.getElementById("videoChangesList");
+
+    // Video Diagnostics Elements
+    const vidDiagEngine = document.getElementById("vidDiagEngine");
+    const vidDiagHardware = document.getElementById("vidDiagHardware");
+    const vidDiagSampleCount = document.getElementById("vidDiagSampleCount");
+    const vidDiagRedundantCount = document.getElementById("vidDiagRedundantCount");
+    const vidDiagAvgLatency = document.getElementById("vidDiagAvgLatency");
+    const vidDiagTemporalTime = document.getElementById("vidDiagTemporalTime");
+    const vidDiagTotalTime = document.getElementById("vidDiagTotalTime");
+    const videoDiagBadge = document.getElementById("videoDiagBadge");
+    const btnDownloadVideoJson = document.getElementById("btnDownloadVideoJson");
+
+    // Video Technical Tabs
+    const vtechTabs = document.querySelectorAll(".vtech-tab");
+    const vtechPanes = document.querySelectorAll(".vtech-pane");
+
+    // State Variables for Video
+    let currentVideoData = null;
+    let currentVideoJobId = null;
+    let videoPollInterval = null;
+    let currentVideoResult = null;
+
+    // Browse Button
+    if (videoBrowseBtn) {
+        videoBrowseBtn.addEventListener("click", () => videoFileInput.click());
+    } else if (videoBrowseLink) {
+        videoBrowseLink.addEventListener("click", () => videoFileInput.click());
+    }
+
+    if (videoFileInput) {
+        videoFileInput.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (file) handleVideoUpload(file);
+        });
+    }
+
+    // Drag and Drop
+    if (videoDropzone) {
+        ["dragenter", "dragover"].forEach((eventName) => {
+            videoDropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                videoDropzone.classList.add("dragover");
+            });
+        });
+
+        ["dragleave", "drop"].forEach((eventName) => {
+            videoDropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                videoDropzone.classList.remove("dragover");
+            });
+        });
+
+        videoDropzone.addEventListener("drop", (e) => {
+            const dt = e.dataTransfer;
+            const file = dt.files && dt.files[0];
+            if (file) handleVideoUpload(file);
+        });
+    }
+
+    // Handle Upload
+    function handleVideoUpload(file) {
+        // Size validation: max 150 MB
+        const maxBytes = 150 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            showToast("Video exceeds 150 MB limit. Please upload a smaller video clip.");
+            return;
+        }
+
+        // Extension validation
+        const allowedExts = [".mp4", ".mov", ".avi", ".webm", ".mkv"];
+        const lowerName = file.name.toLowerCase();
+        const hasValidExt = allowedExts.some(ext => lowerName.endsWith(ext));
+        if (!hasValidExt) {
+            showToast("Unsupported video format. Supported formats: MP4, MOV, AVI, WEBM, MKV.");
+            return;
+        }
+
+        // Show upload spinner
+        videoDropzonePrompt.classList.add("hidden");
+        videoUploadProgress.classList.remove("hidden");
+        if (videoUploadProgressText) {
+            videoUploadProgressText.textContent = "Inspecting video container & metadata...";
+        }
+
+        const formData = new FormData();
+        formData.append("video", file);
+
+        fetch("/api/upload/video", {
+            method: "POST",
+            body: formData
+        })
+        .then(async (res) => {
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || "Video upload failed");
+            }
+            return data;
+        })
+        .then((data) => {
+            currentVideoData = data;
+            // Update preview player with local Object URL so click-to-seek survives post-analysis server deletion
+            try {
+                videoPreviewPlayer.src = URL.createObjectURL(file);
+            } catch (e) {
+                videoPreviewPlayer.src = data.file_url;
+            }
+            videoPreviewPlayer.load();
+
+            // Populate metadata
+            if (vidMetaFilename) vidMetaFilename.textContent = data.filename || file.name;
+            if (vidMetaResolution) vidMetaResolution.textContent = `${data.width}×${data.height}`;
+            if (vidMetaDuration) vidMetaDuration.textContent = `${data.duration.toFixed(1)}s`;
+            if (vidMetaFps) vidMetaFps.textContent = `${Math.round(data.fps)} FPS`;
+            if (vidMetaSize) vidMetaSize.textContent = `${data.size_mb.toFixed(1)} MB`;
+            if (vidMetaFrames) vidMetaFrames.textContent = `${data.total_frames} frames`;
+
+            // Transition UI
+            videoDropzone.classList.add("hidden");
+            videoPreviewCard.classList.remove("hidden");
+            analyzeVideoBtn.disabled = false;
+            showToast(`Loaded video (${data.duration.toFixed(1)}s, ${data.width}×${data.height})`);
+        })
+        .catch((err) => {
+            console.error("Video upload error:", err);
+            showToast(err.message || "Failed to load video file.");
+        })
+        .finally(() => {
+            videoUploadProgress.classList.add("hidden");
+            videoDropzonePrompt.classList.remove("hidden");
+            videoFileInput.value = "";
+        });
+    }
+
+    // Change Video Button
+    if (changeVideoBtn) {
+        changeVideoBtn.addEventListener("click", () => {
+            if (videoPollInterval) clearInterval(videoPollInterval);
+            currentVideoData = null;
+            currentVideoJobId = null;
+            currentVideoResult = null;
+            videoPreviewPlayer.pause();
+            videoPreviewPlayer.src = "";
+            videoPreviewCard.classList.add("hidden");
+            videoProgressCard.classList.add("hidden");
+            videoDropzone.classList.remove("hidden");
+        });
+    }
+
+    // Analyze Video Button
+    if (analyzeVideoBtn) {
+        analyzeVideoBtn.addEventListener("click", () => {
+            if (!currentVideoData) return;
+
+            const deleteAfter = chkDeleteAfter ? chkDeleteAfter.checked : false;
+
+            analyzeVideoBtn.disabled = true;
+            if (changeVideoBtn) changeVideoBtn.disabled = true;
+
+            // Show progress card
+            videoProgressCard.classList.remove("hidden");
+            videoProgressBarFill.style.width = "0%";
+            videoProgressPercent.textContent = "0%";
+            videoStageText.textContent = "Submitting job to analysis worker...";
+            videoFrameCountText.textContent = "Keyframes: 0 / --";
+            videoEtaText.textContent = "ETA: calculating...";
+
+            fetch("/api/video/jobs", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    video_path: currentVideoData.filepath,
+                    delete_after: deleteAfter
+                })
+            })
+            .then(async (res) => {
+                const data = await res.json();
+                if (res.status === 503) {
+                    throw new Error(data.message || "System is busy analyzing another scene. Please retry in a few moments.");
+                }
+                if (!res.ok) {
+                    throw new Error(data.error || "Failed to start video analysis job.");
+                }
+                return data;
+            })
+            .then((data) => {
+                currentVideoJobId = data.job_id;
+                startPollingVideoJob(currentVideoJobId);
+            })
+            .catch((err) => {
+                console.error("Job creation error:", err);
+                showToast(err.message);
+                videoProgressCard.classList.add("hidden");
+                analyzeVideoBtn.disabled = false;
+                if (changeVideoBtn) changeVideoBtn.disabled = false;
+            });
+        });
+    }
+
+    // Cancel Video Analysis Button
+    if (btnCancelVideo) {
+        btnCancelVideo.addEventListener("click", () => {
+            if (!currentVideoJobId) return;
+
+            btnCancelVideo.disabled = true;
+            videoStageText.textContent = "Cancelling analysis...";
+
+            fetch(`/api/video/jobs/${currentVideoJobId}/cancel`, {
+                method: "POST"
+            })
+            .then(res => res.json())
+            .then((data) => {
+                showToast("Cancellation requested.");
+            })
+            .catch((err) => {
+                console.error("Cancel error:", err);
+            });
+        });
+    }
+
+    // Polling Function
+    function startPollingVideoJob(jobId) {
+        if (videoPollInterval) clearInterval(videoPollInterval);
+
+        videoPollInterval = setInterval(() => {
+            fetch(`/api/video/jobs/${jobId}`)
+            .then(res => res.json())
+            .then((job) => {
+                if (!job || !job.status) return;
+
+                if (job.status === "queued") {
+                    videoProgressBarFill.style.width = "2%";
+                    videoProgressPercent.textContent = "0%";
+                    videoStageText.textContent = "Queued in worker pipeline...";
+                    videoFrameCountText.textContent = "Keyframes: waiting...";
+                    videoEtaText.textContent = "ETA: queued";
+                } else if (job.status === "processing") {
+                    const pct = Math.min(99, Math.max(2, job.progress_percent || 0));
+                    videoProgressBarFill.style.width = `${pct}%`;
+                    videoProgressPercent.textContent = `${Math.round(pct)}%`;
+                    videoStageText.textContent = job.stage || "Analyzing keyframes...";
+                    videoFrameCountText.textContent = `Keyframes: ${job.frames_analyzed || 0} / ${job.total_sampled_frames || '--'}`;
+                    if (job.eta_seconds !== null && job.eta_seconds !== undefined) {
+                        videoEtaText.textContent = `ETA: ~${Math.ceil(job.eta_seconds)}s`;
+                    } else {
+                        videoEtaText.textContent = "ETA: calculating...";
+                    }
+                } else if (job.status === "cancelled") {
+                    clearInterval(videoPollInterval);
+                    videoPollInterval = null;
+                    videoProgressCard.classList.add("hidden");
+                    analyzeVideoBtn.disabled = false;
+                    if (changeVideoBtn) changeVideoBtn.disabled = false;
+                    if (btnCancelVideo) btnCancelVideo.disabled = false;
+                    showToast("Video analysis was cancelled.");
+                } else if (job.status === "failed") {
+                    clearInterval(videoPollInterval);
+                    videoPollInterval = null;
+                    videoProgressCard.classList.add("hidden");
+                    analyzeVideoBtn.disabled = false;
+                    if (changeVideoBtn) changeVideoBtn.disabled = false;
+                    if (btnCancelVideo) btnCancelVideo.disabled = false;
+                    showToast(`Video analysis failed: ${job.error || "Unknown error"}`);
+                } else if (job.status === "done") {
+                    clearInterval(videoPollInterval);
+                    videoPollInterval = null;
+                    videoProgressBarFill.style.width = "100%";
+                    videoProgressPercent.textContent = "100%";
+                    videoStageText.textContent = "Analysis complete!";
+                    videoEtaText.textContent = "Done";
+
+                    analyzeVideoBtn.disabled = false;
+                    if (changeVideoBtn) changeVideoBtn.disabled = false;
+                    if (btnCancelVideo) btnCancelVideo.disabled = false;
+
+                    setTimeout(() => {
+                        videoProgressCard.classList.add("hidden");
+                    }, 1200);
+
+                    if (job.result) {
+                        renderVideoResults(job.result);
+                        showToast("Video analysis completed successfully!");
+                    }
+                }
+            })
+            .catch((err) => {
+                console.error("Poll error:", err);
+            });
+        }, 500);
+    }
+
+    // Render Video Results
+    function renderVideoResults(result) {
+        currentVideoResult = result;
+
+        // 1. Story Narrative
+        const story = result.video_story || result.narration || "No narrative synthesized.";
+        if (videoStoryText) videoStoryText.textContent = story;
+        if (videoNarrativeText) videoNarrativeText.textContent = story;
+        if (videoStoryBadge) {
+            videoStoryBadge.textContent = "Story Ready";
+            videoStoryBadge.className = "status-pill status-supported";
+        }
+        if (videoNarrativeBadge) {
+            videoNarrativeBadge.textContent = "Story Ready";
+            videoNarrativeBadge.className = "status-pill status-supported";
+        }
+
+        // 2. Prediction & Hypotheses
+        const predObj = result.prediction;
+        const predText = (predObj && predObj.text) || (typeof predObj === "string" ? predObj : "No prediction generated.");
+        if (videoPredictText) videoPredictText.textContent = predText;
+        if (videoPredictBadge) {
+            const label = (predObj && predObj.likelihood_label) || "Anticipated";
+            videoPredictBadge.textContent = capitalize(label);
+            videoPredictBadge.className = "status-pill status-supported";
+        }
+
+        // Render Hypotheses
+        if (videoHypothesesContainer) {
+            videoHypothesesContainer.innerHTML = "";
+            const hypotheses = (predObj && predObj.hypotheses) || [];
+            if (hypotheses.length > 0) {
+                hypotheses.forEach((hyp) => {
+                    const card = document.createElement("div");
+                    card.className = "hypothesis-card";
+
+                    const likelihood = hyp.likelihood_label || "possible";
+                    let badgeClass = "status-pill status-gated";
+                    if (likelihood === "most likely") badgeClass = "status-pill status-supported";
+                    if (likelihood === "less likely") badgeClass = "status-pill status-neutral";
+
+                    // Evidence tags
+                    let evidenceHtml = "";
+                    if (hyp.evidence && Array.isArray(hyp.evidence)) {
+                        evidenceHtml = hyp.evidence.map(ev => `<span class="evidence-tag">${escapeHtml(ev)}</span>`).join("");
+                    }
+
+                    card.innerHTML = `
+                        <div class="hypothesis-card-header">
+                            <span class="hypothesis-title">${escapeHtml(hyp.text)}</span>
+                            <span class="${badgeClass}">${capitalize(likelihood)}</span>
+                        </div>
+                        <p class="hypothesis-rationale">${escapeHtml(hyp.rationale || "")}</p>
+                        ${evidenceHtml ? `<div class="hypothesis-evidence-row">${evidenceHtml}</div>` : ""}
+                    `;
+                    videoHypothesesContainer.appendChild(card);
+                });
+            }
+        }
+
+        // 3. Interactive Clickable Timeline Segments
+        if (videoTimelineList) {
+            videoTimelineList.innerHTML = "";
+            if (videoTimelineEmpty) videoTimelineEmpty.classList.add("hidden");
+
+            const segments = result.timeline_segments || [];
+            if (videoSegmentsBadge) {
+                videoSegmentsBadge.textContent = `${segments.length} Segment${segments.length === 1 ? '' : 's'}`;
+            }
+
+            segments.forEach((seg, idx) => {
+                const segCard = document.createElement("div");
+                segCard.className = "timeline-segment-card";
+
+                // Format objects count string
+                let objectsStr = "None detected";
+                if (seg.objects && Object.keys(seg.objects).length > 0) {
+                    objectsStr = Object.entries(seg.objects).map(([k, v]) => `${k} (${v})`).join(", ");
+                }
+
+                // Thumbnail URL
+                const thumbSrc = seg.thumbnail_url || (result.sampled_frames && result.sampled_frames[idx] && result.sampled_frames[idx].thumbnail_url) || "";
+
+                segCard.innerHTML = `
+                    <div class="segment-thumb-wrapper">
+                        ${thumbSrc ? `<img class="segment-thumb" src="${thumbSrc}" alt="Segment at ${seg.start_seconds.toFixed(1)}s">` : `<div class="segment-thumb" style="display:flex;align-items:center;justify-content:center;color:#64748b;font-size:0.75rem;">Frame</div>`}
+                        <div class="segment-thumb-overlay">
+                            <svg class="segment-thumb-play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="segment-info-block">
+                        <div class="segment-meta-row">
+                            <span class="segment-time-pill">
+                                <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <span>${seg.start_seconds.toFixed(1)}s – ${seg.end_seconds.toFixed(1)}s</span>
+                            </span>
+                            <span class="segment-duration-tag">(${seg.duration_seconds.toFixed(1)}s duration)</span>
+                        </div>
+                        <div class="segment-activity-title">${escapeHtml(seg.activity || "Observed activity")}</div>
+                        <div class="segment-objects-line">Objects: ${escapeHtml(objectsStr)}</div>
+                        ${seg.narration ? `<div class="segment-narrative-line">${escapeHtml(seg.narration)}</div>` : ""}
+                    </div>
+                `;
+
+                // Click-to-seek video player
+                segCard.addEventListener("click", () => {
+                    if (videoPreviewPlayer) {
+                        videoPreviewPlayer.currentTime = seg.start_seconds;
+                        videoPreviewPlayer.play();
+                        videoPreviewPlayer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                    }
+                });
+
+                videoTimelineList.appendChild(segCard);
+            });
+        }
+
+        // 4. Keyframe Gallery
+        if (videoKeyframesGrid) {
+            videoKeyframesGrid.innerHTML = "";
+            const frames = result.sampled_frames || [];
+            if (videoFramesBadge) videoFramesBadge.textContent = frames.length;
+
+            if (frames.length > 0) {
+                if (videoFramesEmpty) videoFramesEmpty.classList.add("hidden");
+
+                frames.forEach((frm) => {
+                    if (!frm.thumbnail_url) return;
+                    const item = document.createElement("div");
+                    item.className = "keyframe-item";
+                    item.title = `Frame at ${frm.timestamp_seconds.toFixed(1)}s (Click to jump)`;
+                    item.innerHTML = `
+                        <img src="${frm.thumbnail_url}" alt="Keyframe at ${frm.timestamp_seconds.toFixed(1)}s">
+                        <span class="keyframe-timestamp-tag">${frm.timestamp_seconds.toFixed(1)}s</span>
+                    `;
+                    item.addEventListener("click", () => {
+                        if (videoPreviewPlayer) {
+                            videoPreviewPlayer.currentTime = frm.timestamp_seconds;
+                            videoPreviewPlayer.pause();
+                            videoPreviewPlayer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                        }
+                    });
+                    videoKeyframesGrid.appendChild(item);
+                });
+            }
+        }
+
+        // 5. Detected Changes
+        if (videoChangesList) {
+            videoChangesList.innerHTML = "";
+            const changes = result.changes || [];
+            if (changes.length > 0) {
+                if (videoChangesEmpty) videoChangesEmpty.classList.add("hidden");
+                changes.forEach((chg) => {
+                    const li = document.createElement("li");
+                    li.className = "video-change-item";
+                    li.innerHTML = `
+                        <span class="status-indicator-dot" style="margin-top: 5px;"></span>
+                        <div>
+                            <strong>${escapeHtml(chg.change_type || "Transition")}:</strong>
+                            <span>${escapeHtml(chg.description || JSON.stringify(chg))}</span>
+                        </div>
+                    `;
+                    videoChangesList.appendChild(li);
+                });
+            } else {
+                if (videoChangesEmpty) {
+                    videoChangesEmpty.classList.remove("hidden");
+                    videoChangesEmpty.textContent = "No significant activity or object transitions detected.";
+                }
+            }
+        }
+
+        // 6. Diagnostics & Telemetry
+        const telemetry = result.telemetry || {};
+        if (vidDiagSampleCount) vidDiagSampleCount.textContent = `${telemetry.sampled_frames_count || 0} frames`;
+        if (vidDiagRedundantCount) vidDiagRedundantCount.textContent = `${telemetry.redundant_frames_skipped || 0} skipped`;
+        if (vidDiagAvgLatency) vidDiagAvgLatency.textContent = `${(telemetry.avg_latency_per_frame_ms || 0).toFixed(0)} ms`;
+        if (vidDiagTemporalTime) vidDiagTemporalTime.textContent = `${(telemetry.temporal_aggregation_ms || 0).toFixed(0)} ms`;
+        if (vidDiagTotalTime) vidDiagTotalTime.textContent = `${(telemetry.total_latency_seconds || 0).toFixed(2)}s`;
+        if (videoDiagBadge) {
+            videoDiagBadge.textContent = "Analysis Complete";
+            videoDiagBadge.className = "diag-val status-supported";
+        }
+
+        // 7. Enable JSON Download
+        if (btnDownloadVideoJson) {
+            btnDownloadVideoJson.disabled = false;
+        }
+    }
+
+    // Video Technical Tabs Switcher
+    vtechTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            vtechTabs.forEach(t => t.classList.remove("active"));
+            vtechPanes.forEach(p => {
+                p.classList.remove("active");
+                p.classList.add("hidden");
+            });
+
+            tab.classList.add("active");
+            const targetPaneId = tab.getAttribute("data-vpane");
+            const targetPane = document.getElementById(targetPaneId);
+            if (targetPane) {
+                targetPane.classList.remove("hidden");
+                targetPane.classList.add("active");
+            }
+        });
+    });
+
+    // Download Video Results as JSON
+    if (btnDownloadVideoJson) {
+        btnDownloadVideoJson.addEventListener("click", () => {
+            if (!currentVideoResult) return;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentVideoResult, null, 2));
+            const downloadAnchor = document.createElement("a");
+            const fname = (currentVideoData && currentVideoData.filename) ? currentVideoData.filename.replace(/\.[^/.]+$/, "") : "analysis";
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `visunarrate_${fname}_results.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("Downloaded video analysis results JSON.");
+        });
     }
 });

@@ -59,8 +59,8 @@ VisuNarrate rejects naive single-step "image-to-text" generation in favor of an 
 
 | Module | Status | Description |
 | :--- | :--- | :--- |
-| **Image Engine** | **Active (Phase 1)** | Ingestion, validation, preprocessing, and modular pipeline scaffolding for static scene imagery. |
-| **Video Engine** | **Planned (Phase 2)** | Frame decomposition, temporal tracking, and continuous narrative buffer across video files. |
+| **Image Engine** | **Active (Phase 1)** | Ingestion, validation, preprocessing, evidence fusion, and dual-output storytelling for static scene imagery. |
+| **Video Engine** | **Active (Phase 2)** | Asynchronous video processing, temporal redundancy filtering, segment timeline merging, chronological narrative synthesis, and future anticipation. |
 | **Live Webcam** | **Planned (Phase 3)** | Real-time camera feed ingestion, low-latency sampling, and live streaming scene descriptions. |
 
 ---
@@ -293,6 +293,30 @@ CHRONOLOGICAL VIDEO NARRATIVE SYNTHESIS (VideoNarrationService)
 1. **Frame Sampling vs. Optical Flow / 3D CNNs**: Stage 5.1 uses explainable pixel delta heuristics and semantic state caching rather than dense spatiotemporal attention or optical flow.
 2. **Deterministic Equivalence**: Redundancy decisions strictly prioritize semantic consistency over raw pixel differences.
 3. **100% Local & Offline**: Fully self-contained without external API dependencies.
+
+---
+
+## 13. Production Video Mode Architecture & Interactive Dashboard (Stage 5.2)
+
+### End-to-End Capabilities:
+1. **Asynchronous Job Management**:
+   * Videos are uploaded via `POST /api/upload/video` and validated for size ($\le 150\text{ MB}$), duration ($\le 180\text{ s}$), and container decodability.
+   * Analysis is initiated asynchronously via `POST /api/video/jobs` returning a unique job ID immediately (`HTTP 202 Accepted`).
+   * The web dashboard polls `GET /api/video/jobs/<job_id>` every 500ms to display live percentage, pipeline stage, frame counter, and ETA countdown.
+   * Jobs can be cleanly cancelled at any point via `POST /api/video/jobs/<job_id>/cancel`.
+2. **Single-Worker Concurrency Lock (`ANALYSIS_LOCK`)**:
+   * Guarantees that only ONE multimodal analysis (image or video) runs at a time on Apple Silicon MPS hardware.
+   * Concurrent requests immediately receive a clean, friendly `HTTP 503 Service Unavailable` response advising the user of system occupancy.
+3. **Interactive Scene Timeline & Click-to-Seek**:
+   * Consecutive frames with identical semantic state are merged into chronological segments with start/end timestamps and duration.
+   * Clicking any segment card or representative thumbnail in the UI immediately seeks the HTML5 `<video>` preview player to that timestamp.
+4. **Structured Anticipation Hypotheses**:
+   * Evaluates the final video state alongside temporal trajectories to generate 1–3 ranked future hypotheses with qualitative likelihoods (`most likely`, `possible`, `less likely`), grounded evidence tags, and rationales.
+   * Strictly grounded: claims cite detected entities, confirmed activities, and temporal shifts—never citing self-referential narration as evidence.
+5. **Local Storage Management**:
+   * Keyframe thumbnails are saved locally to `static/uploads/thumbs/<job_id>/`.
+   * A background daemon cleans up stale uploads and thumbnail directories older than 1 hour.
+   * Users can check "Delete video after analysis" to automatically purge source video files immediately upon completion.
 
 
 
