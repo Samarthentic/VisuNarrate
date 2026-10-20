@@ -112,6 +112,7 @@ def main():
                 "caption": caption,
                 "narration": narration,
                 "prediction": prediction,
+                "hypotheses": result.get("predictive_narration", {}).get("hypotheses", []),
                 "latency_s": latency,
             })
 

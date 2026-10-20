@@ -268,12 +268,17 @@ class NarrationService:
             else:
                 sentence = f"{actor} is {action_verb}." if action_verb else f"{actor} is present in the scene."
 
-            # Append second object mention if relevant (Issue 5)
-            if second_object_phrase:
+            # Append second object mention and nearby people cleanly without stacking ", with ..., with ..." (Problem 7)
+            if second_object_phrase and (has_dominant_person and person_count >= 2):
+                others_count = person_count - 1
+                nearby_people = "another person nearby" if others_count == 1 else "several other people nearby"
+                obj_phrase = second_object_phrase
+                if "with a cup nearby" in obj_phrase:
+                    obj_phrase = "with a cup on the desk"
+                sentence = sentence.rstrip(".") + f", {obj_phrase} and {nearby_people}."
+            elif second_object_phrase:
                 sentence = sentence.rstrip(".") + f", {second_object_phrase}."
-
-            # Append nearby people when dominant person is in foreground (Issue 1)
-            if has_dominant_person and person_count >= 2:
+            elif has_dominant_person and person_count >= 2:
                 others_count = person_count - 1
                 nearby_phrase = "with another person nearby" if others_count == 1 else "with several other people nearby"
                 sentence = sentence.rstrip(".") + f", {nearby_phrase}."
@@ -381,11 +386,14 @@ class NarrationService:
         text = re.sub(r'\b(depicting|showing|capturing)\s+A\s+', r'\1 a ', text)
         text = re.sub(r'\b(depicting|showing|capturing)\s+An\s+', r'\1 an ', text)
 
-        # 4. Clean extra spaces before punctuation
+        # 4. Merge any remaining stacked ", with ..., with ..." phrases (Problem 7)
+        text = re.sub(r',\s+with\s+([^,]+),\s+with\s+([^.]+)\.', r', with \1 and \2.', text)
+
+        # 5. Clean extra spaces before punctuation
         text = re.sub(r'\s+([,\.\?!])', r'\1', text)
         text = re.sub(r'\s{2,}', ' ', text)
 
-        # 5. Ensure capitalization and ending period
+        # 6. Ensure capitalization and ending period
         text = text.strip()
         if text and not text[0].isupper():
             text = text[0].upper() + text[1:]

@@ -1,0 +1,231 @@
+[
+  {
+    "index": 1,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_31_28 PM.png",
+    "yolo_counts": {
+      "person": 1,
+      "cup": 1,
+      "potted plant": 1,
+      "chair": 1,
+      "couch": 2,
+      "book": 2
+    },
+    "caption": "A man sitting on a couch looking at his phone",
+    "narration": "A person is sitting indoors, using a smartphone.",
+    "prediction": "They'll likely continue using the smartphone.",
+    "latency_s": 3.5
+  },
+  {
+    "index": 2,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_33_23 PM.png",
+    "yolo_counts": {
+      "laptop": 1,
+      "cup": 1,
+      "person": 2,
+      "chair": 2,
+      "potted plant": 1,
+      "cell phone": 1
+    },
+    "caption": "A man sitting at a table using a laptop",
+    "narration": "A person is sitting at a desk, working on a laptop, with a cup nearby, with another person nearby.",
+    "prediction": "They'll likely keep working on the laptop.",
+    "latency_s": 5.26
+  },
+  {
+    "index": 3,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_35_05 PM.png",
+    "yolo_counts": {
+      "person": 1,
+      "cup": 2,
+      "book": 4,
+      "potted plant": 1,
+      "chair": 2
+    },
+    "caption": "A man sitting in a chair reading a book",
+    "narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+    "prediction": "They'll likely continue reading.",
+    "latency_s": 40.48
+  },
+  {
+    "index": 4,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_35_58 PM.png",
+    "yolo_counts": {
+      "person": 3,
+      "bowl": 1,
+      "sandwich": 2,
+      "cup": 1,
+      "chair": 2,
+      "dining table": 2
+    },
+    "caption": "A man sitting at a table eating a sandwich and drinking a cup of coffee",
+    "narration": "A person is sitting at a table, holding a cup and drinking, with food on the table, with several other people nearby.",
+    "prediction": "They'll likely take another sip or set the cup down.",
+    "latency_s": 9.01
+  },
+  {
+    "index": 5,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_36_59 PM.png",
+    "yolo_counts": {
+      "cup": 1,
+      "person": 1,
+      "potted plant": 2,
+      "laptop": 1,
+      "dining table": 1,
+      "couch": 3,
+      "book": 1,
+      "chair": 1
+    },
+    "caption": "A man sitting on a couch looking at his phone",
+    "narration": "A person is sitting indoors, using a smartphone.",
+    "prediction": "They'll likely continue using the smartphone.",
+    "latency_s": 3.9
+  },
+  {
+    "index": 6,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_37_57 PM.png",
+    "yolo_counts": {
+      "person": 5
+    },
+    "caption": "A man in a black hoodie is standing on a sidewalk",
+    "narration": "A person is walking outdoors, with several other people nearby.",
+    "prediction": "They'll likely continue their conversation or shared activity.",
+    "latency_s": 3.64
+  },
+  {
+    "index": 7,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_38_57 PM.png",
+    "yolo_counts": {
+      "person": 7,
+      "laptop": 1,
+      "cell phone": 2,
+      "chair": 1,
+      "book": 1
+    },
+    "caption": "A group of people sitting at a table with laptops",
+    "narration": "7 people are gathered together, with a laptop nearby.",
+    "prediction": "They'll likely keep working on the laptop.",
+    "latency_s": 3.0
+  },
+  {
+    "index": 8,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_40_13 PM.png",
+    "yolo_counts": {
+      "person": 12,
+      "laptop": 1,
+      "backpack": 3
+    },
+    "caption": "A group of people sitting on a bench",
+    "narration": "12 people are outdoors together, with a laptop nearby.",
+    "prediction": "They'll likely keep working on the laptop.",
+    "latency_s": 2.96
+  },
+  {
+    "index": 9,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_41_18 PM.png",
+    "yolo_counts": {},
+    "caption": "A lake in the middle of a green field",
+    "narration": "An open outdoor scene capturing a lake.",
+    "prediction": "The scene will likely remain steady.",
+    "latency_s": 4.87
+  },
+  {
+    "index": 10,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_42_24 PM.png",
+    "yolo_counts": {
+      "car": 2,
+      "person": 3,
+      "motorcycle": 1,
+      "parking meter": 1,
+      "bus": 1
+    },
+    "caption": "A wet wet street",
+    "narration": "A person is standing, with several other people nearby.",
+    "prediction": "They'll likely continue their conversation or shared activity.",
+    "latency_s": 2.64
+  },
+  {
+    "index": 11,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_44_22 PM.png",
+    "yolo_counts": {
+      "mouse": 1,
+      "laptop": 2,
+      "potted plant": 1,
+      "cup": 1,
+      "book": 5,
+      "cell phone": 1
+    },
+    "caption": "A laptop computer sitting on top of a wooden desk",
+    "narration": "A quiet scene showing a desk with laptops and books, with a cup on the desk.",
+    "prediction": "Not enough visual certainty to anticipate immediate next actions.",
+    "latency_s": 2.45
+  },
+  {
+    "index": 12,
+    "filename": "ChatGPT Image Aug 20, 2026, 10_45_33 PM.png",
+    "yolo_counts": {
+      "laptop": 2,
+      "potted plant": 1,
+      "backpack": 1,
+      "bottle": 1,
+      "mouse": 1,
+      "book": 3,
+      "dining table": 1,
+      "remote": 1
+    },
+    "caption": "A desk with a laptop, notebook, and other items on it",
+    "narration": "A quiet scene showing a desk with laptops and books.",
+    "prediction": "The scene will likely remain steady.",
+    "latency_s": 3.09
+  },
+  {
+    "index": 13,
+    "filename": "mountain_landscape.jpg",
+    "yolo_counts": {
+      "frisbee": 1
+    },
+    "caption": "The pyramids of egypt, with the sun in the background",
+    "narration": "A graphic illustration depicting the pyramids.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "latency_s": 3.36
+  },
+  {
+    "index": 14,
+    "filename": "portrait_smartphone.jpg",
+    "yolo_counts": {
+      "person": 2
+    },
+    "caption": "A man in a plaid shirt holding a cell",
+    "narration": "A person is standing indoors, using a smartphone, with another person nearby.",
+    "prediction": "They'll likely continue using the smartphone.",
+    "latency_s": 3.4
+  },
+  {
+    "index": 15,
+    "filename": "synthetic_graphic.jpg",
+    "yolo_counts": {},
+    "caption": "A blue square frame with the words'you are here'",
+    "narration": "A graphic illustration depicting a square with a blue border.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "latency_s": 3.32
+  },
+  {
+    "index": 16,
+    "filename": "mountain_landscape.jpg",
+    "yolo_counts": {
+      "frisbee": 1
+    },
+    "caption": "The pyramids of egypt, with the sun in the background",
+    "narration": "A graphic illustration depicting the pyramids.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "latency_s": 2.84
+  },
+  {
+    "index": 17,
+    "filename": "test_scene.jpg",
+    "yolo_counts": {},
+    "caption": "A blue square frame with the words'you are here'",
+    "narration": "A graphic illustration depicting a square with a blue border.",
+    "prediction": "Predictive storytelling is paused for static illustrations.",
+    "latency_s": 3.05
+  }
+]
