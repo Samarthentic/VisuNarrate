@@ -1,0 +1,85 @@
+{
+  "benchmark_file": "data/test_videos/test_180s.mp4",
+  "video_duration_seconds": 180.0,
+  "file_size_mb": 23.1,
+  "keyframes_analysed": 30,
+  "total_wall_clock_time_seconds": 18.51,
+  "seconds_per_keyframe": 0.617,
+  "peak_rss_mb": 180.64,
+  "lowest_free_ram_mb": 710.5,
+  "samples_count": 9,
+  "swap_before": "vm.swapusage: total = 8192.00M  used = 7701.44M  free = 490.56M  (encrypted)",
+  "swap_after": "vm.swapusage: total = 8192.00M  used = 7578.19M  free = 613.81M  (encrypted)",
+  "swap_grew": true,
+  "network_traces_count": 0,
+  "network_traces": [],
+  "video_story": "The video opens showing a man in an indoor setting, texting on a cell phone. At 180.0s, the activity shifts from using smartphone to reading a book. Prominent persistent elements include potted plant, cup, chair.",
+  "prediction": {
+    "affordance_candidates": [
+      "They'll likely take a sip from the cup and continue reading.",
+      "They'll likely continue reading or turn to the next page.",
+      "They may set the cup or book down on a nearby surface."
+    ],
+    "hypotheses": [
+      {
+        "evidence": [
+          "Detected book and cup",
+          "Reading activity confirmed",
+          "Beverage vessel nearby",
+          "Observed transition: Interaction shifts from cell phone to book."
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Reading with a nearby drink affords periodic sips during continued reading.",
+        "text": "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading."
+      },
+      {
+        "evidence": [
+          "Book reading engagement"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Sustained text reading leads naturally to turning pages.",
+        "text": "They'll likely continue reading or turn to the next page."
+      }
+    ],
+    "prediction": "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading.",
+    "prediction_type": "task_continuation",
+    "reasoning": [
+      "Confirmed human presence through spatial object detector and visual grounding.",
+      "Multi-object reading affordance (book + beverage vessel) evaluated.",
+      "Temporal momentum established following observed transition at 180.0s."
+    ],
+    "source_facts": [
+      "Subject: A person wearing a long sleeved shirt (supported)",
+      "Activity: Reading (supported)",
+      "Environment: Indoors with blurry (supported)",
+      "Person Count: 1",
+      "Primary Interaction: book",
+      "Secondary Affordance: cup",
+      "Recent State Shift: Interaction shifts from cell phone to book."
+    ],
+    "status": "supported_prediction",
+    "text": "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading."
+  },
+  "telemetry": {
+    "actual_video_processing_ms": 13408.04,
+    "average_frame_latency_all_ms": 446.59,
+    "average_frame_latency_full_ms": 5493.23,
+    "fps": 24.0,
+    "full_analyses_count": 1,
+    "inherited_frames_count": 28,
+    "is_cancelled": false,
+    "key_changes_count": 1,
+    "max_frame_latency_ms": 6586.85,
+    "min_frame_latency_ms": 59.21,
+    "model_initialization_ms": 0.1,
+    "redundant_frames_count": 28,
+    "sampled_frames_count": 30,
+    "target_fps_sample": 1.0,
+    "temporal_aggregation_ms": 2.09,
+    "total_server_ms": 16905.05,
+    "total_video_frames": 4320,
+    "total_wall_clock_ms": 16900.75,
+    "video_duration_seconds": 180.0,
+    "warmup_ms": 3484.33
+  }
+}

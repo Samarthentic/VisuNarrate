@@ -1307,4 +1307,114 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast("Downloaded video analysis results JSON.");
         });
     }
+
+    // =========================================================================
+    // 11. URL Parameters for Visual Testing & UI States
+    // =========================================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    const uiState = urlParams.get("ui_state");
+    const modeParam = urlParams.get("mode") || urlParams.get("tab");
+
+    if (window.location.hash === "#video" || modeParam === "video" || uiState) {
+        if (tabVideo) tabVideo.click();
+    }
+
+    if (uiState === "file_selected") {
+        if (videoDropzone) videoDropzone.classList.add("hidden");
+        if (videoPreviewCard) videoPreviewCard.classList.remove("hidden");
+        if (vidMetaFilename) vidMetaFilename.textContent = "test_transition_activity.mp4";
+        if (vidMetaResolution) vidMetaResolution.textContent = "1024×768";
+        if (vidMetaDuration) vidMetaDuration.textContent = "6.0s";
+        if (vidMetaFps) vidMetaFps.textContent = "24 FPS";
+        if (vidMetaSize) vidMetaSize.textContent = "0.8 MB";
+        if (vidMetaFrames) vidMetaFrames.textContent = "144 frames";
+        if (analyzeVideoBtn) analyzeVideoBtn.disabled = false;
+    } else if (uiState === "processing") {
+        if (videoDropzone) videoDropzone.classList.add("hidden");
+        if (videoPreviewCard) videoPreviewCard.classList.remove("hidden");
+        if (videoProgressCard) videoProgressCard.classList.remove("hidden");
+        if (videoProgressBarFill) videoProgressBarFill.style.width = "58%";
+        if (videoProgressPercent) videoProgressPercent.textContent = "58%";
+        if (videoStageText) videoStageText.textContent = "Analyzing keyframe 18 of 30 (108.0s)...";
+        if (videoEtaText) videoEtaText.textContent = "Estimated time remaining: ~7s";
+    } else if (uiState === "finished") {
+        if (videoDropzone) videoDropzone.classList.add("hidden");
+        if (videoPreviewCard) videoPreviewCard.classList.remove("hidden");
+        if (videoProgressCard) videoProgressCard.classList.add("hidden");
+        const mockFinishedResult = {
+            video_story: "The video opens showing a person wearing a long sleeved shirt in an indoor setting, texting on a cell phone. At 3.0s, the activity shifts from using smartphone to reading a book. Prominent persistent elements include cup, potted plant, chair.",
+            prediction: {
+                text: "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading.",
+                hypotheses: [
+                    {
+                        text: "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading.",
+                        evidence: ["Detected book and cup", "Reading activity confirmed", "Beverage vessel nearby", "Observed transition: Interaction shifts from cell phone to book."],
+                        likelihood_label: "most likely",
+                        rationale: "Reading with a nearby drink affords periodic sips during continued reading."
+                    },
+                    {
+                        text: "They'll likely continue reading or turn to the next page.",
+                        evidence: ["Book reading engagement"],
+                        likelihood_label: "possible",
+                        rationale: "Sustained text reading leads naturally to turning pages."
+                    }
+                ],
+                reasoning: [
+                    "Multi-object reading affordance (book + beverage vessel) evaluated.",
+                    "Temporal momentum established following observed transition at 3.0s."
+                ],
+                source_facts: [
+                    "Recent State Shift: Interaction shifts from cell phone to book."
+                ]
+            },
+            timeline_segments: [
+                {
+                    segment_id: "seg_1",
+                    start_seconds: 0.0,
+                    end_seconds: 3.0,
+                    duration_seconds: 3.0,
+                    activity: "using smartphone",
+                    environment: "Indoors",
+                    person_count: 1,
+                    dominant_objects: ["cell phone", "chair", "cup"],
+                    narration: "A person is sitting indoors, using a smartphone, with a cup nearby.",
+                    thumbnail_url: ""
+                },
+                {
+                    segment_id: "seg_2",
+                    start_seconds: 3.0,
+                    end_seconds: 6.0,
+                    duration_seconds: 3.0,
+                    activity: "reading",
+                    environment: "Indoors",
+                    person_count: 1,
+                    dominant_objects: ["book", "chair", "cup"],
+                    narration: "A person is sitting indoors, reading a book, with a cup nearby.",
+                    thumbnail_url: ""
+                }
+            ],
+            sampled_frames: [
+                { sample_number: 1, timestamp_seconds: 0.0, processing_mode: "FULL_ANALYSIS", activity: "using smartphone", scene_narration: "A person is using a phone." },
+                { sample_number: 2, timestamp_seconds: 1.0, processing_mode: "REDUNDANT", activity: "using smartphone", scene_narration: "A person is using a phone." },
+                { sample_number: 3, timestamp_seconds: 2.0, processing_mode: "REDUNDANT", activity: "using smartphone", scene_narration: "A person is using a phone." },
+                { sample_number: 4, timestamp_seconds: 3.0, processing_mode: "KEY_CHANGE", activity: "reading", scene_narration: "A person is reading a book." },
+                { sample_number: 5, timestamp_seconds: 4.0, processing_mode: "REDUNDANT", activity: "reading", scene_narration: "A person is reading a book." },
+                { sample_number: 6, timestamp_seconds: 5.0, processing_mode: "REDUNDANT", activity: "reading", scene_narration: "A person is reading a book." }
+            ],
+            changes: [
+                { timestamp_seconds: 3.0, type: "activity_change", description: "Activity transitions from using smartphone to reading." },
+                { timestamp_seconds: 3.0, type: "interaction_change", description: "Interaction shifts from cell phone to book." }
+            ],
+            telemetry: {
+                video_duration_seconds: 6.0,
+                sampled_frames_count: 6,
+                actual_video_processing_ms: 3240.5,
+                average_frame_latency_all_ms: 540.0,
+                total_server_ms: 3380.0
+            }
+        };
+        renderVideoResults(mockFinishedResult);
+    } else if (uiState === "error") {
+        showToast("Failed to ingest video: Corrupt or unreadable video file: unable to decode frames.", 6000);
+    }
 });
