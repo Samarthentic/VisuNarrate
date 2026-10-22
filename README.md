@@ -59,9 +59,9 @@ VisuNarrate rejects naive single-step "image-to-text" generation in favor of an 
 
 | Module | Status | Description |
 | :--- | :--- | :--- |
-| **Image Engine** | **Active (Phase 1)** | Ingestion, validation, preprocessing, evidence fusion, and dual-output storytelling for static scene imagery. |
-| **Video Engine** | **Active (Phase 2)** | Asynchronous video processing, temporal redundancy filtering, segment timeline merging, chronological narrative synthesis, and future anticipation. |
-| **Live Webcam** | **Planned (Phase 3)** | Real-time camera feed ingestion, low-latency sampling, and live streaming scene descriptions. |
+| **Image Engine** | **Active (Production)** | Ingestion, validation, preprocessing, evidence fusion, and dual-output storytelling (Now + Next) for static scene imagery. |
+| **Video Engine** | **Active (Production)** | Asynchronous video processing, temporal redundancy filtering, segment timeline merging, synchronized HTML5 click-to-seek, chronological narrative synthesis, and temporal future anticipation. |
+| **Live Mode** | **Active (Production)** | Real-time live camera feed ingestion via browser `getUserMedia`, volatile in-memory processing with zero disk writes, pixel-diff redundancy gating, rolling event log, and session story synthesis. |
 
 ---
 
@@ -69,44 +69,68 @@ VisuNarrate rejects naive single-step "image-to-text" generation in favor of an 
 
 ```text
 VisuNarrate/
-├── app.py                      # Main Flask application server & API routes
+├── run_demo.sh                 # Single-command executable demo launcher with preflight checks
+├── app.py                      # Main Flask application server & API routes (Port 5001)
 ├── requirements.txt            # Python dependencies
 ├── README.md                   # Academic project documentation
 ├── .gitignore                  # Git ignore rules for virtual environments & models
 │
 ├── core/
 │   ├── __init__.py
-│   ├── image_engine.py         # Static image preprocessing & orchestration
-│   ├── video_engine.py         # (Phase 2) Temporal video processing engine
-│   └── stream_engine.py        # (Phase 3) Real-time webcam processing engine
+│   ├── image_engine.py         # Static image preprocessing & multimodal evidence fusion
+│   ├── video_engine.py         # Adaptive keyframe extraction & video processing engine
+│   └── live_engine.py          # Real-time in-memory live camera processing engine
 │
 ├── ai/
 │   ├── __init__.py
-│   └── vision_model.py         # Local model loader (MPS/CPU, local_files_only)
+│   ├── vision_model.py         # Local BLIP captioner loader (MPS/CPU, local_files_only)
+│   ├── object_detector.py      # Local YOLOv8n object detector loader (MPS/CPU)
+│   └── vqa_model.py            # Local BLIP VQA question answering loader (MPS/CPU)
 │
 ├── services/
 │   ├── __init__.py
+│   ├── evidence_fusion.py      # Cross-verification and conflict resolution matrix
 │   ├── narration_service.py    # Natural language scene storytelling service
-│   └── prediction_service.py   # Affordance-based future activity prediction
+│   ├── prediction_service.py   # Affordance-based future activity prediction
+│   ├── temporal_service.py     # Video temporal aggregation & transition tracker
+│   └── video_narration_service.py # Video timeline and temporal narrative synthesis
 │
 ├── templates/
-│   └── index.html              # Modern, self-contained dashboard UI
+│   └── index.html              # Modern, self-contained dashboard UI (Image, Video, Live)
 │
 ├── static/
 │   ├── css/
-│   │   └── style.css           # Custom dark-slate academic visual stylesheet
+│   │   └── style.css           # Custom dark-slate visual stylesheet & live telemetry
 │   ├── js/
-│   │   └── app.js              # Client-side drag-and-drop & API communication
-│   └── uploads/                # Local storage for validated ingested media
+│   │   └── app.js              # Client-side UI controller (Drag & Drop, Video, Live Camera)
+│   └── uploads/                # Local storage for validated ingested media (0 live frames written)
 │
 ├── models/
-│   └── blip_base/              # Target directory for local model weights
+│   ├── blip_base/              # Local weights for BLIP Captioning (223.97M params, 855 MB)
+│   ├── yolo/                   # Local weights for YOLOv8n (3.16M params, 6.2 MB)
+│   └── blip_vqa/               # Local weights for BLIP VQA (361.23M params, 1.47 GB)
 │
 ├── data/
-│   └── sample_images/          # Benchmark and test imagery
+│   ├── evaluation_images/      # 17-image benchmark suite for regression validation
+│   ├── test_videos/            # Video test clips (including real footage and rotated clips)
+│   └── evaluation_results/     # Baseline and regression snapshots
+│
+├── docs/
+│   ├── ARCHITECTURE.md         # Full system architecture, Mermaid diagrams & memory budget
+│   ├── DEMO_SCRIPT.md          # 6–8 min step-by-step presentation script & Q&A guide
+│   └── final_progress.md       # Real-time phase verification log and telemetry metrics
+│
+├── scripts/
+│   ├── preflight.py            # Rigorous pre-demo verification (Python, RAM, disk, models, tests)
+│   ├── regression_snapshot.py  # 17-image snapshot generation and verification tool
+│   ├── test_live_stream.py     # In-memory live streaming mock verification script
+│   └── evaluate_image_pipeline.py # Benchmarking and latency instrumentation harness
 │
 └── tests/
-    └── __init__.py             # Unit and integration test suite
+    ├── test_system_info.py     # System info endpoint & timing instrumentation unit tests
+    ├── test_live_pipeline.py   # Live engine & live streaming unit tests
+    ├── test_image_pipeline.py  # Image engine unit tests
+    └── test_video_pipeline.py  # Video engine & job lifecycle unit tests
 ```
 
 ---
@@ -115,34 +139,37 @@ VisuNarrate/
 
 ### Prerequisites
 * Python 3.10+ (Tested on Python 3.12.2 on macOS ARM64 / Apple M1)
-* Git
+* Apple Silicon (M1/M2/M3/M4) recommended for hardware MPS acceleration
+* Minimum 10 GB free disk space
+* Minimum 1.0 GB free/available RAM
 
-### Step 1: Clone the Repository
+### Quick Start (Single-Command Demo Launch)
 ```bash
-git clone <repository_url>
+# 1. Clone repository and navigate to folder
 cd VisuNarrate
-```
 
-### Step 2: Create & Activate Virtual Environment
+# 2. Make launcher executable and run
+chmod +x run_demo.sh
+./run_demo.sh
+```
+`run_demo.sh` automatically:
+1. Enforces strict offline environment variables (`HF_HUB_OFFLINE=1`, `TRANSFORMERS_OFFLINE=1`, `YOLO_OFFLINE=1`).
+2. Cleans up any stale process on port 5001.
+3. Executes `scripts/preflight.py` to verify dependencies, model files, memory, and tests.
+4. Starts the server on `http://127.0.0.1:5001` and opens your default browser.
+
+### Manual Execution
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-```
-
-### Step 3: Install Required Dependencies
-```bash
 pip install -r requirements.txt
-```
 
-### Step 4: Run the Application Server
-```bash
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export YOLO_OFFLINE=1
+
 python app.py
-```
-
-### Step 5: Access the Local Dashboard
-Open your web browser and navigate to:
-```
-http://127.0.0.1:5000
+# Access dashboard at http://127.0.0.1:5001
 ```
 
 ---
@@ -296,27 +323,48 @@ CHRONOLOGICAL VIDEO NARRATIVE SYNTHESIS (VideoNarrationService)
 
 ---
 
-## 13. Production Video Mode Architecture & Interactive Dashboard (Stage 5.2)
+## 14. Live Mode Architecture & In-Memory Privacy Guarantee
 
-### End-to-End Capabilities:
-1. **Asynchronous Job Management**:
-   * Videos are uploaded via `POST /api/upload/video` and validated for size ($\le 150\text{ MB}$), duration ($\le 180\text{ s}$), and container decodability.
-   * Analysis is initiated asynchronously via `POST /api/video/jobs` returning a unique job ID immediately (`HTTP 202 Accepted`).
-   * The web dashboard polls `GET /api/video/jobs/<job_id>` every 500ms to display live percentage, pipeline stage, frame counter, and ETA countdown.
-   * Jobs can be cleanly cancelled at any point via `POST /api/video/jobs/<job_id>/cancel`.
-2. **Single-Worker Concurrency Lock (`ANALYSIS_LOCK`)**:
-   * Guarantees that only ONE multimodal analysis (image or video) runs at a time on Apple Silicon MPS hardware.
-   * Concurrent requests immediately receive a clean, friendly `HTTP 503 Service Unavailable` response advising the user of system occupancy.
-3. **Interactive Scene Timeline & Click-to-Seek**:
-   * Consecutive frames with identical semantic state are merged into chronological segments with start/end timestamps and duration.
-   * Clicking any segment card or representative thumbnail in the UI immediately seeks the HTML5 `<video>` preview player to that timestamp.
-4. **Structured Anticipation Hypotheses**:
-   * Evaluates the final video state alongside temporal trajectories to generate 1–3 ranked future hypotheses with qualitative likelihoods (`most likely`, `possible`, `less likely`), grounded evidence tags, and rationales.
-   * Strictly grounded: claims cite detected entities, confirmed activities, and temporal shifts—never citing self-referential narration as evidence.
-5. **Local Storage Management**:
-   * Keyframe thumbnails are saved locally to `static/uploads/thumbs/<job_id>/`.
-   * A background daemon cleans up stale uploads and thumbnail directories older than 1 hour.
-   * Users can check "Delete video after analysis" to automatically purge source video files immediately upon completion.
+Live Mode transforms VisuNarrate into a real-time conversational observer using the user's browser camera:
+1. **Client-Side Capture via `getUserMedia`**:
+   * Uses standard WebRTC browser camera APIs directly into an HTML5 `<canvas>`.
+   * Live frames are converted to JPEG buffers and transmitted via `POST /api/live/analyze`.
+   * Non-overlapping request loop: frames are dispatched sequentially; the next capture is only triggered after the prior inference cycle finishes.
+2. **Strict In-Memory Execution (Zero Disk Writes)**:
+   * Frames are decoded directly from incoming memory streams via `cv2.imdecode`.
+   * **Absolute privacy guarantee**: live camera frames are never written to disk, filesystem, or static upload folders.
+3. **Pixel-Diff Redundancy Gating**:
+   * Downsamples the incoming frame to $64 \times 64$ grayscale and computes mean absolute difference against the prior frame.
+   * If delta $< 0.04$, neural model inference is safely bypassed. Telemetry returns in $\approx 2\text{ ms}$ with cached state, preserving CPU/GPU thermal headroom.
+4. **Ring Buffer & Inactivity Garbage Collection**:
+   * Bounded in-memory ring buffer holds at most 60 historical snapshot descriptors per session.
+   * Inactive sessions are automatically evicted after 15 minutes to guarantee zero memory leaks on 8 GB RAM systems.
+5. **Session Narrative Synthesis**:
+   * Users can request a synthesized narrative (`POST /api/live/session/<id>/summary`) at any point, summarizing chronological state transitions into a coherent session story with future-action prediction.
+
+---
+
+## 15. Technical Analysis Panel & Plain-English Glossary
+
+VisuNarrate prioritizes complete transparency for academic evaluators and users:
+* **Measured Runtime Telemetry**:
+  * Every analysis card (Image, Video, Live) features a collapsible **Technical Analysis** panel showing measured wall-clock latencies broken down per stage: Preprocessing, YOLO Detection, BLIP Captioning, BLIP VQA, Evidence Fusion, and Narration/Prediction synthesis.
+  * One-click **"Copy Technical JSON"** button exports full machine-readable performance metrics.
+* **Live System Specs Dashboard**:
+  * Accessible via the top navigation bar (`GET /api/system/info`), presenting dynamic host hardware details, MPS accelerator status, parameter counts per model (BLIP: 223.97M, YOLOv8n: 3.16M, BLIP VQA: 361.23M -> Total: 588.36M), disk memory footprints, and free RAM/disk space.
+* **Interactive Plain-English Glossary (13 Terms)**:
+  * Includes searchable definitions and specific "In VisuNarrate" implementation explanations for:
+    * **Multimodal**, **MPS (Metal Performance Shaders)**, **Pretrained Model**, **VQA (Visual Question Answering)**, **Object Detection**, **Bounding Box**, **IoU (Intersection over Union)**, **Confidence Score**, **Inference**, **Latency**, **Ring Buffer**, **Zero-Epoch**, and **Evidence Fusion**.
+
+---
+
+## 16. Scientific Rigor: Pretrained Inference & Zero Epochs
+
+VisuNarrate explicitly discloses that:
+* **The system performs on-device inference using frozen pretrained foundation models.**
+* **Zero training epochs were executed locally (`epochs = 0`, no local loss curves or training runs).**
+* Rather than retraining broad foundational weights, the core scientific and engineering contribution of VisuNarrate is the **Evidence Fusion Engine**, which reconciles spatial detections, cross-attentive captions, and targeted VQA queries to eliminate visual hallucination and enforce strictly grounded temporal predictions.
+
 
 
 

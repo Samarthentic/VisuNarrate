@@ -16,6 +16,7 @@ import threading
 from typing import Dict, Any, Optional, Tuple, List
 from PIL import Image
 import torch
+import psutil
 
 from ai.vision_model import VisionModelLoader
 from ai.object_detector import ObjectDetector
@@ -125,6 +126,7 @@ class ImageEngine:
 
             # 1. Validation and Preprocessing
             pil_image, metadata = self.preprocess_image(input_source)
+            prep_ms = round((time.time() - pipeline_start) * 1000, 2)
 
             # 2. Stage A: Run Preliminary Feature Extractors (BLIP Captioner + YOLOv8n Detector)
             vision_result = self.vision_model.generate_scene_observations(pil_image)
@@ -186,6 +188,7 @@ class ImageEngine:
                 logger.info("[ImageEngine] Early Exit triggered: Core scene facts established, skipping Pass 2.")
 
             # 5. Stage D: Multi-Source Evidence Fusion & Contradiction Tracking
+            t_fusion_start = time.time()
             fused_scene = self.evidence_fusion.fuse_evidence(
                 caption_evidence=caption_evidence,
                 object_evidence=object_evidence,
@@ -194,20 +197,68 @@ class ImageEngine:
                 scene_type_info=scene_type_info,
                 skipped_questions=skipped_questions,
             )
+            fusion_ms = round((time.time() - t_fusion_start) * 1000, 2)
 
             # 6. Stage E: Grounded Current Scene Narrative Synthesis
+            t_narr_start = time.time()
             scene_narration = self.narration_service.synthesize_scene_narrative(
                 fused_scene=fused_scene,
                 metadata=metadata,
             )
+            narration_ms = round((time.time() - t_narr_start) * 1000, 2)
 
             # 7. Stage F: Local Evidence-Aware Predictive Reasoning
+            t_pred_start = time.time()
             predictive_narration = self.prediction_service.generate_predictive_narration(
                 fused_scene=fused_scene
             )
+            prediction_ms = round((time.time() - t_pred_start) * 1000, 2)
 
             _sync_mps()
             warm_inference_ms = round((time.time() - pipeline_start) * 1000, 2)
+
+            # Structured Technical Telemetry Block
+            technical = {
+                "device": self.vision_model.device,
+                "timings_ms": {
+                    "preprocessing_ms": prep_ms,
+                    "captioning_ms": caption_evidence["latency_ms"],
+                    "detection_ms": object_evidence["latency_ms"],
+                    "vqa_ms": vqa_total_latency_ms,
+                    "fusion_ms": fusion_ms,
+                    "narration_ms": narration_ms,
+                    "prediction_ms": prediction_ms,
+                    "total_ms": warm_inference_ms,
+                },
+                "detections_count": object_evidence["total_detections"],
+                "vqa_queries_count": len(all_vqa_evidence),
+                "models_used": [
+                    {
+                        "name": "BLIP Base Image Captioning",
+                        "architecture": "BlipForConditionalGeneration",
+                        "parameters": "224.0M",
+                        "size_mb": 855.1,
+                    },
+                    {
+                        "name": "YOLOv8n",
+                        "architecture": "YOLOv8n Detection",
+                        "parameters": "3.2M",
+                        "size_mb": 6.3,
+                    },
+                    {
+                        "name": "BLIP VQA Base",
+                        "architecture": "BlipForQuestionAnswering",
+                        "parameters": "361.2M",
+                        "size_mb": 1468.4,
+                    },
+                ],
+                "memory_mb": round(psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024), 2) if psutil else 0.0,
+                "training": {
+                    "epochs": 0,
+                    "fine_tuning": "none",
+                    "statement": "Pretrained weights, inference only. Training epochs run in this project: 0. Fine-tuning: none.",
+                },
+            }
 
             return {
                 "success": True,
@@ -256,4 +307,5 @@ class ImageEngine:
                     "total_latency_ms": warm_inference_ms,
                     "local_inference": True,
                 },
+                "technical": technical,
             }
