@@ -39,6 +39,7 @@ from PIL import Image
 
 from core.image_engine import ImageEngine
 from core.video_engine import VideoEngine
+from core.live_engine import LiveEngine
 from ai.vision_model import VisionModelLoader
 from ai.object_detector import ObjectDetector
 from ai.vqa_model import VQAModelLoader
@@ -94,6 +95,11 @@ image_engine = ImageEngine(
 video_engine = VideoEngine(image_engine=image_engine)
 temporal_service = TemporalService()
 video_narration_service = VideoNarrationService(prediction_service=prediction_service)
+live_engine = LiveEngine(
+    image_engine=image_engine,
+    temporal_service=temporal_service,
+    video_narration_service=video_narration_service,
+)
 
 # Startup warm-up: pre-load all models and run one realistic scene inference
 # with a photo of a person so BLIP, YOLO and VQA pipelines and Metal shaders
@@ -474,11 +480,13 @@ def index():
     )
 
 
+@app.route("/api/health", methods=["GET"])
 @app.route("/api/status", methods=["GET"])
 def api_status():
     """Returns local system health, offline status, and hardware compute telemetry."""
     return jsonify({
         "status": "online",
+        "healthy": True,
         "offline_mode": True,
         "compute_device": vision_loader.device,
         "is_busy": ANALYSIS_LOCK.locked(),
@@ -493,9 +501,9 @@ def api_status():
             "live": {"status": "active", "version": "3.0 (In-Memory Camera Stream)"},
         },
         "models_loaded": {
-            "blip": vision_loader.is_loaded(),
-            "yolo": object_detector.is_loaded(),
-            "vqa": vqa_loader.is_loaded(),
+            "blip": bool(vision_loader.is_loaded),
+            "yolo": bool(object_detector.is_loaded),
+            "vqa": bool(vqa_loader.is_loaded),
         },
     })
 
@@ -966,6 +974,91 @@ def api_analyze_video_sync():
         return jsonify({"success": False, "error": str(e)}), 500
     finally:
         ANALYSIS_LOCK.release()
+
+
+# =============================================================================
+# Live Mode Endpoints (In-Memory Live Camera Processing)
+# =============================================================================
+@app.route("/api/live/analyze", methods=["POST"])
+def api_live_analyze():
+    """Analyzes a live camera frame strictly in RAM with non-blocking busy locking."""
+    acquired = ANALYSIS_LOCK.acquire(blocking=False)
+    if not acquired:
+        return jsonify({
+            "success": False,
+            "error": "The system is currently busy analyzing another request. Please try again shortly.",
+            "is_busy": True,
+        }), 503
+
+    try:
+        session_id = None
+        frame_data = None
+
+        if request.is_json:
+            json_data = request.get_json() or {}
+            session_id = json_data.get("session_id")
+            frame_data = json_data.get("frame")
+        elif "frame" in request.files:
+            file = request.files["frame"]
+            frame_data = file.read()
+            session_id = request.form.get("session_id")
+        elif "frame" in request.form:
+            frame_data = request.form.get("frame")
+            session_id = request.form.get("session_id")
+
+        if not frame_data:
+            return jsonify({
+                "success": False,
+                "error": "No frame data provided in request. Provide 'frame' as base64 string or file upload."
+            }), 400
+
+        result = live_engine.process_frame(frame_data=frame_data, session_id=session_id)
+        return jsonify({
+            "success": True,
+            "data": result,
+        })
+    except ValueError as val_err:
+        return jsonify({"success": False, "error": str(val_err)}), 400
+    except Exception as e:
+        logger.error(f"[Live] Error analyzing frame: {e}", exc_info=True)
+        return jsonify({"success": False, "error": f"Live inference error: {str(e)}"}), 500
+    finally:
+        ANALYSIS_LOCK.release()
+
+
+@app.route("/api/live/session/<session_id>/summary", methods=["POST"])
+def api_live_session_summary(session_id: str):
+    """Synthesizes overall story and prediction from accumulated live camera history."""
+    acquired = ANALYSIS_LOCK.acquire(blocking=False)
+    if not acquired:
+        return jsonify({
+            "success": False,
+            "error": "The system is currently busy analyzing another request. Please try again shortly.",
+            "is_busy": True,
+        }), 503
+
+    try:
+        summary_result = live_engine.generate_session_summary(session_id)
+        return jsonify({
+            "success": True,
+            "data": summary_result,
+        })
+    except ValueError as val_err:
+        return jsonify({"success": False, "error": str(val_err)}), 404
+    except Exception as e:
+        logger.error(f"[Live] Error generating session summary for {session_id}: {e}", exc_info=True)
+        return jsonify({"success": False, "error": f"Summary generation error: {str(e)}"}), 500
+    finally:
+        ANALYSIS_LOCK.release()
+
+
+@app.route("/api/live/session/<session_id>", methods=["DELETE"])
+def api_live_delete_session(session_id: str):
+    """Terminates live camera session and purges in-memory frame cache."""
+    deleted = live_engine.delete_session(session_id)
+    if deleted:
+        return jsonify({"success": True, "message": f"Session '{session_id}' deleted."})
+    return jsonify({"success": False, "error": f"Session '{session_id}' not found."}), 404
 
 
 if __name__ == "__main__":

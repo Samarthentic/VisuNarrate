@@ -9,14 +9,66 @@ document.addEventListener("DOMContentLoaded", () => {
     const videoModeView = document.getElementById("videoModeView");
     const tabImage = document.getElementById("tabImage");
     const tabVideo = document.getElementById("tabVideo");
-    const tabWebcam = document.getElementById("tabWebcam");
+    const tabLive = document.getElementById("tabLive");
+    const liveModeView = document.getElementById("liveModeView");
     const toast = document.getElementById("toast");
 
-    // Modal Preview Overlay for Video & Live tabs
-    const previewModeNotice = document.getElementById("previewModeNotice");
-    const previewModalTitle = document.getElementById("previewModalTitle");
-    const previewModalText = document.getElementById("previewModalText");
-    const btnReturnToImage = document.getElementById("btnReturnToImage");
+    // Modal Overlays for Glossary and System Specs
+    const btnOpenGlossary = document.getElementById("btnOpenGlossary");
+    const btnCloseGlossary = document.getElementById("btnCloseGlossary");
+    const glossaryModal = document.getElementById("glossaryModal");
+    const glossarySearch = document.getElementById("glossarySearch");
+    const glossaryList = document.getElementById("glossaryList");
+
+    const btnOpenSysInfo = document.getElementById("btnOpenSysInfo");
+    const btnCloseSysInfo = document.getElementById("btnCloseSysInfo");
+    const sysInfoModal = document.getElementById("sysInfoModal");
+    const sysInfoBody = document.getElementById("sysInfoBody");
+
+    // Live Mode DOM Elements
+    const liveVideoElement = document.getElementById("liveVideoElement");
+    const liveCaptureCanvas = document.getElementById("liveCaptureCanvas");
+    const liveOverlayPrompt = document.getElementById("liveOverlayPrompt");
+    const livePermissionError = document.getElementById("livePermissionError");
+    const btnToggleLiveStream = document.getElementById("btnToggleLiveStream");
+    const btnResetLiveSession = document.getElementById("btnResetLiveSession");
+    const liveIntervalSelect = document.getElementById("liveIntervalSelect");
+    const liveStatusBadge = document.getElementById("liveStatusBadge");
+
+    const liveNowBadge = document.getElementById("liveNowBadge");
+    const liveNowNarration = document.getElementById("liveNowNarration");
+    const liveObjectsContainer = document.getElementById("liveObjectsContainer");
+    const liveNextBadge = document.getElementById("liveNextBadge");
+    const liveNextPrediction = document.getElementById("liveNextPrediction");
+    const liveHypothesesList = document.getElementById("liveHypothesesList");
+
+    const liveHistoryCount = document.getElementById("liveHistoryCount");
+    const liveRollingLog = document.getElementById("liveRollingLog");
+    const btnGenerateLiveSummary = document.getElementById("btnGenerateLiveSummary");
+    const liveSummaryStoryText = document.getElementById("liveSummaryStoryText");
+    const liveSummaryPredictionText = document.getElementById("liveSummaryPredictionText");
+
+    const liveTechFrameMs = document.getElementById("liveTechFrameMs");
+    const liveTechDiffRatio = document.getElementById("liveTechDiffRatio");
+    const liveTechRedundancyRate = document.getElementById("liveTechRedundancyRate");
+    const liveTechMemory = document.getElementById("liveTechMemory");
+    const btnDownloadLiveJson = document.getElementById("btnDownloadLiveJson");
+
+    // Image & Video Technical Elements
+    const btnDownloadImageJson = document.getElementById("btnDownloadImageJson");
+    const techImgCaptionMs = document.getElementById("techImgCaptionMs");
+    const techImgDetectMs = document.getElementById("techImgDetectMs");
+    const techImgVqaMs = document.getElementById("techImgVqaMs");
+    const techImgFusionMs = document.getElementById("techImgFusionMs");
+    const techImgStoryMs = document.getElementById("techImgStoryMs");
+    const techImgTotalMs = document.getElementById("techImgTotalMs");
+
+    const techVidDecodeMs = document.getElementById("techVidDecodeMs");
+    const techVidSampleMs = document.getElementById("techVidSampleMs");
+    const techVidAvgFrameMs = document.getElementById("techVidAvgFrameMs");
+    const techVidTemporalMs = document.getElementById("techVidTemporalMs");
+    const techVidStoryMs = document.getElementById("techVidStoryMs");
+    const techVidTotalMs = document.getElementById("techVidTotalMs");
 
     // DOM Elements - Ingestion & Preview
     const dropzone = document.getElementById("dropzone");
@@ -123,44 +175,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // =========================================================================
-    // 2. Modality Switcher & Preview Modals
+    // 2. Modality Switcher (Image, Video, Live)
     // =========================================================================
-    tabImage.addEventListener("click", () => {
-        tabImage.classList.add("active");
-        tabVideo.classList.remove("active");
-        tabWebcam.classList.remove("active");
-        if (imageModeView) imageModeView.classList.remove("hidden");
-        if (videoModeView) videoModeView.classList.add("hidden");
-        if (previewModeNotice) previewModeNotice.classList.add("hidden");
-    });
+    function switchModality(mode) {
+        tabImage.classList.toggle("active", mode === "image");
+        tabVideo.classList.toggle("active", mode === "video");
+        if (tabLive) tabLive.classList.toggle("active", mode === "live");
 
-    tabVideo.addEventListener("click", () => {
-        tabVideo.classList.add("active");
-        tabImage.classList.remove("active");
-        tabWebcam.classList.remove("active");
-        if (videoModeView) videoModeView.classList.remove("hidden");
-        if (imageModeView) imageModeView.classList.add("hidden");
-        if (previewModeNotice) previewModeNotice.classList.add("hidden");
-    });
+        if (imageModeView) imageModeView.classList.toggle("hidden", mode !== "image");
+        if (videoModeView) videoModeView.classList.toggle("hidden", mode !== "video");
+        if (liveModeView) liveModeView.classList.toggle("hidden", mode !== "live");
 
-    tabWebcam.addEventListener("click", () => {
-        if (previewModeNotice) {
-            previewModalTitle.textContent = "Live Scene Intelligence (Preview)";
-            previewModalText.textContent = "Real-time camera scene intelligence and stream-based reasoning are scheduled for subsequent release.";
-            previewModeNotice.classList.remove("hidden");
+        if (mode !== "live" && isLiveActive) {
+            stopLiveStream();
         }
-    });
-
-    if (btnReturnToImage) {
-        btnReturnToImage.addEventListener("click", () => {
-            if (previewModeNotice) previewModeNotice.classList.add("hidden");
-            tabImage.classList.add("active");
-            tabVideo.classList.remove("active");
-            tabWebcam.classList.remove("active");
-            if (imageModeView) imageModeView.classList.remove("hidden");
-            if (videoModeView) videoModeView.classList.add("hidden");
-        });
     }
+
+    tabImage.addEventListener("click", () => switchModality("image"));
+    tabVideo.addEventListener("click", () => switchModality("video"));
+    if (tabLive) tabLive.addEventListener("click", () => switchModality("live"));
 
     // =========================================================================
     // 3. Technical Inspection Tab Switcher
@@ -469,6 +502,19 @@ document.addEventListener("DOMContentLoaded", () => {
             renderVqaResults(vqaEvidence, skippedQuestions, telemetry.vqa, personPresence, sceneType);
             renderEvidenceFusion(sceneType, personPresence, conflicts);
             renderDiagnostics(telemetry, yoloData, conflicts);
+
+            // 4. Render Technical Analysis Panel (Image Mode)
+            currentImageResult = data;
+            if (data.technical && data.technical.timings_ms) {
+                const t = data.technical.timings_ms;
+                if (techImgCaptionMs) techImgCaptionMs.textContent = `${(t.captioning_ms || 0).toFixed(0)} ms`;
+                if (techImgDetectMs) techImgDetectMs.textContent = `${(t.detection_ms || 0).toFixed(0)} ms`;
+                if (techImgVqaMs) techImgVqaMs.textContent = `${(t.vqa_ms || 0).toFixed(0)} ms`;
+                if (techImgFusionMs) techImgFusionMs.textContent = `${(t.fusion_ms || 0).toFixed(0)} ms`;
+                if (techImgStoryMs) techImgStoryMs.textContent = `${((t.narration_ms || 0) + (t.prediction_ms || 0)).toFixed(0)} ms`;
+                if (techImgTotalMs) techImgTotalMs.textContent = `${(t.total_ms || 0).toFixed(0)} ms`;
+                if (btnDownloadImageJson) btnDownloadImageJson.disabled = false;
+            }
 
             if (btnToggleBoxes && yoloData.total_detections > 0) {
                 btnToggleBoxes.disabled = false;
@@ -1267,6 +1313,17 @@ document.addEventListener("DOMContentLoaded", () => {
             videoDiagBadge.className = "diag-val status-supported";
         }
 
+        // 6b. Technical Analysis Panel (Video Mode)
+        if (result.technical && result.technical.timings_ms) {
+            const vt = result.technical.timings_ms;
+            if (techVidDecodeMs) techVidDecodeMs.textContent = `${(vt.video_decode_ms || 0).toFixed(0)} ms`;
+            if (techVidSampleMs) techVidSampleMs.textContent = `${(vt.keyframe_sampling_ms || 0).toFixed(0)} ms`;
+            if (techVidAvgFrameMs) techVidAvgFrameMs.textContent = `${(vt.per_frame_avg_ms || 0).toFixed(0)} ms`;
+            if (techVidTemporalMs) techVidTemporalMs.textContent = `${(vt.temporal_aggregation_ms || 0).toFixed(0)} ms`;
+            if (techVidStoryMs) techVidStoryMs.textContent = `${((vt.narration_synthesis_ms || 0) + (vt.prediction_synthesis_ms || 0)).toFixed(0)} ms`;
+            if (techVidTotalMs) techVidTotalMs.textContent = `${(vt.total_ms || 0).toFixed(0)} ms`;
+        }
+
         // 7. Enable JSON Download
         if (btnDownloadVideoJson) {
             btnDownloadVideoJson.disabled = false;
@@ -1309,6 +1366,594 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // =========================================================================
+    // Technical Glossary Modal Controller
+    // =========================================================================
+    const GLOSSARY_TERMS = [
+        {
+            term: "Inference",
+            def: "Running a trained neural network on input data to make predictions or generate text without modifying weights.",
+            vn: "In VisuNarrate: All models run in inference mode only on local hardware."
+        },
+        {
+            term: "Epoch",
+            def: "One complete pass through the entire training dataset during model training.",
+            vn: "In VisuNarrate: 0 epochs. This project uses open-source pretrained foundation models and performs zero training or fine-tuning."
+        },
+        {
+            term: "Batch Size",
+            def: "The number of training samples processed before updating model parameters.",
+            vn: "In VisuNarrate: 1 (single-sample inference per pass)."
+        },
+        {
+            term: "Pretrained Model",
+            def: "A neural network previously trained on extensive datasets by AI research teams.",
+            vn: "In VisuNarrate: Salesforce BLIP (captioning/VQA) and Ultralytics YOLOv8n (spatial detection)."
+        },
+        {
+            term: "Transformer",
+            def: "An attention-based neural network architecture capable of modeling complex relationships across sequence elements.",
+            vn: "In VisuNarrate: BLIP uses vision and text transformers for captioning and VQA."
+        },
+        {
+            term: "Vision-Language Model (VLM)",
+            def: "An AI model that jointly perceives images and comprehends natural language.",
+            vn: "In VisuNarrate: BLIP is used to generate grounded captions and answer targeted scene questions."
+        },
+        {
+            term: "Visual Question Answering (VQA)",
+            def: "The task of answering natural-language queries about visual content.",
+            vn: "In VisuNarrate: BLIP-VQA answers targeted queries to resolve visual ambiguities."
+        },
+        {
+            term: "YOLO (You Only Look Once)",
+            def: "A single-pass convolutional neural network designed for high-speed object detection.",
+            vn: "In VisuNarrate: YOLOv8n localizes objects with bounding boxes and genuine confidence scores."
+        },
+        {
+            term: "Apple Silicon MPS (Metal Performance Shaders)",
+            def: "Apple's hardware-accelerated GPU compute framework for Mac chips.",
+            vn: "In VisuNarrate: Accelerates all PyTorch tensor operations on Apple M1 GPU cores locally without NVIDIA hardware."
+        },
+        {
+            term: "Evidence Fusion",
+            def: "Algorithmic rules engine that synthesizes detections, captions, and VQA facts while resolving cross-modal contradictions.",
+            vn: "In VisuNarrate: Stage 3.5 structured reasoning engine."
+        },
+        {
+            term: "Non-Maximum Suppression (NMS)",
+            def: "An algorithm that removes redundant overlapping bounding boxes from detection outputs.",
+            vn: "In VisuNarrate: Standard YOLO post-processing."
+        },
+        {
+            term: "Keyframe",
+            def: "A representative video frame extracted for deep visual analysis.",
+            vn: "In VisuNarrate: Sampled at ~1 FPS with bounded deterministic jitter to prevent temporal aliasing."
+        },
+        {
+            term: "Temporal Aggregation",
+            def: "Combining sequential frame observations over time into coherent events and narrative transitions.",
+            vn: "In VisuNarrate: Stage 5.1 temporal change detector."
+        }
+    ];
+
+    function renderGlossary(filterText = "") {
+        if (!glossaryList) return;
+        glossaryList.innerHTML = "";
+        const q = filterText.toLowerCase().trim();
+        const filtered = GLOSSARY_TERMS.filter(item => 
+            item.term.toLowerCase().includes(q) || 
+            item.def.toLowerCase().includes(q) || 
+            item.vn.toLowerCase().includes(q)
+        );
+
+        if (filtered.length === 0) {
+            glossaryList.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 12px;">No matching terms found.</p>`;
+            return;
+        }
+
+        filtered.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "glossary-item";
+            div.innerHTML = `
+                <div class="glossary-term">${escapeHtml(item.term)}</div>
+                <div class="glossary-def">${escapeHtml(item.def)}</div>
+                <div class="glossary-vn">${escapeHtml(item.vn)}</div>
+            `;
+            glossaryList.appendChild(div);
+        });
+    }
+
+    if (btnOpenGlossary && glossaryModal) {
+        btnOpenGlossary.addEventListener("click", () => {
+            renderGlossary();
+            glossaryModal.classList.remove("hidden");
+            if (glossarySearch) {
+                glossarySearch.value = "";
+                glossarySearch.focus();
+            }
+        });
+    }
+
+    if (btnCloseGlossary && glossaryModal) {
+        btnCloseGlossary.addEventListener("click", () => {
+            glossaryModal.classList.add("hidden");
+        });
+    }
+
+    if (glossarySearch) {
+        glossarySearch.addEventListener("input", (e) => {
+            renderGlossary(e.target.value);
+        });
+    }
+
+    // =========================================================================
+    // System Specs & Model Info Controller
+    // =========================================================================
+    if (btnOpenSysInfo && sysInfoModal) {
+        btnOpenSysInfo.addEventListener("click", async () => {
+            sysInfoModal.classList.remove("hidden");
+            if (!sysInfoBody) return;
+            sysInfoBody.innerHTML = `
+                <div class="loading-spinner" style="margin: 20px auto;"></div>
+                <p style="text-align: center; color: var(--text-secondary);">Querying runtime environment...</p>
+            `;
+
+            try {
+                const res = await fetch("/api/system/info");
+                const info = await res.json();
+                if (!info.success) throw new Error(info.error || "Failed to load system info");
+
+                const r = info.runtime || {};
+                const l = info.libraries || {};
+                const d = info.device || {};
+                const m = info.models || {};
+                const mem = info.memory || {};
+                const train = info.training || {};
+
+                sysInfoBody.innerHTML = `
+                    <div class="tech-training-banner" style="margin-bottom: 12px; border-radius: var(--radius-sm);">
+                        <span class="tech-badge-zero">0 Epochs</span>
+                        <span class="tech-training-text"><strong>${escapeHtml(train.statement || "")}</strong></span>
+                    </div>
+
+                    <h4 style="font-size: 0.9rem; margin: 10px 0 6px 0; color: var(--text-primary);">Compute & Environment</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 0.8rem;">
+                        <div class="tech-timing-item"><strong>Hardware:</strong> ${escapeHtml(r.os || "")} ${escapeHtml(r.architecture || "")}</div>
+                        <div class="tech-timing-item"><strong>Device:</strong> ${escapeHtml(d.type || "").toUpperCase()} (MPS Built: ${d.mps_built ? "Yes" : "No"})</div>
+                        <div class="tech-timing-item"><strong>Python:</strong> ${escapeHtml(r.python_version || "")}</div>
+                        <div class="tech-timing-item"><strong>PyTorch:</strong> ${escapeHtml(l.torch || "")}</div>
+                        <div class="tech-timing-item"><strong>Transformers:</strong> ${escapeHtml(l.transformers || "")}</div>
+                        <div class="tech-timing-item"><strong>Ultralytics YOLO:</strong> ${escapeHtml(l.ultralytics || "")}</div>
+                        <div class="tech-timing-item"><strong>OpenCV:</strong> ${escapeHtml(l.cv2 || "")}</div>
+                        <div class="tech-timing-item"><strong>Offline Enforced:</strong> 100% Local (Zero Network)</div>
+                    </div>
+
+                    <h4 style="font-size: 0.9rem; margin: 14px 0 6px 0; color: var(--text-primary);">Memory & Storage</h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 0.8rem;">
+                        <div class="tech-timing-item"><strong>Total RAM:</strong> ${mem.total_ram_gb || "-"} GB</div>
+                        <div class="tech-timing-item"><strong>Available RAM:</strong> ${mem.available_ram_gb || "-"} GB</div>
+                        <div class="tech-timing-item"><strong>Free Disk:</strong> ${mem.free_disk_gb || "-"} GB</div>
+                    </div>
+
+                    <h4 style="font-size: 0.9rem; margin: 14px 0 6px 0; color: var(--text-primary);">Pretrained AI Models (${m.total_parameters_formatted || ""} Total Parameters)</h4>
+                    <table class="tech-model-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Architecture</th>
+                                <th>Parameters</th>
+                                <th>Disk Size</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>BLIP Captioning</strong></td>
+                                <td>${escapeHtml(m.blip_captioning ? m.blip_captioning.architecture : "")}</td>
+                                <td>${m.blip_captioning ? m.blip_captioning.parameters_formatted : ""}</td>
+                                <td>${m.blip_captioning ? m.blip_captioning.size_on_disk_mb : ""} MB</td>
+                                <td>Inference Only</td>
+                            </tr>
+                            <tr>
+                                <td><strong>YOLOv8n</strong></td>
+                                <td>${escapeHtml(m.yolo_detection ? m.yolo_detection.architecture : "")}</td>
+                                <td>${m.yolo_detection ? m.yolo_detection.parameters_formatted : ""}</td>
+                                <td>${m.yolo_detection ? m.yolo_detection.size_on_disk_mb : ""} MB</td>
+                                <td>Inference Only</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BLIP VQA</strong></td>
+                                <td>${escapeHtml(m.blip_vqa ? m.blip_vqa.architecture : "")}</td>
+                                <td>${m.blip_vqa ? m.blip_vqa.parameters_formatted : ""}</td>
+                                <td>${m.blip_vqa ? m.blip_vqa.size_on_disk_mb : ""} MB</td>
+                                <td>Inference Only</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } catch (err) {
+                sysInfoBody.innerHTML = `<p style="color: var(--accent-rose);">Failed to retrieve hardware specs: ${escapeHtml(err.message)}</p>`;
+            }
+        });
+    }
+
+    if (btnCloseSysInfo && sysInfoModal) {
+        btnCloseSysInfo.addEventListener("click", () => {
+            sysInfoModal.classList.add("hidden");
+        });
+    }
+
+    // =========================================================================
+    // Live Mode Controller (In-Memory Camera Stream)
+    // =========================================================================
+    let liveMediaStream = null;
+    let isLiveActive = false;
+    let liveTimerId = null;
+    let currentLiveSessionId = null;
+    let currentLiveResult = null;
+    let liveSnapshots = [];
+
+    async function startLiveStream() {
+        if (livePermissionError) livePermissionError.classList.add("hidden");
+        try {
+            const constraints = {
+                video: {
+                    width: { ideal: 640, max: 640 },
+                    height: { ideal: 480, max: 480 },
+                    frameRate: { max: 15 }
+                },
+                audio: false
+            };
+
+            liveMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+            if (liveVideoElement) {
+                liveVideoElement.srcObject = liveMediaStream;
+                await liveVideoElement.play();
+            }
+
+            if (liveOverlayPrompt) liveOverlayPrompt.classList.add("hidden");
+            isLiveActive = true;
+            currentLiveSessionId = `live_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+            liveSnapshots = [];
+
+            if (btnToggleLiveStream) {
+                btnToggleLiveStream.classList.remove("btn-primary");
+                btnToggleLiveStream.classList.add("btn-secondary");
+                btnToggleLiveStream.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    <span>Stop Camera</span>
+                `;
+            }
+
+            if (btnResetLiveSession) btnResetLiveSession.classList.remove("hidden");
+            if (liveStatusBadge) {
+                liveStatusBadge.textContent = "Live Active";
+                liveStatusBadge.className = "status-pill status-supported";
+            }
+
+            showToast("Live camera active. Streaming frames to local inference engine.");
+            scheduleNextLiveCapture(100);
+
+        } catch (err) {
+            console.error("Camera access error:", err);
+            isLiveActive = false;
+            if (livePermissionError) livePermissionError.classList.remove("hidden");
+            if (liveStatusBadge) {
+                liveStatusBadge.textContent = "Permission Denied";
+                liveStatusBadge.className = "status-pill status-suppressed";
+            }
+            showToast("Camera access was denied or unavailable.");
+        }
+    }
+
+    function stopLiveStream() {
+        isLiveActive = false;
+        if (liveTimerId) {
+            clearTimeout(liveTimerId);
+            liveTimerId = null;
+        }
+
+        if (liveMediaStream) {
+            liveMediaStream.getTracks().forEach(track => track.stop());
+            liveMediaStream = null;
+        }
+
+        if (liveVideoElement) {
+            liveVideoElement.srcObject = null;
+        }
+
+        if (liveOverlayPrompt) liveOverlayPrompt.classList.remove("hidden");
+
+        if (btnToggleLiveStream) {
+            btnToggleLiveStream.classList.add("btn-primary");
+            btnToggleLiveStream.classList.remove("btn-secondary");
+            btnToggleLiveStream.innerHTML = `
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Start Camera</span>
+            `;
+        }
+
+        if (liveStatusBadge) {
+            liveStatusBadge.textContent = "Camera Off";
+            liveStatusBadge.className = "status-pill status-awaiting";
+        }
+    }
+
+    function scheduleNextLiveCapture(delayMs) {
+        if (!isLiveActive) return;
+        if (liveTimerId) clearTimeout(liveTimerId);
+        liveTimerId = setTimeout(captureAndAnalyzeLiveFrame, delayMs);
+    }
+
+    async function captureAndAnalyzeLiveFrame() {
+        if (!isLiveActive || !liveVideoElement || !liveCaptureCanvas) return;
+
+        const intervalSeconds = parseInt(liveIntervalSelect ? liveIntervalSelect.value : "3", 10) || 3;
+        const intervalMs = intervalSeconds * 1000;
+
+        try {
+            if (liveVideoElement.videoWidth === 0 || liveVideoElement.videoHeight === 0) {
+                scheduleNextLiveCapture(500);
+                return;
+            }
+
+            liveCaptureCanvas.width = liveVideoElement.videoWidth;
+            liveCaptureCanvas.height = liveVideoElement.videoHeight;
+            const ctx = liveCaptureCanvas.getContext("2d");
+            ctx.drawImage(liveVideoElement, 0, 0, liveCaptureCanvas.width, liveCaptureCanvas.height);
+
+            const base64Data = liveCaptureCanvas.toDataURL("image/jpeg", 0.8);
+
+            if (liveStatusBadge) {
+                liveStatusBadge.textContent = "Analyzing...";
+                liveStatusBadge.className = "status-pill status-supported";
+            }
+
+            const response = await fetch("/api/live/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    session_id: currentLiveSessionId,
+                    frame: base64Data
+                })
+            });
+
+            if (response.status === 503) {
+                if (liveStatusBadge) {
+                    liveStatusBadge.textContent = "System Busy (Retrying)";
+                    liveStatusBadge.className = "status-pill status-awaiting";
+                }
+                scheduleNextLiveCapture(intervalMs);
+                return;
+            }
+
+            const resJson = await response.json();
+            if (!resJson.success) {
+                throw new Error(resJson.error || "Live inference error");
+            }
+
+            const payload = resJson.data || {};
+            const snap = payload.snapshot || {};
+            currentLiveResult = payload;
+            liveSnapshots.push(snap);
+
+            renderLiveSnapshot(snap, payload.stats || {});
+
+            if (liveStatusBadge) {
+                liveStatusBadge.textContent = "Live Active";
+                liveStatusBadge.className = "status-pill status-supported";
+            }
+
+        } catch (err) {
+            console.error("Live analysis error:", err);
+            if (liveStatusBadge) {
+                liveStatusBadge.textContent = "Analysis Error";
+                liveStatusBadge.className = "status-pill status-suppressed";
+            }
+        } finally {
+            if (isLiveActive) {
+                scheduleNextLiveCapture(intervalMs);
+            }
+        }
+    }
+
+    function renderLiveSnapshot(snap, stats) {
+        if (!snap) return;
+
+        // 1. Now Narration
+        if (liveNowNarration) {
+            liveNowNarration.textContent = snap.narration || "Observing live scene...";
+        }
+        if (liveNowBadge) {
+            liveNowBadge.textContent = snap.processing_mode === "REDUNDANT" ? "Stable Scene (Cached)" : `Active Analysis (${snap.latency_ms || 0}ms)`;
+            liveNowBadge.className = snap.processing_mode === "REDUNDANT" ? "status-pill status-awaiting" : "status-pill status-supported";
+        }
+
+        // Detected Objects Pills
+        if (liveObjectsContainer) {
+            liveObjectsContainer.innerHTML = "";
+            const counts = snap.detected_objects || {};
+            const keys = Object.keys(counts);
+            if (keys.length > 0) {
+                keys.forEach(k => {
+                    const span = document.createElement("span");
+                    span.className = "object-pill";
+                    span.textContent = `${k} (${counts[k]})`;
+                    liveObjectsContainer.appendChild(span);
+                });
+            }
+        }
+
+        // 2. Next Prediction
+        if (liveNextPrediction) {
+            liveNextPrediction.textContent = snap.prediction || "Monitoring for action affordances...";
+        }
+        if (liveNextBadge) {
+            liveNextBadge.textContent = snap.prediction_status === "insufficient_evidence" ? "Insufficient Evidence" : "Supported Prediction";
+            liveNextBadge.className = snap.prediction_status === "insufficient_evidence" ? "status-pill status-awaiting" : "status-pill status-supported";
+        }
+
+        if (liveHypothesesList) {
+            liveHypothesesList.innerHTML = "";
+            const hyps = snap.hypotheses || [];
+            if (hyps.length > 0) {
+                hyps.forEach(h => {
+                    const div = document.createElement("div");
+                    div.className = "hypothesis-item";
+                    div.innerHTML = `
+                        <div class="hyp-header">
+                            <span class="hyp-label">${escapeHtml(h.likelihood_label || "possible")}</span>
+                            <span class="hyp-text">${escapeHtml(h.text || "")}</span>
+                        </div>
+                        <div class="hyp-evidence" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+                            Evidence: ${escapeHtml(h.evidence || "spatial context")} • ${escapeHtml(h.rationale || "")}
+                        </div>
+                    `;
+                    liveHypothesesList.appendChild(div);
+                });
+            }
+        }
+
+        // 3. Rolling Log
+        if (liveRollingLog) {
+            const emptyP = liveRollingLog.querySelector("p");
+            if (emptyP) emptyP.remove();
+
+            const item = document.createElement("div");
+            item.className = `live-log-item ${snap.processing_mode === "REDUNDANT" ? "redundant" : ""}`;
+            item.innerHTML = `
+                <div class="live-log-meta">
+                    <span>${escapeHtml(snap.wall_time || "")} (${snap.timestamp_seconds || 0}s)</span>
+                    <span><strong>${snap.processing_mode === "REDUNDANT" ? "Redundant (Diff: " + snap.visual_diff_ratio + ")" : "Full Analysis"}</strong></span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-primary);">${escapeHtml(snap.narration || "")}</div>
+            `;
+            liveRollingLog.insertBefore(item, liveRollingLog.firstChild);
+        }
+
+        if (liveHistoryCount) {
+            liveHistoryCount.textContent = `${liveSnapshots.length} Snapshots`;
+        }
+
+        if (btnGenerateLiveSummary && liveSnapshots.length >= 2) {
+            btnGenerateLiveSummary.disabled = false;
+        }
+
+        // 4. Technical Telemetry
+        const tech = snap.technical || {};
+        const timings = tech.timings_ms || {};
+        if (liveTechFrameMs) liveTechFrameMs.textContent = `${(timings.total_ms || snap.latency_ms || 0).toFixed(0)} ms`;
+        if (liveTechDiffRatio) liveTechDiffRatio.textContent = `${(snap.visual_diff_ratio || 0).toFixed(3)}`;
+        if (liveTechRedundancyRate && stats.total_frames) {
+            const rate = ((stats.redundant_frames || 0) / stats.total_frames * 100).toFixed(1);
+            liveTechRedundancyRate.textContent = `${rate} %`;
+        }
+        if (liveTechMemory) liveTechMemory.textContent = `${tech.memory_mb || "-"} MB`;
+        if (btnDownloadLiveJson) btnDownloadLiveJson.disabled = false;
+    }
+
+    if (btnToggleLiveStream) {
+        btnToggleLiveStream.addEventListener("click", () => {
+            if (isLiveActive) {
+                stopLiveStream();
+            } else {
+                startLiveStream();
+            }
+        });
+    }
+
+    if (btnResetLiveSession) {
+        btnResetLiveSession.addEventListener("click", async () => {
+            if (currentLiveSessionId) {
+                try {
+                    await fetch(`/api/live/session/${currentLiveSessionId}`, { method: "DELETE" });
+                } catch (e) {
+                    console.error("Session delete error:", e);
+                }
+            }
+            liveSnapshots = [];
+            currentLiveSessionId = `live_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+            if (liveRollingLog) {
+                liveRollingLog.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 12px 0;">Captured frames and scene transitions will appear here in chronological order.</p>`;
+            }
+            if (liveHistoryCount) liveHistoryCount.textContent = "0 Snapshots";
+            if (btnGenerateLiveSummary) btnGenerateLiveSummary.disabled = true;
+            if (liveSummaryStoryText) liveSummaryStoryText.textContent = "After several snapshots are recorded, click Synthesize Session Story to summarize the entire stream into a coherent narrative.";
+            if (liveSummaryPredictionText) liveSummaryPredictionText.classList.add("hidden");
+            showToast("Live session reset.");
+        });
+    }
+
+    if (btnGenerateLiveSummary) {
+        btnGenerateLiveSummary.addEventListener("click", async () => {
+            if (!currentLiveSessionId) return;
+            btnGenerateLiveSummary.disabled = true;
+            btnGenerateLiveSummary.textContent = "Synthesizing Story...";
+
+            try {
+                const res = await fetch(`/api/live/session/${currentLiveSessionId}/summary`, { method: "POST" });
+                const json = await res.json();
+                if (!json.success) throw new Error(json.error || "Failed to generate summary");
+
+                const summary = json.data || {};
+                if (liveSummaryStoryText) {
+                    liveSummaryStoryText.textContent = summary.live_story || "No significant events to summarize.";
+                    liveSummaryStoryText.style.color = "var(--text-primary)";
+                }
+                if (liveSummaryPredictionText && summary.live_prediction) {
+                    liveSummaryPredictionText.classList.remove("hidden");
+                    liveSummaryPredictionText.innerHTML = `<strong>Predicted Next Direction:</strong> ${escapeHtml(summary.live_prediction)}`;
+                }
+                showToast("Synthesized coherent session story.");
+            } catch (err) {
+                showToast(`Summary Error: ${err.message}`);
+            } finally {
+                btnGenerateLiveSummary.disabled = false;
+                btnGenerateLiveSummary.textContent = "Synthesize Session Story";
+            }
+        });
+    }
+
+    // Export Technical Report Downloads (Image and Live)
+    if (btnDownloadImageJson) {
+        btnDownloadImageJson.addEventListener("click", () => {
+            if (!currentImageResult) return;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentImageResult, null, 2));
+            const a = document.createElement("a");
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", `visunarrate_image_technical_report_${Date.now()}.json`);
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            showToast("Downloaded image technical report JSON.");
+        });
+    }
+
+    if (btnDownloadLiveJson) {
+        btnDownloadLiveJson.addEventListener("click", () => {
+            const report = {
+                session_id: currentLiveSessionId,
+                total_snapshots: liveSnapshots.length,
+                snapshots: liveSnapshots,
+                last_result: currentLiveResult,
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(report, null, 2));
+            const a = document.createElement("a");
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", `visunarrate_live_technical_report_${Date.now()}.json`);
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            showToast("Downloaded live session technical report JSON.");
+        });
+    }
+
+    // =========================================================================
     // 11. URL Parameters for Modality Tab Routing
     // =========================================================================
     const urlParams = new URLSearchParams(window.location.search);
@@ -1316,5 +1961,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.location.hash === "#video" || modeParam === "video") {
         if (tabVideo) tabVideo.click();
+    } else if (window.location.hash === "#live" || modeParam === "live") {
+        if (tabLive) tabLive.click();
     }
 });

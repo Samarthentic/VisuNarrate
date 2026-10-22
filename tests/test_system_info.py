@@ -65,6 +65,18 @@ class TestSystemInfoEndpoint(unittest.TestCase):
         self.assertEqual(training.get("fine_tuning"), "none")
         self.assertIn("inference only", training.get("statement", "").lower())
 
+    def test_health_and_status_endpoints(self):
+        """Validates that /api/health and /api/status respond with healthy online status."""
+        for endpoint in ["/api/health", "/api/status"]:
+            res = self.client.get(endpoint)
+            self.assertEqual(res.status_code, 200, f"{endpoint} failed")
+            data = res.get_json()
+            self.assertEqual(data.get("status"), "online")
+            self.assertTrue(data.get("offline_mode"))
+            self.assertIn("models_loaded", data)
+            self.assertIn("modules", data)
+            self.assertIn("live", data["modules"])
+
 
 class TestTechnicalTelemetrySchema(unittest.TestCase):
     """Verifies that ImageEngine and VideoEngine produce valid technical blocks."""
