@@ -236,7 +236,9 @@ class VideoEngine:
     ) -> List[Tuple[int, float]]:
         """Determines optimal frame indices and timestamps evenly distributed across the full video.
 
-        Ensures long videos are sampled evenly across their full duration, not just at the start.
+        Mitigates periodic stroboscopic aliasing by sampling at the center of each equal
+        duration interval combined with a small deterministic offset, while anchoring
+        the start (0) and end (total_frames - 1) of the timeline.
         """
         if total_frames <= 0 or fps <= 0:
             return [(0, 0.0)]
@@ -246,21 +248,42 @@ class VideoEngine:
         min_step = max(1, int(round(fps * min_interval_seconds)))
         step_frames = max(step_frames, min_step)
 
-        candidate_indices = list(range(0, total_frames, step_frames))
+        n_samples = max(1, int(round(total_frames / step_frames)))
+        if n_samples > max_frames:
+            n_samples = max_frames
 
-        # Evenly downsample across the entire video timeline if candidates exceed max_frames
-        if len(candidate_indices) > max_frames:
-            stride = len(candidate_indices) / float(max_frames)
-            candidate_indices = [candidate_indices[int(i * stride)] for i in range(max_frames)]
+        if n_samples == 1:
+            candidate_indices = [0]
+        else:
+            interval_len = total_frames / float(n_samples)
+            candidate_indices = []
+            for i in range(n_samples):
+                # Center of equal interval
+                center = (i + 0.5) * interval_len
+                # Deterministic jitter bounded within +/- 15% of interval length
+                deterministic_jitter = (((i * 7 + 3) % 11) - 5) / 10.0
+                offset = deterministic_jitter * (0.3 * interval_len)
+                frame_idx = int(round(center + offset))
+                min_bound = int(round(i * interval_len))
+                max_bound = int(round((i + 1) * interval_len)) - 1
+                frame_idx = max(min_bound, min(max_bound, frame_idx))
+                frame_idx = max(0, min(total_frames - 1, frame_idx))
 
-        # Always include the final frame to capture the conclusion of the video
-        if len(candidate_indices) > 1 and (total_frames - 1) not in candidate_indices:
-            candidate_indices[-1] = total_frames - 1
+                if not candidate_indices or frame_idx > candidate_indices[-1]:
+                    candidate_indices.append(frame_idx)
+                else:
+                    candidate_indices.append(min(total_frames - 1, candidate_indices[-1] + 1))
+
+            # Anchor start and end of video timeline
+            if candidate_indices[0] != 0:
+                candidate_indices[0] = 0
+            if candidate_indices[-1] != total_frames - 1:
+                candidate_indices[-1] = total_frames - 1
 
         sampling_plan = [(idx, round(idx / fps, 2)) for idx in candidate_indices]
         logger.info(
             f"[VideoEngine] Sampling Plan: {len(sampling_plan)} frames selected out of {total_frames} total frames "
-            f"(spanning {sampling_plan[0][1]}s to {sampling_plan[-1][1]}s)."
+            f"(spanning {sampling_plan[0][1]}s to {sampling_plan[-1][1]}s, anti-aliased centered)."
         )
         return sampling_plan
 

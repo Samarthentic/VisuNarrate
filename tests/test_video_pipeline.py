@@ -135,11 +135,29 @@ class TestVideoPipeline(unittest.TestCase):
             total_frames=total_frames, fps=fps, target_fps_sample=1.0, max_frames=15
         )
         self.assertLessEqual(len(plan), 15)
-        # First frame should be near 0
+        # First frame should be anchored at 0
         self.assertEqual(plan[0][0], 0)
         # Last frame should be the final frame
         self.assertEqual(plan[-1][0], total_frames - 1)
         self.assertAlmostEqual(plan[-1][1], round((total_frames - 1) / fps, 2), places=1)
+
+    def test_sampling_plan_anti_aliasing_offsets(self):
+        """Centered interval sampling with deterministic jitter must prevent periodic stroboscopic aliasing."""
+        total_frames = 1200  # 40s at 30fps
+        fps = 30.0
+        period = 30  # e.g. 1 Hz periodic visual loop (every 30 frames)
+        plan = self.video_engine.calculate_sampling_plan(
+            total_frames=total_frames, fps=fps, target_fps_sample=1.0, max_frames=20
+        )
+        # Check phases of sampled frames modulo period
+        phases = [frame_idx % period for frame_idx, _ in plan]
+        unique_phases = set(phases)
+        # In a naive grid step (stride 30 or 60), all phases would be identical ({0}).
+        # Anti-aliased centered sampling with deterministic jitter must produce multiple diverse phases.
+        self.assertGreater(len(unique_phases), 1, "Sampling plan should not fall into a single periodic phase.")
+        # Ensure plan is strictly monotonically increasing
+        indices = [p[0] for p in plan]
+        self.assertEqual(indices, sorted(list(set(indices))))
 
     # -------------------------------------------------------------------------
     # 4. Segment Merging

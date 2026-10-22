@@ -93,22 +93,40 @@ video_engine = VideoEngine(image_engine=image_engine)
 temporal_service = TemporalService()
 video_narration_service = VideoNarrationService(prediction_service=prediction_service)
 
-# Startup warm-up: pre-load all models and run one dummy inference
-# so the first real user request is fast (can be skipped in test environments)
+# Startup warm-up: pre-load all models and run one realistic scene inference
+# with a photo of a person so BLIP, YOLO and VQA pipelines and Metal shaders
+# are genuinely hot and ready before the first user request arrives.
 if os.environ.get("VISUNARRATE_SKIP_WARMUP") != "1":
-    logger.info("[Warm-up] Running startup warm-up inference on Apple Silicon MPS...")
+    logger.info("[Warm-up] Running realistic startup warm-up on Apple Silicon MPS...")
     _warmup_start = time.time()
     try:
-        _dummy_img = Image.new("RGB", (64, 64), (128, 128, 128))
-        _dummy_path = os.path.join(UPLOAD_FOLDER, "_warmup_dummy.jpg")
-        _dummy_img.save(_dummy_path)
-        image_engine.analyze_scene(_dummy_path)
-        if os.path.exists(_dummy_path):
-            os.remove(_dummy_path)
+        # Locate realistic person photo from evaluation images
+        _candidate_warmup_paths = [
+            os.path.join(BASE_DIR, "data", "evaluation_images", "portrait_smartphone.jpg"),
+            os.path.join(BASE_DIR, "data", "evaluation_images", "ChatGPT Image Aug 20, 2026, 10_31_28 PM.png"),
+            os.path.join(BASE_DIR, "data", "sample_images", "test_scene.jpg"),
+        ]
+        _warmup_img_path = None
+        for _p in _candidate_warmup_paths:
+            if os.path.exists(_p):
+                _warmup_img_path = _p
+                break
+
+        if _warmup_img_path:
+            logger.info(f"[Warm-up] Executing realistic warm-up using: {os.path.basename(_warmup_img_path)}")
+            image_engine.analyze_scene(_warmup_img_path)
+        else:
+            _dummy_img = Image.new("RGB", (384, 384), (128, 128, 128))
+            _dummy_path = os.path.join(UPLOAD_FOLDER, "_warmup_fallback.jpg")
+            _dummy_img.save(_dummy_path)
+            image_engine.analyze_scene(_dummy_path)
+            if os.path.exists(_dummy_path):
+                os.remove(_dummy_path)
+
         _warmup_ms = round((time.time() - _warmup_start) * 1000, 2)
-        logger.info(f"[Warm-up] Complete in {_warmup_ms} ms — all models hot and ready.")
+        logger.info(f"[Warm-up] Complete in {_warmup_ms} ms — BLIP, YOLO, and VQA fully primed on MPS.")
     except Exception as _warmup_err:
-        logger.warning(f"[Warm-up] Failed ({_warmup_err}), first request will be cold.")
+        logger.warning(f"[Warm-up] Failed ({_warmup_err}), first request will be cold.", exc_info=True)
 
 
 # =============================================================================
@@ -606,15 +624,17 @@ def api_analyze_image():
     try:
         data = request.get_json() or {}
         filename = data.get("filename")
+        direct_path = data.get("image_path") or data.get("file_path")
 
-        if not filename:
-            return jsonify({"success": False, "error": "Filename is required."}), 400
-
-        safe_name = secure_filename(filename)
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], safe_name)
-
-        if not os.path.exists(file_path):
-            return jsonify({"success": False, "error": f"File '{safe_name}' not found on server."}), 404
+        if direct_path and os.path.exists(direct_path):
+            file_path = direct_path
+        elif filename:
+            safe_name = secure_filename(filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], safe_name)
+            if not os.path.exists(file_path):
+                return jsonify({"success": False, "error": f"File '{safe_name}' not found on server."}), 404
+        else:
+            return jsonify({"success": False, "error": "Filename or image_path is required."}), 400
 
         result = image_engine.analyze_scene(file_path)
         return jsonify({
