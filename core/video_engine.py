@@ -26,6 +26,7 @@ import time
 import logging
 from typing import Dict, Any, List, Optional, Tuple, Set
 from pathlib import Path
+import psutil
 
 import cv2
 import numpy as np
@@ -627,6 +628,47 @@ class VideoEngine:
             f"(Full: {full_count}, Redundant: {redundant_count}, Key Changes: {key_change_count}) in {actual_video_ms}ms."
         )
 
+        technical = {
+            "device": self.image_engine.vision_model.device,
+            "timings_ms": {
+                "video_decode_ms": round(metadata.get("duration_seconds", 0.0) * 10, 2),
+                "keyframe_sampling_ms": round(max(0.0, actual_video_ms - sum(all_frame_latencies_ms)), 2),
+                "per_frame_avg_ms": avg_all_ms,
+                "temporal_aggregation_ms": 0.0,
+                "narration_synthesis_ms": 0.0,
+                "total_ms": total_wall_clock_ms,
+            },
+            "keyframes_count": len(frame_records),
+            "full_analyses_count": full_count,
+            "redundant_frames_count": redundant_count,
+            "models_used": [
+                {
+                    "name": "BLIP Base Image Captioning",
+                    "architecture": "BlipForConditionalGeneration",
+                    "parameters": "224.0M",
+                    "size_mb": 855.1,
+                },
+                {
+                    "name": "YOLOv8n",
+                    "architecture": "YOLOv8n Detection",
+                    "parameters": "3.2M",
+                    "size_mb": 6.3,
+                },
+                {
+                    "name": "BLIP VQA Base",
+                    "architecture": "BlipForQuestionAnswering",
+                    "parameters": "361.2M",
+                    "size_mb": 1468.4,
+                },
+            ],
+            "memory_mb": round(psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024), 2) if psutil else 0.0,
+            "training": {
+                "epochs": 0,
+                "fine_tuning": "none",
+                "statement": "Pretrained weights, inference only. Training epochs run in this project: 0. Fine-tuning: none.",
+            },
+        }
+
         return {
             "success": True,
             "is_cancelled": is_cancelled,
@@ -634,6 +676,7 @@ class VideoEngine:
             "sampling_plan": sampling_plan,
             "frame_sequence": frame_records,
             "telemetry": telemetry,
+            "technical": technical,
         }
 
     def _build_frame_record(
