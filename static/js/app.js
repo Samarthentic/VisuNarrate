@@ -956,8 +956,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Drag and Drop
+    // Drag and Drop & Keyboard Accessibility
     if (videoDropzone) {
+        videoDropzone.setAttribute("tabindex", "0");
+        videoDropzone.setAttribute("role", "button");
+        videoDropzone.setAttribute("aria-label", "Select or drop video file for analysis");
+
+        videoDropzone.addEventListener("click", (e) => {
+            if (e.target !== videoBrowseBtn && e.target !== videoBrowseLink) {
+                videoFileInput.click();
+            }
+        });
+
+        videoDropzone.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                videoFileInput.click();
+            }
+        });
+
         ["dragenter", "dragover"].forEach((eventName) => {
             videoDropzone.addEventListener(eventName, (e) => {
                 e.preventDefault();
