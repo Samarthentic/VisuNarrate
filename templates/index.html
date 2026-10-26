@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisuNarrate – Visual Scene Intelligence</title>
+    <title>VisuNarrate — Visual Intelligence & Scene Storytelling</title>
     <!-- Local CSS with zero external CDN dependencies -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="app-container">
-        <!-- Brand Header & Navigation -->
-        <header class="app-header">
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Brand Header & Navigation                                         -->
+        <!-- ---------------------------------------------------------------- -->
+        <header class="app-header" role="banner">
             <div class="brand-section">
-                <!-- Custom Geometric VisuNarrate Icon -->
-                <div class="brand-logo" aria-label="VisuNarrate Logo">
-                    <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="vn-brand-grad" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#4f46e5" />
-                                <stop offset="0.65" stop-color="#6366f1" />
-                                <stop offset="1" stop-color="#3b82f6" />
-                            </linearGradient>
-                        </defs>
-                        <!-- Geometric Perception Diamond -->
-                        <rect x="5.5" y="5.5" width="21" height="21" rx="6.5" transform="rotate(45 16 16)" fill="url(#vn-brand-grad)" fill-opacity="0.12" stroke="url(#vn-brand-grad)" stroke-width="2" />
-                        <!-- Storytelling Focal Core -->
-                        <circle cx="16" cy="16" r="4.25" fill="#4f46e5" />
-                        <path d="M10.5 16H21.5" stroke="#ffffff" stroke-width="1.75" stroke-linecap="round" />
-                        <circle cx="16" cy="16" r="1.5" fill="#ffffff" />
+                <!-- Custom Geometric Aperture / Storytelling Vector Logo Mark -->
+                <div class="brand-logo-container" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Optical Aperture Outer Ring -->
+                        <circle cx="16" cy="16" r="13" stroke="#6258E8" stroke-width="2" stroke-linecap="round" stroke-dasharray="14 3" />
+                        <!-- Perception Crosshair Brackets -->
+                        <path d="M16 6V9M16 23V26M6 16H9M23 16H26" stroke="#6258E8" stroke-width="1.75" stroke-linecap="round" />
+                        <!-- Central Iris / Narrative Focal Node -->
+                        <circle cx="16" cy="16" r="4.5" fill="#6258E8" />
+                        <!-- Core Illuminating Point -->
+                        <circle cx="16" cy="16" r="1.5" fill="#FFFFFF" />
                     </svg>
                 </div>
                 <div class="brand-text">
@@ -36,10 +33,10 @@
                 </div>
             </div>
 
-            <!-- Modality Navigation (Clean & Uncluttered) -->
-            <nav class="mode-navigation" aria-label="Modality Selection">
-                <button class="mode-tab active" id="tabImage" data-mode="image" type="button">
-                    <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <!-- Modality Navigation -->
+            <nav class="mode-navigation" aria-label="Modality Selection" role="tablist">
+                <button class="mode-tab active" id="tabImage" data-mode="image" type="button" role="tab" aria-selected="true">
+                    <svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <circle cx="8.5" cy="8.5" r="1.5"></circle>
                         <polyline points="21 15 16 10 5 21"></polyline>
@@ -47,33 +44,36 @@
                     <span>Image</span>
                 </button>
 
-                <button class="mode-tab" id="tabVideo" data-mode="video" type="button">
-                    <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="mode-tab" id="tabVideo" data-mode="video" type="button" role="tab" aria-selected="false" title="Video scene understanding (Preview)">
+                    <svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <polygon points="23 7 16 12 23 17 23 7"></polygon>
                         <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                     </svg>
                     <span>Video</span>
+                    <span class="badge-preview">Preview</span>
                 </button>
 
-                <button class="mode-tab" id="tabLive" data-mode="live" type="button" title="Live camera feed analysis in real time">
-                    <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="mode-tab" id="tabLive" data-mode="live" type="button" role="tab" aria-selected="false" title="Live camera stream analysis (Preview)">
+                    <svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
                     <span>Live</span>
+                    <span class="badge-preview">Preview</span>
                 </button>
             </nav>
 
+            <!-- Header Action Controls & Hardware Status -->
             <div class="header-status">
-                <button class="btn-text-action" id="btnOpenGlossary" type="button" title="Open Technical Glossary">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="btn-header-action" id="btnOpenGlossary" type="button" title="Open Technical Glossary">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                     </svg>
                     <span>Glossary</span>
                 </button>
-                <button class="btn-text-action" id="btnOpenSysInfo" type="button" title="View System & Model Specs">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="btn-header-action" id="btnOpenSysInfo" type="button" title="View System & Model Specifications">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
                         <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
                         <line x1="6" y1="6" x2="6.01" y2="6"></line>
@@ -81,42 +81,47 @@
                     </svg>
                     <span>System Specs</span>
                 </button>
-                <div class="hardware-text" id="deviceBadge">
+                <div class="status-pill-system" id="deviceBadge">
                     <span class="status-indicator-dot"></span>
-                    <span>Apple Silicon MPS</span>
+                    <span>Local Inference • MPS</span>
                 </div>
             </div>
         </header>
 
-        <!-- Main Workspace: Image Storytelling Mode -->
-        <main class="main-content" id="imageModeView">
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Main Workspace: Image Storytelling Mode (Primary Experience)     -->
+        <!-- ---------------------------------------------------------------- -->
+        <main class="main-content" id="imageModeView" role="main">
             <div class="workspace-grid">
-                <!-- Left Column: Image Ingestion & Hero Preview -->
-                <section class="workspace-panel panel-source">
+                <!-- Left Column: Image Ingestion & Preview -->
+                <section class="workspace-panel panel-source" aria-label="Image Source and Preview">
                     <div class="panel-card source-card">
                         <!-- Dropzone / Empty State -->
-                        <div class="dropzone" id="dropzone">
+                        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload an image by dropping it here or clicking to select">
                             <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg, image/webp" hidden>
                             <div class="dropzone-inner" id="dropzonePrompt">
-                                <div class="dropzone-icon-circle">
-                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <div class="dropzone-icon-circle" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="17 8 12 3 7 8"></polyline>
                                         <line x1="12" y1="3" x2="12" y2="15"></line>
                                     </svg>
                                 </div>
-                                <h3 class="dropzone-heading">Understand any scene</h3>
-                                <p class="dropzone-subheading">Upload a photograph to turn its visual details into a natural story.</p>
-                                <button class="btn btn-browse" id="btnBrowsePrompt" type="button">
-                                    <span>Select Image</span>
+                                <h2 class="dropzone-heading">Understand any scene</h2>
+                                <p class="dropzone-description">
+                                    Upload a photograph to discover what is happening, identify visible objects, and explore the evidence behind the result.
+                                </p>
+                                <button class="btn btn-primary" id="btnBrowsePrompt" type="button" style="margin-top: 6px;">
+                                    <span>Choose image</span>
                                 </button>
+                                <span class="dropzone-hint">Drag and drop an image here, or browse your device.</span>
                                 <span class="format-note">PNG, JPG, WEBP • Up to 16MB</span>
                             </div>
 
                             <!-- Upload Loading State -->
                             <div class="upload-progress hidden" id="uploadProgress">
                                 <div class="loading-spinner"></div>
-                                <p class="loading-text">Preparing image...</p>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 8px;">Preparing image for analysis...</p>
                             </div>
                         </div>
 
@@ -127,15 +132,17 @@
                                 <canvas id="bboxCanvas" class="bbox-canvas hidden"></canvas>
                             </div>
 
-                            <div class="preview-toolbar">
-                                <div class="meta-tag-group">
-                                    <span class="meta-item" id="metaResolution">-</span>
+                            <div class="preview-metadata-bar">
+                                <div class="meta-info-group">
+                                    <span class="meta-filename" id="metaFilename" title="Uploaded image">-</span>
                                     <span class="meta-sep">•</span>
-                                    <span class="meta-item" id="metaSize">-</span>
+                                    <span id="metaResolution">-</span>
+                                    <span class="meta-sep">•</span>
+                                    <span id="metaSize">-</span>
                                 </div>
 
-                                <button class="btn-text-action" id="btnToggleBoxes" type="button" disabled>
-                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                                <button class="btn-toggle-boxes" id="btnToggleBoxes" type="button" disabled>
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <rect x="3" y="3" width="18" height="18" rx="2"></rect>
                                         <path d="M9 3v18M15 3v18M3 9h18M3 15h18"></path>
                                     </svg>
@@ -143,10 +150,10 @@
                                 </button>
                             </div>
 
-                            <div class="preview-actions">
+                            <div class="preview-actions-bar">
                                 <button class="btn btn-secondary" id="btnReplace" type="button">Choose Another</button>
                                 <button class="btn btn-primary" id="btnAnalyze" type="button">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                                     </svg>
                                     <span>Analyze Scene</span>
@@ -156,22 +163,22 @@
                     </div>
                 </section>
 
-                <!-- Right Column: Natural Storytelling Output & Details -->
-                <section class="workspace-panel panel-intelligence">
+                <!-- Right Column: Natural Storytelling Output & Evidence -->
+                <section class="workspace-panel panel-intelligence" aria-label="Scene Analysis and Intelligence">
                     <!-- Loading State View during Inference -->
-                    <div class="analysis-loading-card hidden" id="analysisLoadingState">
+                    <div class="analysis-loading-card hidden" id="analysisLoadingState" aria-live="polite">
                         <div class="loading-spinner large-spinner"></div>
-                        <h3 class="loading-title">Understanding Scene</h3>
-                        <p class="loading-sub" id="loadingStageText">Perceiving visual context & spatial objects...</p>
-                        <div class="loading-steps-indicator">
+                        <h3 class="loading-title">Analyzing your image…</h3>
+                        <p class="loading-sub" id="loadingStageText">Interpreting visual context, detecting objects, and synthesizing evidence...</p>
+                        <div class="loading-steps-indicator" aria-hidden="true">
                             <span class="load-step active" id="lStep1">Context</span>
-                            <span class="load-dot">•</span>
+                            <span>•</span>
                             <span class="load-step" id="lStep2">Objects</span>
-                            <span class="load-dot">•</span>
+                            <span>•</span>
                             <span class="load-step" id="lStep3">Details</span>
-                            <span class="load-dot">•</span>
+                            <span>•</span>
                             <span class="load-step" id="lStep4">Story</span>
-                            <span class="load-dot">•</span>
+                            <span>•</span>
                             <span class="load-step" id="lStep5">Prediction</span>
                         </div>
                     </div>
@@ -181,11 +188,18 @@
                         <!-- Output Card 1: What's happening (Primary Grounded Result) -->
                         <div class="product-card scene-narration-card" id="cardCurrentScene">
                             <div class="card-header">
-                                <span class="card-category">What's happening</span>
+                                <div class="card-title-group">
+                                    <svg class="card-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polygon points="12 8 8 12 12 16 12 8"></polygon>
+                                        <line x1="16" y1="12" x2="12" y2="12"></line>
+                                    </svg>
+                                    <h3 class="card-heading">What's happening</h3>
+                                </div>
                                 <span class="status-pill status-awaiting" id="sceneStateBadge">Awaiting Scene</span>
                             </div>
                             <div class="card-content">
-                                <p class="narration-lead" id="sceneNarrationText">
+                                <p class="narration-primary-text" id="sceneNarrationText">
                                     Upload an image and click <strong>Analyze Scene</strong> to generate a natural story describing what is happening.
                                 </p>
                             </div>
@@ -194,11 +208,17 @@
                         <!-- Output Card 2: What may happen next (Predictive Result) -->
                         <div class="product-card prediction-card" id="cardPrediction">
                             <div class="card-header">
-                                <span class="card-category">What may happen next</span>
+                                <div class="card-title-group">
+                                    <svg class="card-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <h3 class="card-heading">What may happen next</h3>
+                                </div>
                                 <span class="status-pill status-awaiting" id="predictStateBadge">Awaiting Prediction</span>
                             </div>
                             <div class="card-content">
-                                <p class="prediction-lead" id="predictNarrationText">
+                                <p class="prediction-primary-text" id="predictNarrationText">
                                     Anticipates plausible immediate next actions based on physical context and actor affordances.
                                 </p>
 
@@ -206,18 +226,18 @@
                                 <div id="predictReasoningContainer" class="predict-reasoning-drawer hidden">
                                     <details class="evidence-details-toggle">
                                         <summary class="evidence-summary-btn">
-                                            <span>Reasoning Evidence & Grounded Facts</span>
-                                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                                            <span>Why this prediction?</span>
+                                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                                 <polyline points="6 9 12 15 18 9"></polyline>
                                             </svg>
                                         </summary>
                                         <div class="evidence-details-body">
                                             <div class="reasoning-box">
-                                                <span class="reasoning-label">Evidence Trace:</span>
+                                                <span class="reasoning-label">Evidence Trace</span>
                                                 <ul class="reasoning-list" id="predictReasoningList"></ul>
                                             </div>
                                             <div class="facts-box">
-                                                <span class="reasoning-label">Grounded Sources:</span>
+                                                <span class="reasoning-label">Grounded Sources</span>
                                                 <div class="facts-tag-list" id="predictSourceFactsList"></div>
                                             </div>
                                         </div>
@@ -226,37 +246,35 @@
                             </div>
                         </div>
 
-                        <!-- Deep Technical Inspection Drawer (Tabbed / Expandable) -->
+                        <!-- Deep Technical Inspection Drawer: Explore the evidence -->
                         <div class="technical-inspection-card" id="technicalInspectionCard">
                             <div class="inspection-header">
-                                <div class="tech-tab-group" role="tablist">
-                                    <button class="tech-tab active" data-pane="paneUnderstanding" type="button">Scene Details</button>
-                                    <button class="tech-tab" data-pane="paneObjects" type="button">Detected Objects</button>
-                                    <button class="tech-tab" data-pane="paneQuestions" type="button">Visual Questions</button>
-                                    <button class="tech-tab" data-pane="paneFusion" type="button">Evidence & Reasoning</button>
-                                    <button class="tech-tab" data-pane="paneDiagnostics" type="button">Diagnostics</button>
+                                <span class="section-label-evidence">Explore the evidence</span>
+                                <div class="tech-tab-group" role="tablist" aria-label="Evidence categories">
+                                    <button class="tech-tab active" data-pane="paneUnderstanding" type="button" role="tab" aria-selected="true">Scene Details</button>
+                                    <button class="tech-tab" data-pane="paneObjects" type="button" role="tab" aria-selected="false">Detected Objects</button>
+                                    <button class="tech-tab" data-pane="paneQuestions" type="button" role="tab" aria-selected="false">Visual Questions</button>
+                                    <button class="tech-tab" data-pane="paneFusion" type="button" role="tab" aria-selected="false">Evidence & Reasoning</button>
+                                    <button class="tech-tab" data-pane="paneDiagnostics" type="button" role="tab" aria-selected="false">Diagnostics</button>
                                 </div>
                             </div>
 
                             <div class="inspection-body">
                                 <!-- Pane 1: Scene Details -->
-                                <div class="tech-pane active" id="paneUnderstanding">
+                                <div class="tech-pane active" id="paneUnderstanding" role="tabpanel">
                                     <div class="fusion-facts-grid">
                                         <div class="fact-card">
-                                            <span class="fact-label">Main subject</span>
+                                            <span class="fact-label">Main Subject</span>
                                             <span class="fact-val" id="valSubject">-</span>
                                         </div>
-
                                         <div class="fact-card">
                                             <span class="fact-label">Activity</span>
                                             <span class="fact-val" id="valActivity">-</span>
                                         </div>
-
                                         <div class="fact-card">
                                             <span class="fact-label">Environment</span>
                                             <span class="fact-val" id="valEnvironment">-</span>
                                         </div>
-
                                         <div class="fact-card">
                                             <span class="fact-label">Interaction</span>
                                             <span class="fact-val" id="valInteractions">None</span>
@@ -265,10 +283,10 @@
                                 </div>
 
                                 <!-- Pane 2: Detected Objects -->
-                                <div class="tech-pane hidden" id="paneObjects">
+                                <div class="tech-pane hidden" id="paneObjects" role="tabpanel">
                                     <div class="pane-inner">
                                         <div id="yoloEmptyState" class="placeholder-muted">
-                                            Objects detected spatially with localization boundaries and confidence scores.
+                                            Objects detected spatially with localization boundaries and confidence scores will appear here.
                                         </div>
                                         <div id="yoloResultsContainer" class="yolo-results-container hidden">
                                             <div class="yolo-counts-summary" id="yoloCountsSummary"></div>
@@ -278,13 +296,13 @@
                                 </div>
 
                                 <!-- Pane 3: Visual Questions -->
-                                <div class="tech-pane hidden" id="paneQuestions">
+                                <div class="tech-pane hidden" id="paneQuestions" role="tabpanel">
                                     <div class="pane-inner">
                                         <div id="vqaEmptyState" class="placeholder-muted">
-                                            Context-specific interrogatives asked and answered by the visual questioning model.
+                                            Context-specific questions answered by the visual questioning model will appear here.
                                         </div>
                                         <div id="vqaResultsContainer" class="vqa-results-container hidden">
-                                            <div class="routing-notice" id="vqaRoutingNotice"></div>
+                                            <div class="routing-notice" id="vqaRoutingNotice" style="margin-bottom: 10px; font-size: 0.775rem; color: var(--text-muted);"></div>
                                             <div class="vqa-grid" id="vqaGrid"></div>
                                             <div class="skipped-drawer hidden" id="skippedDrawer">
                                                 <span class="skipped-header">Gated / Skipped Questions (<span id="skippedCountSpan">0</span>):</span>
@@ -295,27 +313,27 @@
                                 </div>
 
                                 <!-- Pane 4: Evidence & Reasoning -->
-                                <div class="tech-pane hidden" id="paneFusion">
+                                <div class="tech-pane hidden" id="paneFusion" role="tabpanel">
                                     <div class="pane-inner">
                                         <div id="fusionEmptyState" class="placeholder-muted">
-                                            Multi-model cross-validation, contradiction detection, and provenance tracking.
+                                            Multi-model cross-validation, contradiction detection, and provenance tracking will appear here.
                                         </div>
                                         <div id="fusionResultsContainer" class="fusion-results-container hidden">
                                             <div class="fusion-status-banner-grid">
                                                 <div class="fusion-status-banner">
                                                     <span class="presence-title">Media Classification</span>
-                                                    <span class="badge" id="sceneTypeBadge">Photographic Scene</span>
+                                                    <span class="status-pill status-supported" id="sceneTypeBadge">Photographic Scene</span>
                                                 </div>
                                                 <div class="fusion-status-banner">
                                                     <span class="presence-title">Person Presence</span>
-                                                    <span class="badge" id="presenceBadge">Present</span>
+                                                    <span class="status-pill status-supported" id="presenceBadge">Present</span>
                                                 </div>
                                             </div>
 
                                             <div class="conflicts-wrapper" id="conflictsWrapper">
                                                 <div class="conflicts-header">
-                                                    <h5>Contradiction & Convergence Check</h5>
-                                                    <span class="badge" id="conflictCountBadge">0 Conflicts</span>
+                                                    <span>Contradiction & Convergence Check</span>
+                                                    <span class="status-pill status-supported" id="conflictCountBadge">0 Conflicts</span>
                                                 </div>
                                                 <div class="conflicts-list" id="conflictsList"></div>
                                             </div>
@@ -323,8 +341,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Pane 5: Diagnostics & Telemetry -->
-                                <div class="tech-pane hidden" id="paneDiagnostics">
+                                <!-- Pane 5: Diagnostics -->
+                                <div class="tech-pane hidden" id="paneDiagnostics" role="tabpanel">
                                     <div class="pane-inner">
                                         <div class="diag-grid">
                                             <div class="diag-item">
@@ -361,7 +379,7 @@
                         <div class="tech-analysis-card" id="cardImageTech">
                             <div class="tech-training-banner">
                                 <span class="tech-badge-zero">0 Epochs</span>
-                                <span class="tech-training-text">Pretrained weights, inference only. Training epochs run in this project: 0. Fine-tuning: none.</span>
+                                <span class="tech-training-text">Pretrained weights, on-device inference only. Training epochs run in this project: 0. Fine-tuning: none.</span>
                             </div>
                             <div class="tech-timing-grid">
                                 <div class="tech-timing-item">
@@ -389,9 +407,9 @@
                                     <span class="tech-timing-value" id="techImgTotalMs">- ms</span>
                                 </div>
                             </div>
-                            <div style="padding: 0 12px 12px 12px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-secondary btn-sm" id="btnDownloadImageJson" type="button" disabled>
-                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button class="btn btn-secondary" id="btnDownloadImageJson" type="button" disabled style="font-size: 0.8125rem; padding: 7px 14px;">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="7 10 12 15 17 10"></polyline>
                                         <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -405,482 +423,211 @@
             </div>
         </main>
 
-        <!-- Main Workspace: Video Storytelling Mode -->
-        <main class="main-content hidden" id="videoModeView">
-            <div class="workspace-grid">
-                <!-- Left Column: Video Ingestion, Preview & Live Progress -->
-                <section class="workspace-panel panel-source">
-                    <div class="panel-card source-card">
-                        <!-- Dropzone / Empty State -->
-                        <div class="dropzone" id="videoDropzone">
-                            <input type="file" id="videoFileInput" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm,video/x-matroska,.mp4,.mov,.avi,.webm,.mkv" hidden>
-                            <div class="dropzone-inner" id="videoDropzonePrompt">
-                                <div class="dropzone-icon-circle">
-                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.75">
-                                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                                    </svg>
-                                </div>
-                                <h3 class="dropzone-heading">Understand any video</h3>
-                                <p class="dropzone-subheading">Upload a video to turn its temporal scenes into an evidence-based chronological story.</p>
-                                <button class="btn btn-browse" id="videoBrowseBtn" type="button">
-                                    <span id="videoBrowseLink">Select Video</span>
-                                </button>
-                                <span class="format-note">MP4, MOV, AVI, WEBM, MKV • Up to 150MB • Max 3 min</span>
-                            </div>
-
-                            <!-- Upload Loading State -->
-                            <div class="upload-progress hidden" id="videoUploadProgress">
-                                <div class="loading-spinner"></div>
-                                <p class="loading-text" id="videoUploadProgressText">Inspecting video & metadata...</p>
-                            </div>
-                        </div>
-
-                        <!-- Video Preview Card with HTML5 Player & Metadata -->
-                        <div class="preview-card hidden" id="videoPreviewCard">
-                            <div class="preview-media-wrapper video-media-wrapper" id="videoPreviewWrapper">
-                                <video id="videoPreviewPlayer" controls playsinline preload="metadata"></video>
-                            </div>
-
-                            <div class="preview-toolbar video-toolbar">
-                                <div class="meta-tag-group">
-                                    <span class="meta-item" id="vidMetaFilename">-</span>
-                                    <span class="meta-sep">•</span>
-                                    <span class="meta-item" id="vidMetaResolution">-</span>
-                                    <span class="meta-sep">•</span>
-                                    <span class="meta-item" id="vidMetaDuration">-</span>
-                                    <span class="meta-sep">•</span>
-                                    <span class="meta-item" id="vidMetaFps">-</span>
-                                    <span class="meta-sep">•</span>
-                                    <span class="meta-item" id="vidMetaSize">-</span>
-                                    <span class="hidden" id="vidMetaFrames">-</span>
-                                </div>
-                            </div>
-
-                            <div class="video-options-bar">
-                                <label class="video-option-checkbox">
-                                    <input type="checkbox" id="chkDeleteAfter">
-                                    <span>Delete video file from server after analysis completes</span>
-                                </label>
-                            </div>
-
-                            <div class="preview-actions">
-                                <button class="btn btn-secondary" id="changeVideoBtn" type="button">Choose Another</button>
-                                <button class="btn btn-primary" id="analyzeVideoBtn" type="button">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                    </svg>
-                                    <span>Analyze Video</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Live Progress Card -->
-                        <div class="video-progress-card hidden" id="videoProgressCard">
-                            <div class="card-header progress-card-header">
-                                <div class="progress-title-group">
-                                    <span class="status-indicator-dot pulse"></span>
-                                    <span class="card-category">Analysis in Progress</span>
-                                </div>
-                                <span class="progress-percent-badge" id="videoProgressPercent">0%</span>
-                            </div>
-
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-track">
-                                    <div class="progress-bar-fill" id="videoProgressBarFill" style="width: 0%"></div>
-                                </div>
-                            </div>
-
-                            <div class="progress-details-row">
-                                <span class="progress-stage-label" id="videoStageText">Initializing analysis...</span>
-                                <span class="progress-eta-label" id="videoEtaText">ETA: calculating...</span>
-                            </div>
-
-                            <div class="progress-sub-row">
-                                <span class="progress-frames-info" id="videoFrameCountText">Keyframes: 0 / 0</span>
-                                <button class="btn-cancel-action" id="btnCancelVideo" type="button">
-                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="15" y1="9" x2="9" y2="15"></line>
-                                        <line x1="9" y1="9" x2="15" y2="15"></line>
-                                    </svg>
-                                    <span>Cancel Analysis</span>
-                                </button>
-                            </div>
-                        </div>
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Honest Preview: Video Mode View                                  -->
+        <!-- ---------------------------------------------------------------- -->
+        <main class="main-content hidden" id="videoModeView" role="main">
+            <div class="preview-honest-card">
+                <div class="preview-icon-circle" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                </div>
+                <div class="preview-badge-status">Feature in Preview</div>
+                <h2 class="preview-card-title">Video Scene Intelligence</h2>
+                <p class="preview-card-description">
+                    Temporal scene understanding and chronological narrative synthesis is currently in preview development. VisuNarrate's primary production experience is <strong>Image Analysis</strong>.
+                </p>
+                <div class="preview-feature-bullets">
+                    <div class="bullet-item">
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Adaptive keyframe extraction with temporal redundancy gating</span>
                     </div>
-                </section>
-
-                <!-- Right Column: Video Storytelling Intelligence -->
-                <section class="workspace-panel panel-intelligence">
-                    <div class="intelligence-results-flow" id="videoResultsFlow">
-                        <!-- Video Story Card -->
-                        <div class="product-card scene-narration-card" id="cardVideoStory">
-                            <div class="card-header">
-                                <span class="card-category">Chronological Video Story</span>
-                                <span class="status-pill status-awaiting" id="videoStoryBadge">Awaiting Video</span>
-                                <span class="hidden" id="videoNarrativeBadge"></span>
-                            </div>
-                            <div class="card-content">
-                                <p class="narration-lead" id="videoStoryText">
-                                    Upload a video and click <strong>Analyze Video</strong> to generate a cohesive chronological narrative of the scene.
-                                </p>
-                                <span class="hidden" id="videoNarrativeText"></span>
-                            </div>
-                        </div>
-
-                        <!-- Future Activity Anticipation Card -->
-                        <div class="product-card prediction-card" id="cardVideoPrediction">
-                            <div class="card-header">
-                                <span class="card-category">What may happen next</span>
-                                <span class="status-pill status-awaiting" id="videoPredictBadge">Awaiting Analysis</span>
-                            </div>
-                            <div class="card-content">
-                                <p class="prediction-lead" id="videoPredictText">
-                                    Anticipates plausible immediate next actions based on detected temporal trajectory and actor affordances.
-                                </p>
-
-                                <div class="hypotheses-list" id="videoHypothesesContainer"></div>
-                            </div>
-                        </div>
-
-                        <!-- Interactive Scene Timeline Card -->
-                        <div class="product-card timeline-card" id="cardVideoTimeline">
-                            <div class="card-header">
-                                <div class="timeline-header-group">
-                                    <span class="card-category">Interactive Scene Timeline</span>
-                                    <span class="timeline-hint-tag">Click any segment to jump video</span>
-                                </div>
-                                <span class="status-pill status-supported" id="videoSegmentsBadge">0 Segments</span>
-                                <span class="hidden" id="videoTimelineBadge"></span>
-                            </div>
-                            <div class="card-content">
-                                <div id="videoTimelineEmpty" class="placeholder-muted">
-                                    Temporal segments and key moments will be plotted here chronologically.
-                                </div>
-                                <div class="video-timeline-list" id="videoTimelineList"></div>
-                            </div>
-                        </div>
-
-                        <!-- Technical Inspection & Keyframe Drawer -->
-                        <div class="technical-inspection-card" id="videoTechnicalCard">
-                            <div class="inspection-header">
-                                <div class="tech-tab-group" role="tablist">
-                                    <button class="vtech-tab active" data-vpane="vpaneKeyframes" type="button">Keyframe Samples (<span id="videoFramesBadge">0</span>)</button>
-                                    <button class="vtech-tab" data-vpane="vpaneChanges" type="button">Detected Changes</button>
-                                    <button class="vtech-tab" data-vpane="vpaneDiagnostics" type="button">Video Diagnostics</button>
-                                </div>
-                            </div>
-
-                            <div class="inspection-body">
-                                <!-- VPane 1: Keyframe Samples Grid -->
-                                <div class="vtech-pane active" id="vpaneKeyframes">
-                                    <div class="pane-inner">
-                                        <div id="videoFramesEmpty" class="placeholder-muted">
-                                            Sampled keyframes extracted across the video timeline.
-                                        </div>
-                                        <div class="keyframes-grid" id="videoKeyframesGrid"></div>
-                                        <div class="hidden" id="videoFramesTableWrapper">
-                                            <table><tbody id="videoFramesTableBody"></tbody></table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- VPane 2: Detected Changes -->
-                                <div class="vtech-pane hidden" id="vpaneChanges">
-                                    <div class="pane-inner">
-                                        <div id="videoChangesEmpty" class="placeholder-muted">
-                                            Activity and object transitions detected between moments.
-                                        </div>
-                                        <ul class="video-changes-list" id="videoChangesList"></ul>
-                                    </div>
-                                </div>
-
-                                <!-- VPane 3: Video Diagnostics -->
-                                <div class="vtech-pane hidden" id="vpaneDiagnostics">
-                                    <div class="pane-inner">
-                                        <div class="diag-grid">
-                                            <div class="diag-item">
-                                                <span class="diag-label">Engine Pipeline:</span>
-                                                <span class="diag-val" id="vidDiagEngine">Stage 5.2 (Temporal Aggregation)</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Hardware Device:</span>
-                                                <span class="diag-val" id="vidDiagHardware">Apple Silicon MPS</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Sampled Frames:</span>
-                                                <span class="diag-val" id="vidDiagSampleCount">-</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Redundant Skipped:</span>
-                                                <span class="diag-val" id="vidDiagRedundantCount">-</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Avg Frame Latency:</span>
-                                                <span class="diag-val" id="vidDiagAvgLatency">-</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Temporal Synthesis:</span>
-                                                <span class="diag-val" id="vidDiagTemporalTime">-</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Total Processing:</span>
-                                                <span class="diag-val" id="vidDiagTotalTime">-</span>
-                                            </div>
-                                            <div class="diag-item">
-                                                <span class="diag-label">Job Status:</span>
-                                                <span class="diag-val" id="videoDiagBadge">Idle</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Technical Analysis Panel (Video Mode) -->
-                            <div class="tech-analysis-card" id="cardVideoTech">
-                                <div class="tech-training-banner">
-                                    <span class="tech-badge-zero">0 Epochs</span>
-                                    <span class="tech-training-text">Pretrained weights, inference only. Training epochs run in this project: 0. Fine-tuning: none.</span>
-                                </div>
-                                <div class="tech-timing-grid">
-                                    <div class="tech-timing-item">
-                                        <span class="tech-timing-label">Video Decode</span>
-                                        <span class="tech-timing-value" id="techVidDecodeMs">- ms</span>
-                                    </div>
-                                    <div class="tech-timing-item">
-                                        <span class="tech-timing-label">Keyframe Sampling</span>
-                                        <span class="tech-timing-value" id="techVidSampleMs">- ms</span>
-                                    </div>
-                                    <div class="tech-timing-item">
-                                        <span class="tech-timing-label">Per-Frame Average</span>
-                                        <span class="tech-timing-value" id="techVidAvgFrameMs">- ms</span>
-                                    </div>
-                                    <div class="tech-timing-item">
-                                        <span class="tech-timing-label">Temporal Aggregation</span>
-                                        <span class="tech-timing-value" id="techVidTemporalMs">- ms</span>
-                                    </div>
-                                    <div class="tech-timing-item">
-                                        <span class="tech-timing-label">Story & Prediction</span>
-                                        <span class="tech-timing-value" id="techVidStoryMs">- ms</span>
-                                    </div>
-                                    <div class="tech-timing-item">
-                                        <span class="tech-timing-label">Total Pipeline</span>
-                                        <span class="tech-timing-value" id="techVidTotalMs">- ms</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Download Results Button -->
-                            <div class="video-action-footer">
-                                <button class="btn btn-secondary" id="btnDownloadVideoJson" type="button" disabled>
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="7 10 12 15 17 10"></polyline>
-                                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                                    </svg>
-                                    <span>Download Results as JSON</span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="bullet-item">
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Chronological narrative tracking transitions across scene moments</span>
                     </div>
-                </section>
+                    <div class="bullet-item">
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Interactive scene timeline synchronized to video keyframes</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btnSwitchToImageFromVideo" type="button">
+                    <span>Explore Image Analysis</span>
+                </button>
+            </div>
+
+            <!-- Hidden container for video elements to preserve backend / DOM compatibility -->
+            <div class="hidden" aria-hidden="true">
+                <input type="file" id="videoFileInput">
+                <div id="videoDropzone"></div>
+                <div id="videoDropzonePrompt"></div>
+                <div id="videoBrowseBtn"></div>
+                <div id="videoBrowseLink"></div>
+                <div id="videoUploadProgress"></div>
+                <div id="videoUploadProgressText"></div>
+                <div id="videoPreviewCard"></div>
+                <div id="videoPreviewWrapper"><video id="videoPreviewPlayer"></video></div>
+                <div id="vidMetaFilename"></div>
+                <div id="vidMetaResolution"></div>
+                <div id="vidMetaDuration"></div>
+                <div id="vidMetaFps"></div>
+                <div id="vidMetaSize"></div>
+                <div id="vidMetaFrames"></div>
+                <input type="checkbox" id="chkDeleteAfter">
+                <div id="changeVideoBtn"></div>
+                <div id="analyzeVideoBtn"></div>
+                <div id="videoProgressCard"></div>
+                <div id="videoProgressPercent"></div>
+                <div id="videoProgressBarFill"></div>
+                <div id="videoStageText"></div>
+                <div id="videoEtaText"></div>
+                <div id="videoFrameCountText"></div>
+                <div id="btnCancelVideo"></div>
+                <div id="cardVideoStory"></div>
+                <div id="videoStoryBadge"></div>
+                <div id="videoNarrativeBadge"></div>
+                <div id="videoStoryText"></div>
+                <div id="videoNarrativeText"></div>
+                <div id="cardVideoPrediction"></div>
+                <div id="videoPredictBadge"></div>
+                <div id="videoPredictText"></div>
+                <div id="videoHypothesesContainer"></div>
+                <div id="cardVideoTimeline"></div>
+                <div id="videoSegmentsBadge"></div>
+                <div id="videoTimelineBadge"></div>
+                <div id="videoTimelineEmpty"></div>
+                <div id="videoTimelineList"></div>
+                <div id="videoTechnicalCard"></div>
+                <div id="videoFramesBadge"></div>
+                <div id="vpaneKeyframes"></div>
+                <div id="videoFramesEmpty"></div>
+                <div id="videoKeyframesGrid"></div>
+                <div id="videoFramesTableWrapper"></div>
+                <div id="videoFramesTableBody"></div>
+                <div id="vpaneChanges"></div>
+                <div id="videoChangesEmpty"></div>
+                <div id="videoChangesList"></div>
+                <div id="vpaneDiagnostics"></div>
+                <div id="vidDiagEngine"></div>
+                <div id="vidDiagHardware"></div>
+                <div id="vidDiagSampleCount"></div>
+                <div id="vidDiagRedundantCount"></div>
+                <div id="vidDiagAvgLatency"></div>
+                <div id="vidDiagTemporalTime"></div>
+                <div id="vidDiagTotalTime"></div>
+                <div id="videoDiagBadge"></div>
+                <div id="cardVideoTech"></div>
+                <div id="techVidDecodeMs"></div>
+                <div id="techVidSampleMs"></div>
+                <div id="techVidAvgFrameMs"></div>
+                <div id="techVidTemporalMs"></div>
+                <div id="techVidStoryMs"></div>
+                <div id="techVidTotalMs"></div>
+                <div id="btnDownloadVideoJson"></div>
             </div>
         </main>
 
-        <!-- Main Workspace: Live Camera Storytelling Mode -->
-        <main class="main-content hidden" id="liveModeView">
-            <div class="workspace-grid">
-                <!-- Left Column: Live Camera Video Stream & Controls -->
-                <section class="workspace-panel panel-source">
-                    <div class="panel-card source-card">
-                        <div class="card-header">
-                            <span class="card-category">Live Camera Feed</span>
-                            <span class="status-pill status-awaiting" id="liveStatusBadge">Camera Off</span>
-                        </div>
-
-                        <!-- Live Stream Video Container -->
-                        <div class="live-stream-container" id="liveStreamContainer">
-                            <video id="liveVideoElement" class="live-video-element" autoplay playsinline muted></video>
-                            <canvas id="liveCaptureCanvas" hidden></canvas>
-                            <div class="live-placeholder-overlay" id="liveOverlayPrompt">
-                                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.75" style="margin-bottom: 8px;">
-                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                                    <circle cx="12" cy="13" r="4"></circle>
-                                </svg>
-                                <h4>Live Camera Scene Intelligence</h4>
-                                <p style="font-size: 0.8rem; color: #94a3b8; max-width: 320px; margin-top: 4px;">
-                                    Click Start Camera to capture real-time visual frames and stream continuous grounded narratives.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Camera Permission Troubleshooting Banner -->
-                        <div class="banner banner-error hidden" id="livePermissionError" style="margin-top: 10px; font-size: 0.8rem; padding: 10px 14px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-sm); color: #dc2626;">
-                            <strong>Camera Access Denied:</strong> Please click the camera icon in your browser address bar, grant permission, and refresh the page to enable Live Mode.
-                        </div>
-
-                        <!-- Controls Bar -->
-                        <div class="live-controls-bar">
-                            <div class="live-control-group">
-                                <button class="btn btn-primary" id="btnToggleLiveStream" type="button">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                    </svg>
-                                    <span>Start Camera</span>
-                                </button>
-                                <button class="btn btn-secondary hidden" id="btnResetLiveSession" type="button">
-                                    <span>Clear Session</span>
-                                </button>
-                            </div>
-
-                            <div class="live-control-group">
-                                <label for="liveIntervalSelect" style="font-size: 0.75rem; color: var(--text-secondary);">Capture Every:</label>
-                                <select id="liveIntervalSelect" style="font-size: 0.8rem; padding: 4px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-primary);">
-                                    <option value="3" selected>3 Seconds</option>
-                                    <option value="5">5 Seconds</option>
-                                    <option value="10">10 Seconds</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Privacy Disclosure Banner -->
-                        <div class="live-privacy-notice">
-                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                            <span><strong>Camera Privacy Guaranteed:</strong> Live camera frames are analyzed directly in RAM and never written to disk or logged.</span>
-                        </div>
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Honest Preview: Live Camera Mode View                            -->
+        <!-- ---------------------------------------------------------------- -->
+        <main class="main-content hidden" id="liveModeView" role="main">
+            <div class="preview-honest-card">
+                <div class="preview-icon-circle" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="preview-badge-status">Feature in Preview</div>
+                <h2 class="preview-card-title">Live Camera Scene Intelligence</h2>
+                <p class="preview-card-description">
+                    Real-time in-memory camera analysis is currently in preview development. VisuNarrate's primary production experience is <strong>Image Analysis</strong>.
+                </p>
+                <div class="preview-feature-bullets">
+                    <div class="bullet-item">
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>In-memory processing: frames are analyzed in volatile RAM and never saved to disk</span>
                     </div>
-                </section>
-
-                <!-- Right Column: Live Scene Perception, Future Action & Rolling History -->
-                <section class="workspace-panel panel-intelligence">
-                    <div class="intelligence-results-flow">
-                        <!-- Now Card -->
-                        <div class="product-card scene-narration-card" id="cardLiveNow">
-                            <div class="card-header">
-                                <span class="card-category">Now: What's happening</span>
-                                <span class="status-pill status-awaiting" id="liveNowBadge">Idle</span>
-                            </div>
-                            <div class="card-content">
-                                <p class="narration-lead" id="liveNowNarration">
-                                    Start your camera feed to begin real-time scene understanding and action perception.
-                                </p>
-                                <div class="detected-objects-summary" id="liveObjectsContainer" style="margin-top: 8px;"></div>
-                            </div>
-                        </div>
-
-                        <!-- Next Card -->
-                        <div class="product-card prediction-card" id="cardLiveNext">
-                            <div class="card-header">
-                                <span class="card-category">Next: What may happen next</span>
-                                <span class="status-pill status-awaiting" id="liveNextBadge">Awaiting Frames</span>
-                            </div>
-                            <div class="card-content">
-                                <p class="prediction-lead" id="liveNextPrediction">
-                                    Predictions will emerge as visual actions and spatial affordances are observed.
-                                </p>
-                                <div class="hypotheses-list" id="liveHypothesesList" style="margin-top: 8px;"></div>
-                            </div>
-                        </div>
-
-                        <!-- Rolling Log Card -->
-                        <div class="product-card">
-                            <div class="card-header">
-                                <span class="card-category">Live Snapshot Stream</span>
-                                <span class="status-pill" id="liveHistoryCount">0 Snapshots</span>
-                            </div>
-                            <div class="card-content">
-                                <div class="live-rolling-log" id="liveRollingLog">
-                                    <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 12px 0;">
-                                        Captured frames and scene transitions will appear here in chronological order.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Session Story Card -->
-                        <div class="product-card" id="cardLiveSessionSummary">
-                            <div class="card-header">
-                                <span class="card-category">Accumulated Session Story</span>
-                                <button class="btn btn-secondary btn-sm" id="btnGenerateLiveSummary" type="button" disabled>
-                                    <span>Synthesize Session Story</span>
-                                </button>
-                            </div>
-                            <div class="card-content">
-                                <p class="narration-lead" id="liveSummaryStoryText" style="font-size: 0.9rem; color: var(--text-secondary);">
-                                    After several snapshots are recorded, click <strong>Synthesize Session Story</strong> to summarize the entire stream into a coherent narrative.
-                                </p>
-                                <p class="prediction-lead hidden" id="liveSummaryPredictionText" style="margin-top: 8px; font-size: 0.85rem;"></p>
-                            </div>
-                        </div>
-
-                        <!-- Live Technical Analysis Panel -->
-                        <div class="tech-analysis-card" id="cardLiveTech">
-                            <div class="tech-training-banner">
-                                <span class="tech-badge-zero">0 Epochs</span>
-                                <span class="tech-training-text">Pretrained weights, inference only. Training epochs run in this project: 0. Fine-tuning: none.</span>
-                            </div>
-                            <div class="tech-timing-grid">
-                                <div class="tech-timing-item">
-                                    <span class="tech-timing-label">Frame Latency</span>
-                                    <span class="tech-timing-value" id="liveTechFrameMs">- ms</span>
-                                </div>
-                                <div class="tech-timing-item">
-                                    <span class="tech-timing-label">Diff Ratio</span>
-                                    <span class="tech-timing-value" id="liveTechDiffRatio">-</span>
-                                </div>
-                                <div class="tech-timing-item">
-                                    <span class="tech-timing-label">Redundancy Rate</span>
-                                    <span class="tech-timing-value" id="liveTechRedundancyRate">- %</span>
-                                </div>
-                                <div class="tech-timing-item">
-                                    <span class="tech-timing-label">Process Memory</span>
-                                    <span class="tech-timing-value" id="liveTechMemory">- MB</span>
-                                </div>
-                            </div>
-                            <div style="padding: 0 12px 12px 12px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-secondary btn-sm" id="btnDownloadLiveJson" type="button" disabled>
-                                    <span>Export Technical Report (JSON)</span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="bullet-item">
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Pixel-diff redundancy gating skips inference when the scene is static</span>
                     </div>
-                </section>
+                    <div class="bullet-item">
+                        <svg class="bullet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Rolling observation log with periodic session narrative summarization</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btnSwitchToImageFromLive" type="button">
+                    <span>Explore Image Analysis</span>
+                </button>
+            </div>
+
+            <!-- Hidden container for live elements to preserve backend / DOM compatibility -->
+            <div class="hidden" aria-hidden="true">
+                <div id="liveStatusBadge"></div>
+                <div id="liveStreamContainer"><video id="liveVideoElement" autoplay playsinline muted></video><canvas id="liveCaptureCanvas"></canvas><div id="liveOverlayPrompt"></div></div>
+                <div id="livePermissionError"></div>
+                <div id="btnToggleLiveStream"></div>
+                <div id="btnResetLiveSession"></div>
+                <select id="liveIntervalSelect"><option value="3">3</option></select>
+                <div id="cardLiveNow"></div>
+                <div id="liveNowBadge"></div>
+                <div id="liveNowNarration"></div>
+                <div id="liveObjectsContainer"></div>
+                <div id="cardLiveNext"></div>
+                <div id="liveNextBadge"></div>
+                <div id="liveNextPrediction"></div>
+                <div id="liveHypothesesList"></div>
+                <div id="liveHistoryCount"></div>
+                <div id="liveRollingLog"></div>
+                <div id="cardLiveSessionSummary"></div>
+                <div id="btnGenerateLiveSummary"></div>
+                <div id="liveSummaryStoryText"></div>
+                <div id="liveSummaryPredictionText"></div>
+                <div id="cardLiveTech"></div>
+                <div id="liveTechFrameMs"></div>
+                <div id="liveTechDiffRatio"></div>
+                <div id="liveTechRedundancyRate"></div>
+                <div id="liveTechMemory"></div>
+                <div id="btnDownloadLiveJson"></div>
             </div>
         </main>
 
-        <!-- Technical Glossary Modal -->
-        <div class="modal-overlay hidden" id="glossaryModal">
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Technical Glossary Modal                                         -->
+        <!-- ---------------------------------------------------------------- -->
+        <div class="modal-overlay hidden" id="glossaryModal" role="dialog" aria-modal="true" aria-labelledby="glossaryModalTitle">
             <div class="modal-dialog">
                 <div class="modal-header">
-                    <h3 class="modal-title">VisuNarrate Technical Glossary</h3>
-                    <button class="modal-close-btn" id="btnCloseGlossary" type="button">&times;</button>
+                    <h3 class="modal-title" id="glossaryModalTitle">VisuNarrate Technical Glossary</h3>
+                    <button class="modal-close-btn" id="btnCloseGlossary" type="button" aria-label="Close glossary">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="glossarySearch" class="glossary-search-input" placeholder="Search terms (e.g. Inference, Epoch, Transformer, YOLO, MPS)...">
+                    <input type="text" id="glossarySearch" class="glossary-search-input" placeholder="Search terms (e.g. Inference, Latency, VQA, YOLO, MPS)...">
                     <div id="glossaryList" style="display: flex; flex-direction: column; gap: 10px;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- System Specs & Runtime Environment Modal -->
-        <div class="modal-overlay hidden" id="sysInfoModal">
+        <!-- ---------------------------------------------------------------- -->
+        <!-- System Specs & Runtime Environment Modal                         -->
+        <!-- ---------------------------------------------------------------- -->
+        <div class="modal-overlay hidden" id="sysInfoModal" role="dialog" aria-modal="true" aria-labelledby="sysInfoModalTitle">
             <div class="modal-dialog">
                 <div class="modal-header">
-                    <h3 class="modal-title">Measured System & Model Specifications</h3>
-                    <button class="modal-close-btn" id="btnCloseSysInfo" type="button">&times;</button>
+                    <h3 class="modal-title" id="sysInfoModalTitle">System & Model Specifications</h3>
+                    <button class="modal-close-btn" id="btnCloseSysInfo" type="button" aria-label="Close system specs">&times;</button>
                 </div>
                 <div class="modal-body" id="sysInfoBody">
                     <div class="loading-spinner"></div>
-                    <p style="text-align: center; color: var(--text-secondary);">Measuring hardware telemetry...</p>
+                    <p style="text-align: center; color: var(--text-secondary); margin-top: 8px;">Measuring hardware telemetry...</p>
                 </div>
             </div>
         </div>
 
-        <span id="metaFilename" class="hidden">-</span>
+        <!-- Hidden Compatibility Elements -->
         <span id="diagStatusBadge" class="hidden">-</span>
         <span id="sourceSubject" class="hidden"></span>
         <span id="sourceActivity" class="hidden"></span>
@@ -896,21 +643,23 @@
         <span id="sceneTypeDetail" class="hidden"></span>
         <span id="presenceDetail" class="hidden"></span>
 
-        <!-- Clean Product Footer -->
-        <footer class="app-footer">
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Clean Product Footer                                             -->
+        <!-- ---------------------------------------------------------------- -->
+        <footer class="app-footer" role="contentinfo">
             <div class="footer-left">
                 <span class="footer-brand">VisuNarrate</span>
                 <span class="footer-dot">•</span>
                 <span class="footer-tagline">Visual Scene Intelligence & Natural Storytelling</span>
             </div>
             <div class="footer-right">
-                <span class="footer-status">System Operational</span>
+                <span class="footer-status">Offline On-Device Inference</span>
             </div>
         </footer>
     </div>
 
     <!-- Notification Toast -->
-    <div id="toast" class="toast hidden"></div>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
     <!-- Local JavaScript -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

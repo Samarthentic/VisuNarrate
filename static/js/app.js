@@ -182,6 +182,10 @@ document.addEventListener("DOMContentLoaded", () => {
         tabVideo.classList.toggle("active", mode === "video");
         if (tabLive) tabLive.classList.toggle("active", mode === "live");
 
+        tabImage.setAttribute("aria-selected", mode === "image");
+        tabVideo.setAttribute("aria-selected", mode === "video");
+        if (tabLive) tabLive.setAttribute("aria-selected", mode === "live");
+
         if (imageModeView) imageModeView.classList.toggle("hidden", mode !== "image");
         if (videoModeView) videoModeView.classList.toggle("hidden", mode !== "video");
         if (liveModeView) liveModeView.classList.toggle("hidden", mode !== "live");
@@ -194,6 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
     tabImage.addEventListener("click", () => switchModality("image"));
     tabVideo.addEventListener("click", () => switchModality("video"));
     if (tabLive) tabLive.addEventListener("click", () => switchModality("live"));
+
+    const btnSwitchToImageFromVideo = document.getElementById("btnSwitchToImageFromVideo");
+    if (btnSwitchToImageFromVideo) {
+        btnSwitchToImageFromVideo.addEventListener("click", () => switchModality("image"));
+    }
+    const btnSwitchToImageFromLive = document.getElementById("btnSwitchToImageFromLive");
+    if (btnSwitchToImageFromLive) {
+        btnSwitchToImageFromLive.addEventListener("click", () => switchModality("image"));
+    }
 
     // =========================================================================
     // 3. Technical Inspection Tab Switcher
@@ -222,6 +235,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dropzone) {
         dropzone.addEventListener("click", (e) => {
             if (e.target !== btnBrowsePrompt) {
+                fileInput.click();
+            }
+        });
+        dropzone.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
                 fileInput.click();
             }
         });
@@ -277,14 +296,15 @@ document.addEventListener("DOMContentLoaded", () => {
         btnToggleBoxes.querySelector("span").textContent = "Show Bounding Boxes";
 
         // Reset Primary Cards
-        sceneNarrationText.innerHTML = `Upload an image and click <strong>Analyze Scene</strong> to generate a grounded description of the visual scene.`;
-        sceneStateBadge.textContent = "Awaiting Analysis";
+        sceneNarrationText.innerHTML = `Upload an image and click <strong>Analyze Scene</strong> to generate a natural story describing what is happening.`;
+        sceneStateBadge.textContent = "Awaiting Scene";
         sceneStateBadge.className = "status-pill status-awaiting";
 
-        predictNarrationText.textContent = "Predictive reasoning infers plausible immediate next actions based on physical affordances and spatial interactions.";
+        predictNarrationText.textContent = "Anticipates plausible immediate next actions based on physical context and actor affordances.";
         predictStateBadge.textContent = "Awaiting Prediction";
         predictStateBadge.className = "status-pill status-awaiting";
         if (predictReasoningContainer) predictReasoningContainer.classList.add("hidden");
+        if (btnDownloadImageJson) btnDownloadImageJson.disabled = true;
 
         // Reset Technical Panes
         if (fusionEmptyState) fusionEmptyState.classList.remove("hidden");
@@ -348,6 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         previewImage.src = data.url;
         metaFilename.textContent = data.filename;
+        metaFilename.title = data.filename;
         metaResolution.textContent = `${data.metadata.width} × ${data.metadata.height} px`;
         metaSize.textContent = `${data.metadata.format} • ${data.metadata.size_kb} KB`;
 
@@ -376,42 +397,83 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function drawBoundingBoxes(objects) {
-        if (!bboxCanvas || !previewImage) return;
+        if (!bboxCanvas || !previewImage || !previewWrapper) return;
+        if (!objects || !Array.isArray(objects) || objects.length === 0) return;
+
+        const naturalW = previewImage.naturalWidth || 1;
+        const naturalH = previewImage.naturalHeight || 1;
+
+        const wrapperRect = previewWrapper.getBoundingClientRect();
+        const containerW = wrapperRect.width || previewWrapper.clientWidth;
+        const containerH = wrapperRect.height || previewWrapper.clientHeight;
+
+        if (containerW <= 0 || containerH <= 0) return;
+
+        // Accurate letterbox calculation for object-fit: contain
+        const imgRatio = naturalW / naturalH;
+        const containerRatio = containerW / containerH;
+
+        let renderedW, renderedH, offsetX, offsetY;
+        if (imgRatio > containerRatio) {
+            renderedW = containerW;
+            renderedH = containerW / imgRatio;
+            offsetX = 0;
+            offsetY = (containerH - renderedH) / 2;
+        } else {
+            renderedH = containerH;
+            renderedW = containerH * imgRatio;
+            offsetX = (containerW - renderedW) / 2;
+            offsetY = 0;
+        }
+
+        bboxCanvas.width = containerW;
+        bboxCanvas.height = containerH;
 
         const ctx = bboxCanvas.getContext("2d");
-        const rect = previewImage.getBoundingClientRect();
-        bboxCanvas.width = previewImage.clientWidth;
-        bboxCanvas.height = previewImage.clientHeight;
+        ctx.clearRect(0, 0, containerW, containerH);
 
-        ctx.clearRect(0, 0, bboxCanvas.width, bboxCanvas.height);
-
-        const scaleX = bboxCanvas.width / (previewImage.naturalWidth || 1);
-        const scaleY = bboxCanvas.height / (previewImage.naturalHeight || 1);
+        const scale = renderedW / naturalW;
 
         objects.forEach((obj) => {
             const bbox = obj.bbox;
             if (!bbox) return;
 
-            const [x1, y1, x2, y2] = bbox;
-            const drawX = x1 * scaleX;
-            const drawY = y1 * scaleY;
-            const drawW = (x2 - x1) * scaleX;
-            const drawH = (y2 - y1) * scaleY;
+            let x1, y1, x2, y2;
+            if (Array.isArray(bbox)) {
+                [x1, y1, x2, y2] = bbox;
+            } else if (typeof bbox === "object") {
+                x1 = bbox.x1;
+                y1 = bbox.y1;
+                x2 = bbox.x2;
+                y2 = bbox.y2;
+            }
 
-            ctx.strokeStyle = "#06b6d4";
+            if (x1 === undefined || y1 === undefined || x2 === undefined || y2 === undefined) return;
+
+            const drawX = offsetX + x1 * scale;
+            const drawY = offsetY + y1 * scale;
+            const drawW = (x2 - x1) * scale;
+            const drawH = (y2 - y1) * scale;
+
+            // Brand Accent Precision Outline
+            ctx.strokeStyle = "#6258E8";
             ctx.lineWidth = 2;
             ctx.strokeRect(drawX, drawY, drawW, drawH);
 
-            const label = `${obj.label} ${Math.round((obj.confidence || 0) * 100)}%`;
-            ctx.font = "600 11px system-ui, sans-serif";
-            const textMetrics = ctx.measureText(label);
+            // Label pill with confidence
+            const confVal = Math.round((obj.confidence || 0) * 100);
+            const labelText = `${obj.label} ${confVal}%`;
+            ctx.font = "600 11px Inter, system-ui, -apple-system, sans-serif";
+            const textMetrics = ctx.measureText(labelText);
             const textWidth = textMetrics.width;
+            const pillHeight = 18;
+            const pillY = Math.max(0, drawY - pillHeight - 2);
 
-            ctx.fillStyle = "rgba(6, 182, 212, 0.9)";
-            ctx.fillRect(drawX, Math.max(0, drawY - 18), textWidth + 8, 18);
+            ctx.fillStyle = "#6258E8";
+            ctx.fillRect(drawX, pillY, textWidth + 8, pillHeight);
 
-            ctx.fillStyle = "#000000";
-            ctx.fillText(label, drawX + 4, Math.max(13, drawY - 4));
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillText(labelText, drawX + 4, pillY + 13);
         });
     }
 
@@ -420,6 +482,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const ctx = bboxCanvas.getContext("2d");
         ctx.clearRect(0, 0, bboxCanvas.width, bboxCanvas.height);
     }
+
+    // Recalculate bounding boxes on window resize to ensure precision alignment
+    window.addEventListener("resize", () => {
+        if (isShowingBoxes && currentDetectionResult && currentDetectionResult.objects) {
+            drawBoundingBoxes(currentDetectionResult.objects);
+        }
+    });
 
     // =========================================================================
     // 6. Analyze Scene Execution & Progressive Loading
@@ -488,10 +557,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // 1. Render "What's happening" (Current Scene Narration)
             sceneNarrationText.innerHTML = escapeHtml(data.scene_narration);
-            const warmMs = telemetry.warm_inference_ms || telemetry.total_latency_ms || 2400;
-            const warmSec = (warmMs / 1000).toFixed(1);
-            sceneStateBadge.textContent = `Analysis: ${warmSec}s`;
-            sceneStateBadge.className = "status-pill status-supported";
+            
+            // Grounded evidence / uncertainty label based on backend evidence
+            const hasConflicts = conflicts && conflicts.length > 0;
+            const hasUncertainties = uncertaintyFlags && uncertaintyFlags.length > 0;
+            const isUncertainPerson = personPresence && (personPresence.status === "uncertain" || personPresence.confidence_level === "uncertain");
+
+            if (personPresence && personPresence.status === "absent" && (!yoloData.total_detections || yoloData.total_detections === 0) && (!data.scene_narration || data.scene_narration.includes("Uncertain"))) {
+                sceneStateBadge.textContent = "Not enough visual evidence";
+                sceneStateBadge.className = "status-pill status-insufficient";
+            } else if (hasConflicts || hasUncertainties || isUncertainPerson) {
+                sceneStateBadge.textContent = "Some details are uncertain";
+                sceneStateBadge.className = "status-pill status-tentative";
+            } else {
+                sceneStateBadge.textContent = "Grounded in available evidence";
+                sceneStateBadge.className = "status-pill status-supported";
+            }
 
             // 2. Render "What may happen next" (Prediction)
             renderPredictiveNarration(data.predictive_narration || {}, data.prediction_status);
@@ -524,9 +605,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("Analysis error:", error);
-            showToast(`Analysis Error: ${error.message}`);
-            sceneNarrationText.innerHTML = `<span style="color: var(--accent-rose);">Error during scene analysis: ${escapeHtml(error.message)}</span>`;
-            sceneStateBadge.textContent = "Failed";
+            const userMsg = error.message || "Something went wrong while processing the image. Please try again.";
+            showToast(`Analysis Error: ${userMsg}`);
+            sceneNarrationText.innerHTML = `<span style="color: var(--error);">We couldn't analyze this image. ${escapeHtml(userMsg)}</span>`;
+            sceneStateBadge.textContent = "Analysis Error";
             sceneStateBadge.className = "status-pill status-suppressed";
         } finally {
             if (loadingInterval) clearInterval(loadingInterval);
@@ -535,7 +617,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             btnAnalyze.disabled = false;
             btnAnalyze.innerHTML = `
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
                 <span>Analyze Scene</span>
@@ -547,47 +629,51 @@ document.addEventListener("DOMContentLoaded", () => {
     // 7. Render Primary Prediction Card
     // =========================================================================
     function renderPredictiveNarration(pred, topLevelStatus) {
-        const text = (pred && pred.prediction) ? pred.prediction : "Anticipates plausible immediate next actions based on physical context.";
+        let text = (pred && pred.prediction) ? pred.prediction : "Anticipates plausible immediate next actions based on physical context and actor affordances.";
         const rawStatus = (pred && pred.status) || topLevelStatus || (pred && pred.prediction_status) || "supported_prediction";
         const statusStr = String(rawStatus).toLowerCase();
         const reasonings = (pred && pred.reasoning) ? pred.reasoning : (pred && pred.reasoning_trace ? pred.reasoning_trace : []);
         const facts = (pred && pred.source_facts) ? pred.source_facts : [];
 
-        predictNarrationText.textContent = text;
-
-        if (statusStr.includes("supported")) {
-            predictStateBadge.textContent = "Supported";
-            predictStateBadge.className = "status-pill status-supported";
-        } else if (statusStr.includes("tentative")) {
-            predictStateBadge.textContent = "Tentative";
-            predictStateBadge.className = "status-pill status-tentative";
-        } else if (statusStr.includes("insufficient")) {
-            predictStateBadge.textContent = "Not Enough Evidence";
-            predictStateBadge.className = "status-pill status-insufficient";
-        } else if (statusStr.includes("suppressed")) {
-            predictStateBadge.textContent = "Not Applicable";
+        if (statusStr.includes("suppressed")) {
+            predictStateBadge.textContent = "Prediction suppressed";
             predictStateBadge.className = "status-pill status-suppressed";
+            if (!text || text.toLowerCase().includes("paused") || text.toLowerCase().includes("suppressed") || text.toLowerCase().includes("illustration")) {
+                text = "A next-activity estimate isn't available for this type of image.";
+            }
+        } else if (statusStr.includes("insufficient")) {
+            predictStateBadge.textContent = "Insufficient evidence";
+            predictStateBadge.className = "status-pill status-insufficient";
+        } else if (statusStr.includes("tentative")) {
+            predictStateBadge.textContent = "Tentative prediction";
+            predictStateBadge.className = "status-pill status-tentative";
         } else {
-            predictStateBadge.textContent = "Supported";
+            predictStateBadge.textContent = "Supported prediction";
             predictStateBadge.className = "status-pill status-supported";
         }
 
-        if (predictReasoningContainer) {
-            predictReasoningContainer.classList.remove("hidden");
-            predictReasoningList.innerHTML = "";
-            reasonings.forEach((r) => {
-                const li = document.createElement("li");
-                li.textContent = r;
-                predictReasoningList.appendChild(li);
-            });
+        predictNarrationText.textContent = text;
 
-            predictSourceFactsList.innerHTML = "";
-            facts.forEach((f) => {
-                const span = document.createElement("span");
-                span.className = "fact-tag";
-                span.textContent = f;
-                predictSourceFactsList.appendChild(span);
-            });
+        if (predictReasoningContainer) {
+            if (reasonings.length > 0 || facts.length > 0) {
+                predictReasoningContainer.classList.remove("hidden");
+                predictReasoningList.innerHTML = "";
+                reasonings.forEach((r) => {
+                    const li = document.createElement("li");
+                    li.textContent = r;
+                    predictReasoningList.appendChild(li);
+                });
+
+                predictSourceFactsList.innerHTML = "";
+                facts.forEach((f) => {
+                    const span = document.createElement("span");
+                    span.className = "fact-tag";
+                    span.textContent = f;
+                    predictSourceFactsList.appendChild(span);
+                });
+            } else {
+                predictReasoningContainer.classList.add("hidden");
+            }
         }
     }
 
