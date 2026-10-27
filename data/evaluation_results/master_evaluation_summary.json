@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-10-27T18:21:37Z",
+  "project_name": "VisuNarrate",
+  "academic_context": "Final-Year B.E. Major Project Evaluation Benchmark",
+  "model_architecture": {
+    "vision_captioning": "Salesforce/blip-image-captioning-base",
+    "object_detector": "Ultralytics YOLOv8n (Local PyTorch weights)",
+    "visual_qa": "Salesforce/blip-vqa-base",
+    "training_epochs": 0,
+    "fine_tuning": "None (Offline Pretrained Inference Only)",
+    "hardware_acceleration": "Apple Silicon Metal (MPS)"
+  },
+  "benchmarks": {
+    "image_pipeline": {
+      "object_detection_yolov8n": {
+        "mAP_50": 0.749,
+        "precision": 0.7544,
+        "recall": 0.9247,
+        "f1_score": 0.8309,
+        "true_positives": 86,
+        "false_positives": 28,
+        "false_negatives": 7,
+        "iou_threshold": 0.5
+      },
+      "caption_generation_blip": {
+        "bleu_1": 0.4885,
+        "bleu_2": 0.287,
+        "bleu_4": 0.0994,
+        "rouge_l_f1": 0.3962,
+        "description": "Standard linguistic overlap between generated narrative and multi-reference human descriptions."
+      },
+      "visual_question_answering_blip_vqa": {
+        "exact_match_accuracy_percent": 13.33,
+        "soft_match_accuracy_percent": 13.33,
+        "description": "Top-1 exact match and semantic soft match against accepted reference answers."
+      },
+      "scene_classification_heuristics": {
+        "scene_type_accuracy_percent": 93.3,
+        "person_presence_accuracy_percent": 93.3
+      }
+    },
+    "video_pipeline": {
+      "temporal_transition_detection": {
+        "tolerance_sec": 1.5,
+        "true_positives": 1,
+        "false_positives": 1,
+        "false_negatives": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6667,
+        "predicted_count": 2,
+        "ground_truth_count": 1,
+        "predicted_timestamps": [
+          3.42,
+          3.42
+        ],
+        "ground_truth_timestamps": [
+          3.4
+        ]
+      },
+      "timeline_activity_alignment": {
+        "total_segments_predicted": 2,
+        "total_ground_truth_segments": 2,
+        "aligned_segments_count": 1,
+        "segment_alignment_accuracy_percent": 50.0,
+        "segments": [
+          {
+            "segment_index": 0,
+            "predicted_activity": "Texting",
+            "matched_ground_truth_activity": "holding / interacting with a cell phone",
+            "activity_aligned": false
+          },
+          {
+            "segment_index": 1,
+            "predicted_activity": "Reading",
+            "matched_ground_truth_activity": "reading / holding a book",
+            "activity_aligned": true
+          }
+        ]
+      },
+      "narrative_similarity": {
+        "bleu_1": 0.2683,
+        "bleu_2": 0.2006,
+        "bleu_4": 0.095,
+        "rouge_l_f1": 0.2852,
+        "reference_narrative": "A person is initially sitting and interacting with a cell phone indoors. They then transition to reading a book, remaining seated in the same environment."
+      }
+    },
+    "live_pipeline": {
+      "status": "Live camera evaluated on streaming redundancy efficiency and runtime latency (ground-truth reference unavailable for dynamic camera feed)."
+    }
+  },
+  "efficiency_metrics": {
+    "video_compute_saved_percentage": 50.0,
+    "live_compute_saved_percentage": 66.7
+  },
+  "telemetry_metrics": {
+    "image_median_latency_ms": 3964.17,
+    "video_avg_frame_latency_ms": 5616.27,
+    "live_median_frame_latency_ms": 51.22
+  },
+  "artifacts": {
+    "image_evaluation_json": "data/evaluation_results/quantitative_image_evaluation.json",
+    "video_evaluation_json": "data/evaluation_results/quantitative_video_evaluation.json",
+    "live_evaluation_json": "data/evaluation_results/quantitative_live_evaluation.json"
+  }
+}

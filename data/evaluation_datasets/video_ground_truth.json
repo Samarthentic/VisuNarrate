@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "description": "VisuNarrate Ground-Truth Labeled Dataset for Video Pipeline Evaluation",
+  "total_videos": 1,
+  "videos": {
+    "test_transition_activity.mp4": {
+      "video_id": "eval_vid_transition_01",
+      "filename": "test_transition_activity.mp4",
+      "duration_seconds": 6.0,
+      "fps": 24.0,
+      "resolution": "1024x768",
+      "ground_truth_transitions": [
+        {
+          "timestamp_seconds": 3.4,
+          "from_activity": "holding / interacting with a cell phone",
+          "to_activity": "reading / holding a book",
+          "description": "Actor transitions from using smartphone to picking up and reading a book."
+        }
+      ],
+      "ground_truth_transition_timestamps": [
+        3.4
+      ],
+      "ground_truth_segments": [
+        {
+          "start_seconds": 0.0,
+          "end_seconds": 3.4,
+          "primary_activity": "holding / interacting with a cell phone",
+          "objects": [
+            "person",
+            "cell phone",
+            "chair",
+            "table"
+          ]
+        },
+        {
+          "start_seconds": 3.4,
+          "end_seconds": 6.0,
+          "primary_activity": "reading / holding a book",
+          "objects": [
+            "person",
+            "book",
+            "chair",
+            "table"
+          ]
+        }
+      ],
+      "reference_narrative": "A person is initially sitting and interacting with a cell phone indoors. They then transition to reading a book, remaining seated in the same environment."
+    }
+  }
+}

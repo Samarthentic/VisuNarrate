@@ -1,0 +1,118 @@
+{
+  "timestamp": "2026-10-27T18:04:13Z",
+  "video_filename": "test_transition_activity.mp4",
+  "is_ground_truth_annotated": true,
+  "evaluation_type": "Video Storytelling Quantitative Benchmark",
+  "model_training_disclaimer": "Pretrained models only (YOLOv8n + BLIP + BLIP-VQA). Training epochs: 0. Evaluated against local temporal ground-truth annotations.",
+  "ground_truth_evaluation_metrics": {
+    "temporal_transition_detection": {
+      "tolerance_sec": 1.5,
+      "true_positives": 1,
+      "false_positives": 1,
+      "false_negatives": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "predicted_count": 2,
+      "ground_truth_count": 1,
+      "predicted_timestamps": [
+        3.42,
+        3.42
+      ],
+      "ground_truth_timestamps": [
+        3.4
+      ]
+    },
+    "timeline_activity_alignment": {
+      "total_segments_predicted": 2,
+      "total_ground_truth_segments": 2,
+      "aligned_segments_count": 1,
+      "segment_alignment_accuracy_percent": 50.0,
+      "segments": [
+        {
+          "segment_index": 0,
+          "predicted_activity": "Texting",
+          "matched_ground_truth_activity": "holding / interacting with a cell phone",
+          "activity_aligned": false
+        },
+        {
+          "segment_index": 1,
+          "predicted_activity": "Reading",
+          "matched_ground_truth_activity": "reading / holding a book",
+          "activity_aligned": true
+        }
+      ]
+    },
+    "narrative_similarity": {
+      "bleu_1": 0.2683,
+      "bleu_2": 0.2006,
+      "bleu_4": 0.095,
+      "rouge_l_f1": 0.2852,
+      "reference_narrative": "A person is initially sitting and interacting with a cell phone indoors. They then transition to reading a book, remaining seated in the same environment."
+    }
+  },
+  "redundancy_filtering_efficiency": {
+    "total_sampled_frames": 6,
+    "full_multimodal_analyses": 2,
+    "redundant_frames_filtered": 3,
+    "compute_saved_percentage": 50.0,
+    "key_changes_triggered": 1
+  },
+  "operational_telemetry": {
+    "model_initialization_ms": 0.42,
+    "warmup_jit_ms": 3270.99,
+    "actual_video_processing_ms": 17583.04,
+    "total_wall_clock_ms": 20914.54,
+    "avg_frame_latency_full_ms": 5616.27,
+    "avg_frame_latency_all_ms": 2927.1,
+    "temporal_aggregation_ms": 10.0,
+    "narrative_synthesis_ms": 10.0
+  },
+  "video_narration": "The video opens showing a person wearing a long sleeved shirt in an indoor setting, texting on a cell phone. At 3.4s, the activity shifts from using smartphone to reading a book. Prominent persistent elements include cup, potted plant, chair.",
+  "video_prediction": {
+    "prediction": "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading.",
+    "text": "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading.",
+    "status": "supported_prediction",
+    "prediction_type": "task_continuation",
+    "hypotheses": [
+      {
+        "text": "Having transitioned from using the cell phone to the book, they'll likely take a sip from the cup and continue reading.",
+        "evidence": [
+          "Detected book and cup",
+          "Reading activity confirmed",
+          "Beverage vessel nearby",
+          "Observed transition: Interaction shifts from cell phone to book."
+        ],
+        "likelihood_label": "most likely",
+        "rationale": "Reading with a nearby drink affords periodic sips during continued reading."
+      },
+      {
+        "text": "They'll likely continue reading or turn to the next page.",
+        "evidence": [
+          "Book reading engagement"
+        ],
+        "likelihood_label": "possible",
+        "rationale": "Sustained text reading leads naturally to turning pages."
+      }
+    ],
+    "reasoning": [
+      "Confirmed human presence through spatial object detector and visual grounding.",
+      "Multi-object reading affordance (book + beverage vessel) evaluated.",
+      "Temporal momentum established following observed transition at 3.4s."
+    ],
+    "source_facts": [
+      "Subject: A person wearing a long sleeved shirt (supported)",
+      "Activity: Reading (supported)",
+      "Environment: Indoors with blured (supported)",
+      "Person Count: 1",
+      "Primary Interaction: book",
+      "Secondary Affordance: cup",
+      "Recent State Shift: Interaction shifts from cell phone to book."
+    ],
+    "affordance_candidates": [
+      "They'll likely take a sip from the cup and continue reading.",
+      "They'll likely continue reading or turn to the next page.",
+      "They may set the cup or book down on a nearby surface."
+    ]
+  }
+}

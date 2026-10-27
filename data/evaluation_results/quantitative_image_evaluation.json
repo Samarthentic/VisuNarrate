@@ -1,0 +1,3313 @@
+{
+  "timestamp": "2026-10-27T18:03:52Z",
+  "evaluation_type": "Image Pipeline Ground-Truth Quantitative Benchmark",
+  "model_training_disclaimer": "All models utilize official pretrained weights. Training epochs run in this project: 0. Benchmark reflects on-device zero-shot inference evaluated against verified local ground-truth annotations.",
+  "dataset_info": {
+    "total_images_discovered": 15,
+    "total_ground_truth_annotated": 15,
+    "coverage_percent": 100.0
+  },
+  "ground_truth_evaluation_metrics": {
+    "object_detection_yolov8n": {
+      "mAP_50": 0.749,
+      "precision": 0.7544,
+      "recall": 0.9247,
+      "f1_score": 0.8309,
+      "true_positives": 86,
+      "false_positives": 28,
+      "false_negatives": 7,
+      "iou_threshold": 0.5
+    },
+    "caption_generation_blip": {
+      "bleu_1": 0.4885,
+      "bleu_2": 0.287,
+      "bleu_4": 0.0994,
+      "rouge_l_f1": 0.3962,
+      "description": "Standard linguistic overlap between generated narrative and multi-reference human descriptions."
+    },
+    "visual_question_answering_blip_vqa": {
+      "exact_match_accuracy_percent": 13.33,
+      "soft_match_accuracy_percent": 13.33,
+      "description": "Top-1 exact match and semantic soft match against accepted reference answers."
+    },
+    "scene_classification_heuristics": {
+      "scene_type_accuracy_percent": 93.3,
+      "person_presence_accuracy_percent": 93.3
+    }
+  },
+  "operational_telemetry": {
+    "cold_initialization_ms": 7576.98,
+    "first_inference_compilation_ms": 32910.53,
+    "median_inference_latency_ms": 3964.17,
+    "mean_inference_latency_ms": 4207.99,
+    "min_inference_latency_ms": 2938.58,
+    "max_inference_latency_ms": 8189.38,
+    "hardware_device": "MPS"
+  },
+  "records": [
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_31_28 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 6,
+          "false_positives": 2,
+          "false_negatives": 1,
+          "total_predictions": 8,
+          "total_ground_truth": 7,
+          "precision": 0.75,
+          "recall": 0.8571,
+          "f1_score": 0.8,
+          "mAP_50": 0.8333,
+          "evaluated_classes_count": 6,
+          "per_class": {
+            "book": {
+              "true_positives": 0,
+              "false_positives": 2,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 2,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "cell phone": {
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "ground_truth_count": 1,
+              "prediction_count": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": 0.0
+            },
+            "chair": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "couch": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "cup": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "potted plant": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.4133,
+          "bleu_2": 0.334,
+          "bleu_3": 0.2063,
+          "bleu_4": 0.0849,
+          "brevity_penalty": 0.4724,
+          "rouge_l_precision": 0.875,
+          "rouge_l_recall": 0.5,
+          "rouge_l_f1": 0.6065,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 3,
+          "exact_match_count": 3,
+          "soft_match_count": 3,
+          "exact_match_accuracy": 100.0,
+          "soft_match_accuracy": 100.0,
+          "details": [
+            {
+              "question": "What is the person holding?",
+              "predicted_answer": "Phone",
+              "reference_answers": [
+                "phone",
+                "cell phone",
+                "smartphone",
+                "mobile phone"
+              ],
+              "exact_match": true,
+              "soft_match": true
+            },
+            {
+              "question": "Is the person indoors or outdoors?",
+              "predicted_answer": "Indoors",
+              "reference_answers": [
+                "indoors",
+                "indoor",
+                "in a room",
+                "inside"
+              ],
+              "exact_match": true,
+              "soft_match": true
+            },
+            {
+              "question": "What is the person wearing?",
+              "predicted_answer": "Black shirt",
+              "reference_answers": [
+                "black shirt",
+                "black t shirt",
+                "t-shirt",
+                "black top"
+              ],
+              "exact_match": true,
+              "soft_match": true
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 8,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.909,
+            "bbox": {
+              "x1": 38.9,
+              "y1": 24.1,
+              "x2": 1110.8,
+              "y2": 1119.5
+            }
+          },
+          {
+            "label": "cup",
+            "confidence": 0.891,
+            "bbox": {
+              "x1": 1236.6,
+              "y1": 950.3,
+              "x2": 1401.3,
+              "y2": 1121.7
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.886,
+            "bbox": {
+              "x1": 0.1,
+              "y1": 840.6,
+              "x2": 187.7,
+              "y2": 1121.7
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.647,
+            "bbox": {
+              "x1": 3.3,
+              "y1": 670.5,
+              "x2": 108.7,
+              "y2": 872.0
+            }
+          },
+          {
+            "label": "couch",
+            "confidence": 0.403,
+            "bbox": {
+              "x1": 83.7,
+              "y1": 564.2,
+              "x2": 1402.0,
+              "y2": 1115.2
+            }
+          },
+          {
+            "label": "couch",
+            "confidence": 0.36,
+            "bbox": {
+              "x1": 976.6,
+              "y1": 560.6,
+              "x2": 1401.3,
+              "y2": 1074.9
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.284,
+            "bbox": {
+              "x1": 0.0,
+              "y1": 182.2,
+              "x2": 31.5,
+              "y2": 337.0
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.267,
+            "bbox": {
+              "x1": 30.0,
+              "y1": 185.8,
+              "x2": 69.1,
+              "y2": 339.1
+            }
+          }
+        ],
+        "average_object_confidence": 0.581,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 4365.93,
+        "blip_latency_ms": 1743.02,
+        "yolo_latency_ms": 108.37,
+        "vqa_latency_ms": 2443.03,
+        "vqa_questions_executed": 5
+      },
+      "narration": "A person is sitting indoors, using a smartphone.",
+      "prediction": "They'll likely continue using the smartphone."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_33_23 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 7,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "total_predictions": 8,
+          "total_ground_truth": 7,
+          "precision": 0.875,
+          "recall": 1.0,
+          "f1_score": 0.9333,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 6,
+          "per_class": {
+            "cell phone": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "chair": {
+              "true_positives": 1,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 2,
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1_score": 0.6667,
+              "average_precision": 1.0
+            },
+            "cup": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "laptop": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "potted plant": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.6667,
+          "bleu_2": 0.5164,
+          "bleu_3": 0.3479,
+          "bleu_4": 0.11,
+          "brevity_penalty": 1.0,
+          "rouge_l_precision": 0.3333,
+          "rouge_l_recall": 0.5385,
+          "rouge_l_f1": 0.43,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "What device is on the desk?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "laptop",
+                "computer",
+                "notebook",
+                "laptop computer"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "How many people are visible?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "2",
+                "two",
+                "two people",
+                "couple"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 8,
+        "detected_objects": [
+          {
+            "label": "laptop",
+            "confidence": 0.957,
+            "bbox": {
+              "x1": 488.6,
+              "y1": 642.6,
+              "x2": 1274.1,
+              "y2": 1055.0
+            }
+          },
+          {
+            "label": "cup",
+            "confidence": 0.938,
+            "bbox": {
+              "x1": 69.7,
+              "y1": 866.9,
+              "x2": 345.8,
+              "y2": 1086.5
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.904,
+            "bbox": {
+              "x1": 156.8,
+              "y1": 62.9,
+              "x2": 1004.9,
+              "y2": 980.3
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.818,
+            "bbox": {
+              "x1": 0.5,
+              "y1": 713.6,
+              "x2": 201.5,
+              "y2": 1011.6
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.626,
+            "bbox": {
+              "x1": 0.0,
+              "y1": 383.2,
+              "x2": 156.2,
+              "y2": 599.2
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.625,
+            "bbox": {
+              "x1": 1251.4,
+              "y1": 460.3,
+              "x2": 1401.7,
+              "y2": 709.4
+            }
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.496,
+            "bbox": {
+              "x1": 1240.2,
+              "y1": 896.2,
+              "x2": 1401.5,
+              "y2": 975.8
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.303,
+            "bbox": {
+              "x1": 15.5,
+              "y1": 528.5,
+              "x2": 162.7,
+              "y2": 610.2
+            }
+          }
+        ],
+        "average_object_confidence": 0.708,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3834.6,
+        "blip_latency_ms": 1727.93,
+        "yolo_latency_ms": 158.43,
+        "vqa_latency_ms": 1782.76,
+        "vqa_questions_executed": 4
+      },
+      "narration": "A person is sitting at a desk, working on a laptop, with a cup on the desk and another person nearby.",
+      "prediction": "They'll likely take a sip from the cup, then return to typing on the laptop."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_35_05 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 4,
+          "false_positives": 6,
+          "false_negatives": 0,
+          "total_predictions": 10,
+          "total_ground_truth": 4,
+          "precision": 0.4,
+          "recall": 1.0,
+          "f1_score": 0.5714,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 3,
+          "per_class": {
+            "book": {
+              "true_positives": 1,
+              "false_positives": 3,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 4,
+              "precision": 0.25,
+              "recall": 1.0,
+              "f1_score": 0.4,
+              "average_precision": 1.0
+            },
+            "chair": {
+              "true_positives": 0,
+              "false_positives": 2,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 2,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "cup": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "potted plant": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.75,
+          "bleu_2": 0.5222,
+          "bleu_3": 0.3792,
+          "bleu_4": 0.279,
+          "brevity_penalty": 1.0,
+          "rouge_l_precision": 0.5833,
+          "rouge_l_recall": 0.6364,
+          "rouge_l_f1": 0.6135,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "What is the person reading?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "book",
+                "a book",
+                "novel"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What is the person sitting on?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "chair",
+                "armchair",
+                "couch",
+                "seat"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 10,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.906,
+            "bbox": {
+              "x1": 42.0,
+              "y1": 138.6,
+              "x2": 963.1,
+              "y2": 1120.6
+            }
+          },
+          {
+            "label": "cup",
+            "confidence": 0.902,
+            "bbox": {
+              "x1": 1091.8,
+              "y1": 914.9,
+              "x2": 1297.0,
+              "y2": 1107.8
+            }
+          },
+          {
+            "label": "cup",
+            "confidence": 0.573,
+            "bbox": {
+              "x1": 1333.1,
+              "y1": 952.3,
+              "x2": 1401.3,
+              "y2": 1121.6
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.359,
+            "bbox": {
+              "x1": 183.1,
+              "y1": 291.3,
+              "x2": 227.1,
+              "y2": 499.1
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.32,
+            "bbox": {
+              "x1": 1101.2,
+              "y1": 330.4,
+              "x2": 1401.0,
+              "y2": 1071.3
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.32,
+            "bbox": {
+              "x1": 145.8,
+              "y1": 302.8,
+              "x2": 194.1,
+              "y2": 503.3
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.302,
+            "bbox": {
+              "x1": 109.4,
+              "y1": 302.6,
+              "x2": 144.2,
+              "y2": 501.4
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.27,
+            "bbox": {
+              "x1": 90.6,
+              "y1": 607.0,
+              "x2": 215.6,
+              "y2": 785.9
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.253,
+            "bbox": {
+              "x1": 851.1,
+              "y1": 892.0,
+              "x2": 1014.9,
+              "y2": 1122.0
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.253,
+            "bbox": {
+              "x1": 198.7,
+              "y1": 292.1,
+              "x2": 244.7,
+              "y2": 503.6
+            }
+          }
+        ],
+        "average_object_confidence": 0.446,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3609.88,
+        "blip_latency_ms": 1659.96,
+        "yolo_latency_ms": 100.93,
+        "vqa_latency_ms": 1776.49,
+        "vqa_questions_executed": 4
+      },
+      "narration": "A person is sitting indoors, reading a book, with a cup nearby.",
+      "prediction": "They'll likely take a sip from the cup and continue reading."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_35_58 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 10,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "total_predictions": 11,
+          "total_ground_truth": 10,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1_score": 0.9524,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 6,
+          "per_class": {
+            "bowl": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "chair": {
+              "true_positives": 1,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 2,
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1_score": 0.6667,
+              "average_precision": 1.0
+            },
+            "cup": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "dining table": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 3,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 3,
+              "prediction_count": 3,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "sandwich": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.5,
+          "bleu_2": 0.2673,
+          "bleu_3": 0.1529,
+          "bleu_4": 0.0585,
+          "brevity_penalty": 1.0,
+          "rouge_l_precision": 0.3182,
+          "rouge_l_recall": 0.5,
+          "rouge_l_f1": 0.4051,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "What are the people doing?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "eating",
+                "dining",
+                "eating food",
+                "having lunch",
+                "sharing a meal"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What food is visible on the table?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "sandwich",
+                "sandwiches",
+                "bowl",
+                "food"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 11,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.911,
+            "bbox": {
+              "x1": 107.8,
+              "y1": 21.5,
+              "x2": 1263.7,
+              "y2": 973.4
+            }
+          },
+          {
+            "label": "bowl",
+            "confidence": 0.82,
+            "bbox": {
+              "x1": 514.8,
+              "y1": 965.7,
+              "x2": 677.5,
+              "y2": 1050.6
+            }
+          },
+          {
+            "label": "sandwich",
+            "confidence": 0.779,
+            "bbox": {
+              "x1": 432.6,
+              "y1": 848.4,
+              "x2": 699.8,
+              "y2": 976.8
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.741,
+            "bbox": {
+              "x1": 178.5,
+              "y1": 333.4,
+              "x2": 411.6,
+              "y2": 651.4
+            }
+          },
+          {
+            "label": "cup",
+            "confidence": 0.63,
+            "bbox": {
+              "x1": 538.2,
+              "y1": 482.9,
+              "x2": 714.0,
+              "y2": 630.9
+            }
+          },
+          {
+            "label": "sandwich",
+            "confidence": 0.589,
+            "bbox": {
+              "x1": 347.9,
+              "y1": 925.5,
+              "x2": 583.0,
+              "y2": 1044.9
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.462,
+            "bbox": {
+              "x1": 1214.2,
+              "y1": 690.7,
+              "x2": 1400.1,
+              "y2": 1065.6
+            }
+          },
+          {
+            "label": "dining table",
+            "confidence": 0.436,
+            "bbox": {
+              "x1": 0.7,
+              "y1": 898.1,
+              "x2": 977.4,
+              "y2": 1120.9
+            }
+          },
+          {
+            "label": "dining table",
+            "confidence": 0.424,
+            "bbox": {
+              "x1": 50.7,
+              "y1": 886.1,
+              "x2": 1390.1,
+              "y2": 1121.9
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.397,
+            "bbox": {
+              "x1": 194.8,
+              "y1": 318.7,
+              "x2": 291.5,
+              "y2": 455.5
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.3,
+            "bbox": {
+              "x1": 1212.9,
+              "y1": 691.6,
+              "x2": 1345.3,
+              "y2": 1040.5
+            }
+          }
+        ],
+        "average_object_confidence": 0.59,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 5944.13,
+        "blip_latency_ms": 3655.63,
+        "yolo_latency_ms": 254.03,
+        "vqa_latency_ms": 1841.28,
+        "vqa_questions_executed": 4
+      },
+      "narration": "A person is sitting at a table, holding a cup and drinking, with food on the table and several other people nearby.",
+      "prediction": "They'll likely take another bite of food and take a sip from the cup."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_36_59 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 6,
+          "false_positives": 5,
+          "false_negatives": 1,
+          "total_predictions": 11,
+          "total_ground_truth": 7,
+          "precision": 0.5455,
+          "recall": 0.8571,
+          "f1_score": 0.6667,
+          "mAP_50": 0.8333,
+          "evaluated_classes_count": 6,
+          "per_class": {
+            "book": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "cell phone": {
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "ground_truth_count": 1,
+              "prediction_count": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": 0.0
+            },
+            "chair": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "couch": {
+              "true_positives": 0,
+              "false_positives": 3,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 3,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "cup": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "dining table": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "laptop": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "potted plant": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.3126,
+          "bleu_2": 0.2363,
+          "bleu_3": 0.1571,
+          "bleu_4": 0.0671,
+          "brevity_penalty": 0.4169,
+          "rouge_l_precision": 0.75,
+          "rouge_l_recall": 0.4,
+          "rouge_l_f1": 0.4946,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 1,
+          "soft_match_count": 1,
+          "exact_match_accuracy": 50.0,
+          "soft_match_accuracy": 50.0,
+          "details": [
+            {
+              "question": "What is the person holding?",
+              "predicted_answer": "Cell phone",
+              "reference_answers": [
+                "phone",
+                "cell phone",
+                "smartphone"
+              ],
+              "exact_match": true,
+              "soft_match": true
+            },
+            {
+              "question": "What piece of furniture is the person on?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "couch",
+                "sofa",
+                "settee"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 11,
+        "detected_objects": [
+          {
+            "label": "cup",
+            "confidence": 0.872,
+            "bbox": {
+              "x1": 519.0,
+              "y1": 976.6,
+              "x2": 698.9,
+              "y2": 1121.9
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.872,
+            "bbox": {
+              "x1": 397.3,
+              "y1": 118.2,
+              "x2": 1231.3,
+              "y2": 1007.6
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.726,
+            "bbox": {
+              "x1": 845.4,
+              "y1": 248.2,
+              "x2": 1046.0,
+              "y2": 483.0
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.595,
+            "bbox": {
+              "x1": 99.1,
+              "y1": 834.4,
+              "x2": 510.8,
+              "y2": 1122.0
+            }
+          },
+          {
+            "label": "laptop",
+            "confidence": 0.369,
+            "bbox": {
+              "x1": 847.9,
+              "y1": 962.1,
+              "x2": 1401.0,
+              "y2": 1121.7
+            }
+          },
+          {
+            "label": "dining table",
+            "confidence": 0.364,
+            "bbox": {
+              "x1": 5.5,
+              "y1": 930.1,
+              "x2": 1402.0,
+              "y2": 1120.9
+            }
+          },
+          {
+            "label": "couch",
+            "confidence": 0.347,
+            "bbox": {
+              "x1": 3.3,
+              "y1": 476.5,
+              "x2": 1385.6,
+              "y2": 1117.8
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.326,
+            "bbox": {
+              "x1": 573.8,
+              "y1": 76.6,
+              "x2": 615.3,
+              "y2": 181.4
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.317,
+            "bbox": {
+              "x1": 996.0,
+              "y1": 522.9,
+              "x2": 1400.4,
+              "y2": 980.9
+            }
+          },
+          {
+            "label": "couch",
+            "confidence": 0.311,
+            "bbox": {
+              "x1": 1.0,
+              "y1": 480.3,
+              "x2": 479.7,
+              "y2": 905.7
+            }
+          },
+          {
+            "label": "couch",
+            "confidence": 0.296,
+            "bbox": {
+              "x1": 1.0,
+              "y1": 479.2,
+              "x2": 506.0,
+              "y2": 1120.4
+            }
+          }
+        ],
+        "average_object_confidence": 0.49,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 4253.53,
+        "blip_latency_ms": 2088.65,
+        "yolo_latency_ms": 117.63,
+        "vqa_latency_ms": 1947.91,
+        "vqa_questions_executed": 5
+      },
+      "narration": "A person is sitting indoors, using a smartphone.",
+      "prediction": "They'll likely continue using the smartphone."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_37_57 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "total_predictions": 5,
+          "total_ground_truth": 6,
+          "precision": 1.0,
+          "recall": 0.8333,
+          "f1_score": 0.9091,
+          "mAP_50": 0.5,
+          "evaluated_classes_count": 2,
+          "per_class": {
+            "person": {
+              "true_positives": 5,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 5,
+              "prediction_count": 5,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "skateboard": {
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "ground_truth_count": 1,
+              "prediction_count": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": 0.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.3,
+          "bleu_2": 0.0913,
+          "bleu_3": 0.0507,
+          "bleu_4": 0.0328,
+          "brevity_penalty": 1.0,
+          "rouge_l_precision": 0.2,
+          "rouge_l_recall": 0.1667,
+          "rouge_l_f1": 0.1789,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "What sport or activity is shown?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "skateboarding",
+                "skating",
+                "skateboard"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "Is this scene indoors or outdoors?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "outdoors",
+                "outside",
+                "skate park"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 5,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.931,
+            "bbox": {
+              "x1": 392.1,
+              "y1": 50.8,
+              "x2": 1022.7,
+              "y2": 1122.0
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.823,
+            "bbox": {
+              "x1": 193.5,
+              "y1": 520.7,
+              "x2": 252.3,
+              "y2": 669.2
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.823,
+            "bbox": {
+              "x1": 42.4,
+              "y1": 482.4,
+              "x2": 144.7,
+              "y2": 783.6
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.629,
+            "bbox": {
+              "x1": 163.3,
+              "y1": 528.0,
+              "x2": 198.7,
+              "y2": 635.9
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.53,
+            "bbox": {
+              "x1": 123.4,
+              "y1": 520.0,
+              "x2": 168.1,
+              "y2": 665.1
+            }
+          }
+        ],
+        "average_object_confidence": 0.747,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3964.17,
+        "blip_latency_ms": 2115.49,
+        "yolo_latency_ms": 107.2,
+        "vqa_latency_ms": 1658.75,
+        "vqa_questions_executed": 4
+      },
+      "narration": "A person is walking outdoors, with several other people nearby.",
+      "prediction": "The person will likely continue walking along the walkway."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_38_57 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 10,
+          "false_positives": 2,
+          "false_negatives": 0,
+          "total_predictions": 12,
+          "total_ground_truth": 10,
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1_score": 0.9091,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 3,
+          "per_class": {
+            "book": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "cell phone": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "chair": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "laptop": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 7,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 7,
+              "prediction_count": 7,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.4971,
+          "bleu_2": 0.1179,
+          "bleu_3": 0.0606,
+          "bleu_4": 0.0379,
+          "brevity_penalty": 0.8948,
+          "rouge_l_precision": 0.2222,
+          "rouge_l_recall": 0.1429,
+          "rouge_l_f1": 0.1674,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "Are multiple people gathered together?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "yes",
+                "yes group",
+                "multiple people"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What setting is this group in?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "indoors",
+                "office",
+                "classroom",
+                "indoor room"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 12,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.935,
+            "bbox": {
+              "x1": 166.6,
+              "y1": 160.0,
+              "x2": 730.8,
+              "y2": 825.3
+            }
+          },
+          {
+            "label": "laptop",
+            "confidence": 0.922,
+            "bbox": {
+              "x1": 474.3,
+              "y1": 718.5,
+              "x2": 990.2,
+              "y2": 1009.0
+            }
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.881,
+            "bbox": {
+              "x1": 407.6,
+              "y1": 992.5,
+              "x2": 612.6,
+              "y2": 1101.5
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.856,
+            "bbox": {
+              "x1": 709.4,
+              "y1": 232.2,
+              "x2": 1122.3,
+              "y2": 789.2
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.835,
+            "bbox": {
+              "x1": 557.4,
+              "y1": 248.0,
+              "x2": 729.6,
+              "y2": 460.4
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.753,
+            "bbox": {
+              "x1": 0.3,
+              "y1": 207.5,
+              "x2": 503.4,
+              "y2": 1119.9
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.752,
+            "bbox": {
+              "x1": 744.7,
+              "y1": 219.7,
+              "x2": 871.9,
+              "y2": 455.1
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.657,
+            "bbox": {
+              "x1": 112.5,
+              "y1": 64.9,
+              "x2": 345.8,
+              "y2": 302.2
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.518,
+            "bbox": {
+              "x1": 992.1,
+              "y1": 213.7,
+              "x2": 1401.0,
+              "y2": 1074.9
+            }
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.49,
+            "bbox": {
+              "x1": 1033.0,
+              "y1": 940.2,
+              "x2": 1368.5,
+              "y2": 1053.1
+            }
+          },
+          {
+            "label": "chair",
+            "confidence": 0.341,
+            "bbox": {
+              "x1": 653.6,
+              "y1": 461.5,
+              "x2": 759.6,
+              "y2": 601.4
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.304,
+            "bbox": {
+              "x1": 943.6,
+              "y1": 837.5,
+              "x2": 1169.7,
+              "y2": 955.5
+            }
+          }
+        ],
+        "average_object_confidence": 0.687,
+        "presence_confidence": "confirmed",
+        "prediction_status": "tentative_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3836.45,
+        "blip_latency_ms": 1785.78,
+        "yolo_latency_ms": 114.05,
+        "vqa_latency_ms": 1846.17,
+        "vqa_questions_executed": 4
+      },
+      "narration": "7 people are gathered together, with a laptop nearby.",
+      "prediction": "The group will likely continue their discussion at the table."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_40_13 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1402x1122",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 13,
+          "false_positives": 3,
+          "false_negatives": 0,
+          "total_predictions": 16,
+          "total_ground_truth": 13,
+          "precision": 0.8125,
+          "recall": 1.0,
+          "f1_score": 0.8966,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 3,
+          "per_class": {
+            "backpack": {
+              "true_positives": 2,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 3,
+              "precision": 0.6667,
+              "recall": 1.0,
+              "f1_score": 0.8,
+              "average_precision": 1.0
+            },
+            "laptop": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "person": {
+              "true_positives": 10,
+              "false_positives": 2,
+              "false_negatives": 0,
+              "ground_truth_count": 10,
+              "prediction_count": 12,
+              "precision": 0.8333,
+              "recall": 1.0,
+              "f1_score": 0.9091,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.3559,
+          "bleu_2": 0.0944,
+          "bleu_3": 0.0503,
+          "bleu_4": 0.0321,
+          "brevity_penalty": 0.8007,
+          "rouge_l_precision": 0.2222,
+          "rouge_l_recall": 0.1818,
+          "rouge_l_f1": 0.1965,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "Where are the people sitting?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "grass",
+                "lawn",
+                "outside",
+                "ground",
+                "outdoors"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What is the person in front using?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "laptop",
+                "computer",
+                "notebook"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 16,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.942,
+            "bbox": {
+              "x1": 0.1,
+              "y1": 254.4,
+              "x2": 401.3,
+              "y2": 1079.4
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.928,
+            "bbox": {
+              "x1": 378.6,
+              "y1": 251.7,
+              "x2": 768.4,
+              "y2": 1021.6
+            }
+          },
+          {
+            "label": "laptop",
+            "confidence": 0.9,
+            "bbox": {
+              "x1": 396.1,
+              "y1": 574.8,
+              "x2": 618.9,
+              "y2": 710.2
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.868,
+            "bbox": {
+              "x1": 745.1,
+              "y1": 314.4,
+              "x2": 1370.2,
+              "y2": 1122.0
+            }
+          },
+          {
+            "label": "backpack",
+            "confidence": 0.643,
+            "bbox": {
+              "x1": 689.9,
+              "y1": 723.6,
+              "x2": 959.4,
+              "y2": 1036.4
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.611,
+            "bbox": {
+              "x1": 763.3,
+              "y1": 253.4,
+              "x2": 1078.1,
+              "y2": 752.4
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.581,
+            "bbox": {
+              "x1": 337.9,
+              "y1": 294.4,
+              "x2": 479.7,
+              "y2": 503.9
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.444,
+            "bbox": {
+              "x1": 253.6,
+              "y1": 169.9,
+              "x2": 371.2,
+              "y2": 468.5
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.425,
+            "bbox": {
+              "x1": 652.1,
+              "y1": 302.4,
+              "x2": 771.0,
+              "y2": 444.8
+            }
+          },
+          {
+            "label": "backpack",
+            "confidence": 0.423,
+            "bbox": {
+              "x1": 122.8,
+              "y1": 719.9,
+              "x2": 300.5,
+              "y2": 1030.5
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.401,
+            "bbox": {
+              "x1": 373.9,
+              "y1": 176.7,
+              "x2": 465.5,
+              "y2": 367.3
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.383,
+            "bbox": {
+              "x1": 1.0,
+              "y1": 219.7,
+              "x2": 131.4,
+              "y2": 461.4
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.359,
+            "bbox": {
+              "x1": 137.5,
+              "y1": 166.2,
+              "x2": 259.2,
+              "y2": 282.3
+            }
+          },
+          {
+            "label": "backpack",
+            "confidence": 0.309,
+            "bbox": {
+              "x1": 24.5,
+              "y1": 270.0,
+              "x2": 133.1,
+              "y2": 417.2
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.276,
+            "bbox": {
+              "x1": 408.6,
+              "y1": 177.1,
+              "x2": 483.6,
+              "y2": 354.7
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.27,
+            "bbox": {
+              "x1": 423.1,
+              "y1": 179.5,
+              "x2": 486.2,
+              "y2": 392.6
+            }
+          }
+        ],
+        "average_object_confidence": 0.548,
+        "presence_confidence": "confirmed",
+        "prediction_status": "tentative_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 4174.44,
+        "blip_latency_ms": 1895.42,
+        "yolo_latency_ms": 123.08,
+        "vqa_latency_ms": 2037.83,
+        "vqa_questions_executed": 4
+      },
+      "narration": "12 people are outdoors together, with a laptop nearby.",
+      "prediction": "The group will likely remain gathered together outdoors."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_41_18 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1536x1024",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 0,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "total_predictions": 0,
+          "total_ground_truth": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0,
+          "mAP_50": 0.0,
+          "evaluated_classes_count": 0,
+          "per_class": {}
+        },
+        "caption_metrics": {
+          "bleu_1": 0.242,
+          "bleu_2": 0.1509,
+          "bleu_3": 0.0685,
+          "bleu_4": 0.041,
+          "brevity_penalty": 0.5647,
+          "rouge_l_precision": 0.2857,
+          "rouge_l_recall": 0.1818,
+          "rouge_l_f1": 0.2137,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "Are there any people in this picture?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "no",
+                "nobody",
+                "none"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What natural feature is prominent?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "lake",
+                "water",
+                "mountain",
+                "trees",
+                "mountains"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": false,
+          "person_presence_correct": true,
+          "predicted_scene_type": "uncertain",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "absent",
+          "ground_truth_presence": "absent"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 0,
+        "detected_objects": [],
+        "average_object_confidence": 0.0,
+        "presence_confidence": "confirmed",
+        "prediction_status": "insufficient_evidence"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 8189.38,
+        "blip_latency_ms": 1676.4,
+        "yolo_latency_ms": 298.09,
+        "vqa_latency_ms": 6131.11,
+        "vqa_questions_executed": 3
+      },
+      "narration": "An open outdoor scene capturing a lake.",
+      "prediction": "The scene will likely remain steady."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_42_24 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1536x1024",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 5,
+          "false_positives": 3,
+          "false_negatives": 1,
+          "total_predictions": 8,
+          "total_ground_truth": 6,
+          "precision": 0.625,
+          "recall": 0.8333,
+          "f1_score": 0.7143,
+          "mAP_50": 0.75,
+          "evaluated_classes_count": 4,
+          "per_class": {
+            "bicycle": {
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "ground_truth_count": 1,
+              "prediction_count": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": 0.0
+            },
+            "bus": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "car": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "motorcycle": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "parking meter": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "person": {
+              "true_positives": 2,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 3,
+              "precision": 0.6667,
+              "recall": 1.0,
+              "f1_score": 0.8,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.2669,
+          "bleu_2": 0.1634,
+          "bleu_3": 0.0726,
+          "bleu_4": 0.0422,
+          "brevity_penalty": 0.8007,
+          "rouge_l_precision": 0.2222,
+          "rouge_l_recall": 0.125,
+          "rouge_l_f1": 0.1523,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "What is the person riding?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "bicycle",
+                "bike",
+                "cycle"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What color is the rider's jacket?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "red",
+                "red jacket"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 8,
+        "detected_objects": [
+          {
+            "label": "car",
+            "confidence": 0.904,
+            "bbox": {
+              "x1": 1123.9,
+              "y1": 563.2,
+              "x2": 1516.2,
+              "y2": 772.4
+            }
+          },
+          {
+            "label": "car",
+            "confidence": 0.833,
+            "bbox": {
+              "x1": 668.0,
+              "y1": 545.6,
+              "x2": 870.8,
+              "y2": 688.9
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.483,
+            "bbox": {
+              "x1": 198.9,
+              "y1": 529.4,
+              "x2": 229.5,
+              "y2": 602.5
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.456,
+            "bbox": {
+              "x1": 1047.8,
+              "y1": 547.1,
+              "x2": 1127.2,
+              "y2": 672.5
+            }
+          },
+          {
+            "label": "motorcycle",
+            "confidence": 0.403,
+            "bbox": {
+              "x1": 1046.7,
+              "y1": 617.0,
+              "x2": 1137.9,
+              "y2": 713.0
+            }
+          },
+          {
+            "label": "parking meter",
+            "confidence": 0.305,
+            "bbox": {
+              "x1": 502.5,
+              "y1": 544.0,
+              "x2": 556.3,
+              "y2": 649.2
+            }
+          },
+          {
+            "label": "bus",
+            "confidence": 0.278,
+            "bbox": {
+              "x1": 505.3,
+              "y1": 496.7,
+              "x2": 598.8,
+              "y2": 585.6
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.254,
+            "bbox": {
+              "x1": 503.1,
+              "y1": 544.3,
+              "x2": 557.8,
+              "y2": 652.5
+            }
+          }
+        ],
+        "average_object_confidence": 0.489,
+        "presence_confidence": "supported",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3140.84,
+        "blip_latency_ms": 1418.42,
+        "yolo_latency_ms": 124.52,
+        "vqa_latency_ms": 1503.32,
+        "vqa_questions_executed": 4
+      },
+      "narration": "A person is standing, with several other people nearby.",
+      "prediction": "The pedestrians will likely stay on the walkway and navigate around street traffic."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_44_22 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1536x1024",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 9,
+          "false_positives": 2,
+          "false_negatives": 2,
+          "total_predictions": 11,
+          "total_ground_truth": 11,
+          "precision": 0.8182,
+          "recall": 0.8182,
+          "f1_score": 0.8182,
+          "mAP_50": 0.8182,
+          "evaluated_classes_count": 7,
+          "per_class": {
+            "book": {
+              "true_positives": 3,
+              "false_positives": 2,
+              "false_negatives": 1,
+              "ground_truth_count": 4,
+              "prediction_count": 5,
+              "precision": 0.6,
+              "recall": 0.75,
+              "f1_score": 0.6667,
+              "average_precision": 0.7273
+            },
+            "bottle": {
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "ground_truth_count": 1,
+              "prediction_count": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": 0.0
+            },
+            "cell phone": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "cup": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "laptop": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "mouse": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "potted plant": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.4375,
+          "bleu_2": 0.1708,
+          "bleu_3": 0.0639,
+          "bleu_4": 0.0335,
+          "brevity_penalty": 1.0,
+          "rouge_l_precision": 0.3125,
+          "rouge_l_recall": 0.3846,
+          "rouge_l_f1": 0.3514,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "Is anyone sitting at the desk?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "no",
+                "nobody",
+                "empty",
+                "no one"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What computer equipment is on the desk?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "laptop",
+                "mouse",
+                "computer",
+                "laptop and mouse"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": false,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "uncertain",
+          "ground_truth_presence": "absent"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 11,
+        "detected_objects": [
+          {
+            "label": "mouse",
+            "confidence": 0.954,
+            "bbox": {
+              "x1": 475.7,
+              "y1": 870.6,
+              "x2": 635.4,
+              "y2": 994.1
+            }
+          },
+          {
+            "label": "laptop",
+            "confidence": 0.939,
+            "bbox": {
+              "x1": 36.8,
+              "y1": 223.9,
+              "x2": 913.2,
+              "y2": 870.7
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.918,
+            "bbox": {
+              "x1": 796.1,
+              "y1": 260.1,
+              "x2": 1017.2,
+              "y2": 551.2
+            }
+          },
+          {
+            "label": "cup",
+            "confidence": 0.854,
+            "bbox": {
+              "x1": 714.9,
+              "y1": 443.7,
+              "x2": 906.0,
+              "y2": 610.8
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.643,
+            "bbox": {
+              "x1": 952.9,
+              "y1": 478.2,
+              "x2": 1385.8,
+              "y2": 608.1
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.607,
+            "bbox": {
+              "x1": 579.2,
+              "y1": 707.8,
+              "x2": 1284.2,
+              "y2": 1015.4
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.507,
+            "bbox": {
+              "x1": 940.5,
+              "y1": 520.6,
+              "x2": 1375.3,
+              "y2": 638.7
+            }
+          },
+          {
+            "label": "cell phone",
+            "confidence": 0.448,
+            "bbox": {
+              "x1": 196.2,
+              "y1": 871.8,
+              "x2": 476.0,
+              "y2": 1020.2
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.428,
+            "bbox": {
+              "x1": 566.1,
+              "y1": 675.4,
+              "x2": 1496.4,
+              "y2": 1012.0
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.348,
+            "bbox": {
+              "x1": 934.7,
+              "y1": 555.8,
+              "x2": 1369.1,
+              "y2": 682.7
+            }
+          },
+          {
+            "label": "laptop",
+            "confidence": 0.332,
+            "bbox": {
+              "x1": 1287.2,
+              "y1": 636.6,
+              "x2": 1535.2,
+              "y2": 765.4
+            }
+          }
+        ],
+        "average_object_confidence": 0.634,
+        "presence_confidence": "uncertain",
+        "prediction_status": "insufficient_evidence"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 2938.58,
+        "blip_latency_ms": 1589.3,
+        "yolo_latency_ms": 62.97,
+        "vqa_latency_ms": 1228.4,
+        "vqa_questions_executed": 3
+      },
+      "narration": "A quiet scene showing a desk with laptops and books, with a cup on the desk.",
+      "prediction": "The workspace will likely remain steady until someone uses it."
+    },
+    {
+      "filename": "ChatGPT Image Aug 20, 2026, 10_45_33 PM.png",
+      "is_ground_truth_annotated": true,
+      "resolution": "1536x1024",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 9,
+          "false_positives": 2,
+          "false_negatives": 0,
+          "total_predictions": 11,
+          "total_ground_truth": 9,
+          "precision": 0.8182,
+          "recall": 1.0,
+          "f1_score": 0.9,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 6,
+          "per_class": {
+            "backpack": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "book": {
+              "true_positives": 3,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 3,
+              "prediction_count": 3,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "bottle": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "dining table": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            },
+            "laptop": {
+              "true_positives": 2,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 2,
+              "prediction_count": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "mouse": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "potted plant": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            },
+            "remote": {
+              "true_positives": 0,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 0,
+              "prediction_count": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": null
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.7,
+          "bleu_2": 0.1394,
+          "bleu_3": 0.0672,
+          "bleu_4": 0.0406,
+          "brevity_penalty": 1.0,
+          "rouge_l_precision": 0.4,
+          "rouge_l_recall": 0.4,
+          "rouge_l_f1": 0.4,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "What is next to the laptop?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "bottle",
+                "water bottle",
+                "book",
+                "backpack"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "Is a person visible in the frame?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "no",
+                "no one",
+                "nobody",
+                "none"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "absent",
+          "ground_truth_presence": "absent"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 11,
+        "detected_objects": [
+          {
+            "label": "laptop",
+            "confidence": 0.944,
+            "bbox": {
+              "x1": 120.3,
+              "y1": 628.4,
+              "x2": 714.3,
+              "y2": 965.6
+            }
+          },
+          {
+            "label": "potted plant",
+            "confidence": 0.923,
+            "bbox": {
+              "x1": 1050.8,
+              "y1": 182.9,
+              "x2": 1326.9,
+              "y2": 515.0
+            }
+          },
+          {
+            "label": "backpack",
+            "confidence": 0.707,
+            "bbox": {
+              "x1": 98.7,
+              "y1": 12.2,
+              "x2": 762.5,
+              "y2": 737.7
+            }
+          },
+          {
+            "label": "bottle",
+            "confidence": 0.698,
+            "bbox": {
+              "x1": 882.9,
+              "y1": 210.4,
+              "x2": 1021.8,
+              "y2": 566.8
+            }
+          },
+          {
+            "label": "mouse",
+            "confidence": 0.628,
+            "bbox": {
+              "x1": 566.1,
+              "y1": 897.3,
+              "x2": 701.0,
+              "y2": 997.7
+            }
+          },
+          {
+            "label": "laptop",
+            "confidence": 0.611,
+            "bbox": {
+              "x1": 626.1,
+              "y1": 570.4,
+              "x2": 1011.2,
+              "y2": 837.1
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.493,
+            "bbox": {
+              "x1": 920.2,
+              "y1": 544.4,
+              "x2": 1260.8,
+              "y2": 778.2
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.429,
+            "bbox": {
+              "x1": 621.3,
+              "y1": 570.1,
+              "x2": 1002.2,
+              "y2": 835.6
+            }
+          },
+          {
+            "label": "book",
+            "confidence": 0.397,
+            "bbox": {
+              "x1": 1236.6,
+              "y1": 520.7,
+              "x2": 1430.7,
+              "y2": 663.8
+            }
+          },
+          {
+            "label": "dining table",
+            "confidence": 0.36,
+            "bbox": {
+              "x1": 0.0,
+              "y1": 398.5,
+              "x2": 1532.8,
+              "y2": 1024.0
+            }
+          },
+          {
+            "label": "remote",
+            "confidence": 0.297,
+            "bbox": {
+              "x1": 713.7,
+              "y1": 844.0,
+              "x2": 949.9,
+              "y2": 1024.0
+            }
+          }
+        ],
+        "average_object_confidence": 0.59,
+        "presence_confidence": "confirmed",
+        "prediction_status": "insufficient_evidence"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 4113.32,
+        "blip_latency_ms": 2825.41,
+        "yolo_latency_ms": 54.31,
+        "vqa_latency_ms": 1161.1,
+        "vqa_questions_executed": 3
+      },
+      "narration": "A quiet scene showing a desk with laptops and books.",
+      "prediction": "The workspace will likely remain steady until someone uses it."
+    },
+    {
+      "filename": "mountain_landscape.jpg",
+      "is_ground_truth_annotated": true,
+      "resolution": "800x600",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "total_predictions": 1,
+          "total_ground_truth": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "mAP_50": 1.0,
+          "evaluated_classes_count": 1,
+          "per_class": {
+            "frisbee": {
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 1,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.5134,
+          "bleu_2": 0.3247,
+          "bleu_3": 0.2383,
+          "bleu_4": 0.1097,
+          "brevity_penalty": 0.5134,
+          "rouge_l_precision": 0.6667,
+          "rouge_l_recall": 0.3333,
+          "rouge_l_f1": 0.4192,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "Is this a real photograph or an illustration?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "illustration",
+                "graphic",
+                "drawing",
+                "artwork"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What famous landmark is depicted in the illustration?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "pyramids",
+                "pyramid",
+                "egyptian pyramids"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "illustration_or_graphic",
+          "ground_truth_scene_type": "illustration_or_graphic",
+          "predicted_presence": "absent",
+          "ground_truth_presence": "absent"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 1,
+        "detected_objects": [
+          {
+            "label": "frisbee",
+            "confidence": 0.439,
+            "bbox": {
+              "x1": 649.2,
+              "y1": 49.1,
+              "x2": 752.2,
+              "y2": 153.2
+            }
+          }
+        ],
+        "average_object_confidence": 0.439,
+        "presence_confidence": "confirmed",
+        "prediction_status": "suppressed"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3969.88,
+        "blip_latency_ms": 2595.66,
+        "yolo_latency_ms": 533.47,
+        "vqa_latency_ms": 719.42,
+        "vqa_questions_executed": 2
+      },
+      "narration": "A graphic illustration depicting the pyramids.",
+      "prediction": "Predictive storytelling is paused for static illustrations."
+    },
+    {
+      "filename": "portrait_smartphone.jpg",
+      "is_ground_truth_annotated": true,
+      "resolution": "4608x3072",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 1,
+          "false_positives": 1,
+          "false_negatives": 1,
+          "total_predictions": 2,
+          "total_ground_truth": 2,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1_score": 0.5,
+          "mAP_50": 0.5,
+          "evaluated_classes_count": 2,
+          "per_class": {
+            "cell phone": {
+              "true_positives": 0,
+              "false_positives": 0,
+              "false_negatives": 1,
+              "ground_truth_count": 1,
+              "prediction_count": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1_score": 0.0,
+              "average_precision": 0.0
+            },
+            "person": {
+              "true_positives": 1,
+              "false_positives": 1,
+              "false_negatives": 0,
+              "ground_truth_count": 1,
+              "prediction_count": 2,
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1_score": 0.6667,
+              "average_precision": 1.0
+            }
+          }
+        },
+        "caption_metrics": {
+          "bleu_1": 0.6349,
+          "bleu_2": 0.5414,
+          "bleu_3": 0.2917,
+          "bleu_4": 0.1099,
+          "brevity_penalty": 0.8465,
+          "rouge_l_precision": 0.5833,
+          "rouge_l_recall": 0.4667,
+          "rouge_l_f1": 0.5083,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 1,
+          "soft_match_count": 1,
+          "exact_match_accuracy": 50.0,
+          "soft_match_accuracy": 50.0,
+          "details": [
+            {
+              "question": "What pattern or clothing is the main person wearing?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "checkered shirt",
+                "plaid",
+                "plaid shirt",
+                "checkered"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What is the person holding?",
+              "predicted_answer": "Cell phone",
+              "reference_answers": [
+                "phone",
+                "cell phone",
+                "smartphone"
+              ],
+              "exact_match": true,
+              "soft_match": true
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "photographic_scene",
+          "ground_truth_scene_type": "photographic_scene",
+          "predicted_presence": "present",
+          "ground_truth_presence": "present"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 2,
+        "detected_objects": [
+          {
+            "label": "person",
+            "confidence": 0.696,
+            "bbox": {
+              "x1": 12.6,
+              "y1": 2.7,
+              "x2": 3752.1,
+              "y2": 3018.8
+            }
+          },
+          {
+            "label": "person",
+            "confidence": 0.341,
+            "bbox": {
+              "x1": 0.5,
+              "y1": 23.9,
+              "x2": 1296.9,
+              "y2": 2929.7
+            }
+          }
+        ],
+        "average_object_confidence": 0.518,
+        "presence_confidence": "confirmed",
+        "prediction_status": "supported_prediction"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3568.2,
+        "blip_latency_ms": 1365.82,
+        "yolo_latency_ms": 55.41,
+        "vqa_latency_ms": 1700.51,
+        "vqa_questions_executed": 5
+      },
+      "narration": "A person is standing indoors, using a smartphone, with another person nearby.",
+      "prediction": "They'll likely continue using the smartphone."
+    },
+    {
+      "filename": "synthetic_graphic.jpg",
+      "is_ground_truth_annotated": true,
+      "resolution": "640x480",
+      "benchmark_evaluation": {
+        "object_detection": {
+          "iou_threshold": 0.5,
+          "true_positives": 0,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "total_predictions": 0,
+          "total_ground_truth": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0,
+          "mAP_50": 0.0,
+          "evaluated_classes_count": 0,
+          "per_class": {}
+        },
+        "caption_metrics": {
+          "bleu_1": 0.7369,
+          "bleu_2": 0.6342,
+          "bleu_3": 0.498,
+          "bleu_4": 0.4123,
+          "brevity_penalty": 0.8187,
+          "rouge_l_precision": 0.9,
+          "rouge_l_recall": 0.75,
+          "rouge_l_f1": 0.805,
+          "reference_count": 3
+        },
+        "vqa_metrics": {
+          "total_questions_evaluated": 2,
+          "exact_match_count": 0,
+          "soft_match_count": 0,
+          "exact_match_accuracy": 0.0,
+          "soft_match_accuracy": 0.0,
+          "details": [
+            {
+              "question": "Is there any human in this graphic?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "no",
+                "none",
+                "nobody"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            },
+            {
+              "question": "What shape is shown?",
+              "predicted_answer": null,
+              "reference_answers": [
+                "square",
+                "rectangle",
+                "box"
+              ],
+              "exact_match": false,
+              "soft_match": false,
+              "status": "question_not_executed_by_policy"
+            }
+          ]
+        },
+        "classification_metrics": {
+          "scene_type_correct": true,
+          "person_presence_correct": true,
+          "predicted_scene_type": "illustration_or_graphic",
+          "ground_truth_scene_type": "illustration_or_graphic",
+          "predicted_presence": "absent",
+          "ground_truth_presence": "absent"
+        }
+      },
+      "model_confidence": {
+        "object_detections_count": 0,
+        "detected_objects": [],
+        "average_object_confidence": 0.0,
+        "presence_confidence": "confirmed",
+        "prediction_status": "suppressed"
+      },
+      "operational_telemetry": {
+        "total_inference_ms": 3216.52,
+        "blip_latency_ms": 2478.94,
+        "yolo_latency_ms": 36.59,
+        "vqa_latency_ms": 697.28,
+        "vqa_questions_executed": 2
+      },
+      "narration": "A graphic illustration depicting a square with a blue border.",
+      "prediction": "Predictive storytelling is paused for static illustrations."
+    }
+  ]
+}

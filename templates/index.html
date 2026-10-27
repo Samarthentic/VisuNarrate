@@ -63,6 +63,14 @@
 
             <!-- Header Action Controls & Hardware Status -->
             <div class="header-status">
+                <button class="btn-header-action" id="btnOpenEvaluation" type="button" title="View Model Evaluation & Quantitative Metrics">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>Evaluation Metrics</span>
+                </button>
                 <button class="btn-header-action" id="btnOpenGlossary" type="button" title="Open Technical Glossary">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -405,7 +413,15 @@
                                     <span class="tech-timing-value" id="techImgTotalMs">- ms</span>
                                 </div>
                             </div>
-                            <div style="display: flex; justify-content: flex-end;">
+                            <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                                <button class="btn btn-secondary btnOpenEvalModalShortcut" type="button" style="font-size: 0.8125rem; padding: 7px 14px;">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                    <span>Model Benchmarks</span>
+                                </button>
                                 <button class="btn btn-secondary" id="btnDownloadImageJson" type="button" disabled style="font-size: 0.8125rem; padding: 7px 14px;">
                                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -690,7 +706,15 @@
                             </div>
 
                             <!-- Download Results Button -->
-                            <div class="video-action-footer">
+                            <div class="video-action-footer" style="display: flex; gap: 8px; justify-content: flex-end;">
+                                <button class="btn btn-secondary btnOpenEvalModalShortcut" type="button">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                    <span>Model Benchmarks</span>
+                                </button>
                                 <button class="btn btn-secondary" id="btnDownloadVideoJson" type="button" disabled>
                                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -861,7 +885,15 @@
                                     <span class="tech-timing-value" id="liveTechMemory">- MB</span>
                                 </div>
                             </div>
-                            <div style="padding: 0 12px 12px 12px; display: flex; justify-content: flex-end;">
+                            <div style="padding: 0 12px 12px 12px; display: flex; justify-content: flex-end; gap: 8px;">
+                                <button class="btn btn-secondary btn-sm btnOpenEvalModalShortcut" type="button">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                    <span>Model Benchmarks</span>
+                                </button>
                                 <button class="btn btn-secondary btn-sm" id="btnDownloadLiveJson" type="button" disabled>
                                     <span>Export Technical Report (JSON)</span>
                                 </button>
@@ -900,6 +932,191 @@
                 <div class="modal-body" id="sysInfoBody">
                     <div class="loading-spinner"></div>
                     <p style="text-align: center; color: var(--text-secondary); margin-top: 8px;">Measuring hardware telemetry...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------- -->
+        <!-- Model Evaluation & Quantitative Benchmark Dashboard Modal       -->
+        <!-- ---------------------------------------------------------------- -->
+        <div class="modal-overlay hidden" id="evaluationModal" role="dialog" aria-modal="true" aria-labelledby="evaluationModalTitle">
+            <div class="modal-dialog modal-dialog-wide">
+                <div class="modal-header">
+                    <div style="display: flex; align-items: center; gap: 9px;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary-accent);">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <h3 class="modal-title" id="evaluationModalTitle">Model Evaluation & Quantitative Benchmarks</h3>
+                    </div>
+                    <button class="modal-close-btn" id="btnCloseEvaluation" type="button" aria-label="Close evaluation dashboard">&times;</button>
+                </div>
+                <div class="modal-body" id="evaluationModalBody" style="padding: 16px 20px; overflow-y: auto; max-height: calc(85vh - 70px);">
+                    <!-- Academic Disclaimer Banner -->
+                    <div class="eval-disclaimer-banner">
+                        <span class="tech-badge-zero">0 Epochs</span>
+                        <div class="eval-disclaimer-text">
+                            <strong>Academic Evaluation Policy:</strong> VisuNarrate runs inference using pretrained models (YOLOv8n, BLIP Caption, BLIP-VQA).
+                            Training epochs run in this project: 0. Benchmark scores are evaluated directly on-device against verified local ground-truth annotations.
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Modality Selector Tabs -->
+                    <div class="eval-nav-tabs" role="tablist">
+                        <button class="eval-tab-btn active" data-eval-pane="evalPaneOverview" type="button" role="tab" aria-selected="true">Executive Summary</button>
+                        <button class="eval-tab-btn" data-eval-pane="evalPaneImage" type="button" role="tab" aria-selected="false">Image Pipeline</button>
+                        <button class="eval-tab-btn" data-eval-pane="evalPaneVideo" type="button" role="tab" aria-selected="false">Video Pipeline</button>
+                        <button class="eval-tab-btn" data-eval-pane="evalPaneLive" type="button" role="tab" aria-selected="false">Live Camera</button>
+                    </div>
+
+                    <!-- Tab Pane 1: Executive Summary -->
+                    <div class="eval-pane active" id="evalPaneOverview">
+                        <!-- Top KPI Metric Cards Grid -->
+                        <div class="eval-kpi-grid">
+                            <div class="eval-kpi-card">
+                                <span class="eval-kpi-label">YOLOv8n mAP@0.5</span>
+                                <span class="eval-kpi-value" id="kpiYoloMap">-</span>
+                                <span class="eval-kpi-sub" id="kpiYoloF1">F1: - • Prec: - • Rec: -</span>
+                                <span class="eval-kpi-badge badge-gt">Ground Truth Validated</span>
+                            </div>
+                            <div class="eval-kpi-card">
+                                <span class="eval-kpi-label">Caption BLEU-1 & ROUGE-L</span>
+                                <span class="eval-kpi-value" id="kpiBlipBleu">-</span>
+                                <span class="eval-kpi-sub" id="kpiBlipRouge">ROUGE-L F1: - • BLEU-4: -</span>
+                                <span class="eval-kpi-badge badge-gt">Ground Truth Validated</span>
+                            </div>
+                            <div class="eval-kpi-card">
+                                <span class="eval-kpi-label">BLIP-VQA Accuracy</span>
+                                <span class="eval-kpi-value" id="kpiVqaAcc">- %</span>
+                                <span class="eval-kpi-sub" id="kpiVqaSoft">Soft Match: - %</span>
+                                <span class="eval-kpi-badge badge-gt">Ground Truth Validated</span>
+                            </div>
+                            <div class="eval-kpi-card">
+                                <span class="eval-kpi-label">Video Transition F1</span>
+                                <span class="eval-kpi-value" id="kpiVideoF1">-</span>
+                                <span class="eval-kpi-sub" id="kpiVideoComp">Compute Saved: - %</span>
+                                <span class="eval-kpi-badge badge-gt">Ground Truth Validated</span>
+                            </div>
+                        </div>
+
+                        <!-- 3-Category Isolation Table -->
+                        <div class="eval-category-section">
+                            <h4 class="eval-section-title">Evaluation Hierarchy & Telemetry Distinction</h4>
+                            <div class="eval-distinction-grid">
+                                <div class="eval-distinction-card">
+                                    <div class="distinction-header">
+                                        <span class="badge-tag badge-gt">1. Evaluation Quality</span>
+                                    </div>
+                                    <p class="distinction-desc">
+                                        Quantitative mathematical performance measured strictly against independent human ground-truth annotations.
+                                    </p>
+                                    <ul class="distinction-list">
+                                        <li><strong>Detection:</strong> IoU >= 0.5, Precision, Recall, mAP@0.5</li>
+                                        <li><strong>Captions:</strong> BLEU-1, BLEU-2, BLEU-4, ROUGE-L F1</li>
+                                        <li><strong>VQA:</strong> Top-1 Exact Match & Soft Semantic Match</li>
+                                        <li><strong>Temporal:</strong> Transition F1 (tolerance ±1.5s)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="eval-distinction-card">
+                                    <div class="distinction-header">
+                                        <span class="badge-tag badge-confidence">2. Model Confidence</span>
+                                    </div>
+                                    <p class="distinction-desc">
+                                        Internal probabilities reported by neural models during individual inference passes.
+                                    </p>
+                                    <ul class="distinction-list">
+                                        <li><strong>Detector Confidence:</strong> [0.25 - 1.0] per bbox</li>
+                                        <li><strong>Presence Certainty:</strong> Confirmed vs. Uncertain</li>
+                                        <li><strong>Prediction State:</strong> Supported vs. Tentative</li>
+                                        <li><strong>Conflict Count:</strong> Contradiction gating</li>
+                                    </ul>
+                                </div>
+
+                                <div class="eval-distinction-card">
+                                    <div class="distinction-header">
+                                        <span class="badge-tag badge-telemetry">3. Operational Telemetry</span>
+                                    </div>
+                                    <p class="distinction-desc">
+                                        Empirical runtime hardware and pipeline efficiency measured on Apple Silicon Metal (MPS).
+                                    </p>
+                                    <ul class="distinction-list">
+                                        <li><strong>Cold Init:</strong> Persistent disk to RAM/VRAM</li>
+                                        <li><strong>Shader JIT Trace:</strong> Metal graph compilation</li>
+                                        <li><strong>Warm Latency:</strong> Median & P95 ms</li>
+                                        <li><strong>Redundancy Filtering:</strong> Frame skip ratio (%)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Pane 2: Image Pipeline Details -->
+                    <div class="eval-pane hidden" id="evalPaneImage">
+                        <div class="eval-detail-block">
+                            <h4 class="eval-section-title">Object Detection & Captioning Benchmark (15 Labeled Images)</h4>
+                            <div class="eval-table-container">
+                                <table class="eval-table" id="tableImageEval">
+                                    <thead>
+                                        <tr>
+                                            <th>Image File</th>
+                                            <th>Scene Type</th>
+                                            <th>Ground Truth vs. Predicted</th>
+                                            <th>Detection P / R / F1</th>
+                                            <th>BLEU-1</th>
+                                            <th>ROUGE-L</th>
+                                            <th>VQA Acc</th>
+                                            <th>Latency</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyImageEval">
+                                        <tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 16px;">Loading image evaluation records...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Pane 3: Video Pipeline Details -->
+                    <div class="eval-pane hidden" id="evalPaneVideo">
+                        <div class="eval-detail-block">
+                            <h4 class="eval-section-title">Video Storytelling & Transition Detection Benchmark</h4>
+                            <div class="eval-metric-rows" id="videoEvalDetails">
+                                <p style="color: var(--text-muted);">Loading video benchmark records...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Pane 4: Live Telemetry Details -->
+                    <div class="eval-pane hidden" id="evalPaneLive">
+                        <div class="eval-detail-block">
+                            <h4 class="eval-section-title">Live Camera Stream Redundancy Gating & Latency</h4>
+                            <div class="eval-metric-rows" id="liveEvalDetails">
+                                <p style="color: var(--text-muted);">Loading live stream operational metrics...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Actions Bar -->
+                    <div class="eval-modal-actions">
+                        <a href="/api/evaluation/report?format=csv" download="visunarrate_evaluation_metrics.csv" class="btn btn-secondary btn-sm" id="btnDownloadEvalCsv">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Download Metrics (CSV)</span>
+                        </a>
+                        <a href="/api/evaluation/report?format=json" download="visunarrate_master_evaluation.json" class="btn btn-secondary btn-sm" id="btnDownloadEvalJson">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Download Full Report (JSON)</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

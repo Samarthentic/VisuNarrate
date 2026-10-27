@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-10-27T18:04:21Z",
+  "session_id": "benchmark_session_1793124253",
+  "evaluation_type": "Live Camera Pipeline Operational Telemetry Benchmark",
+  "model_training_disclaimer": "Pretrained models only. Training epochs: 0. Evaluates runtime streaming inference and redundancy gating.",
+  "redundancy_filtering_efficiency": {
+    "total_snapshots_ingested": 3,
+    "full_multimodal_analyses": 1,
+    "redundant_snapshots_skipped": 2,
+    "compute_saved_percentage": 66.7,
+    "pixel_diff_threshold": 0.04,
+    "average_visual_diff_score": 0.3333
+  },
+  "latency_metrics": {
+    "overall_median_frame_latency_ms": 51.22,
+    "overall_mean_frame_latency_ms": 2533.5,
+    "full_analysis_median_latency_ms": 7545.11,
+    "redundant_skip_median_latency_ms": 27.69,
+    "min_frame_latency_ms": 4.16,
+    "max_frame_latency_ms": 7545.11
+  },
+  "runtime_guarantees": {
+    "disk_artifacts_written": 0,
+    "in_memory_processing_enforced": true,
+    "single_lock_concurrency_managed": true
+  }
+}

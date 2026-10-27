@@ -365,6 +365,69 @@ VisuNarrate explicitly discloses that:
 * **Zero training epochs were executed locally (`epochs = 0`, no local loss curves or training runs).**
 * Rather than retraining broad foundational weights, the core scientific and engineering contribution of VisuNarrate is the **Evidence Fusion Engine**, which reconciles spatial detections, cross-attentive captions, and targeted VQA queries to eliminate visual hallucination and enforce strictly grounded temporal predictions.
 
+---
+
+## 17. Quantitative Model Evaluation & Benchmark Dashboard (Phase 14)
+
+To provide academically verifiable performance metrics beyond qualitative visual inspection, VisuNarrate incorporates an independent, dependency-free quantitative evaluation framework in `evaluation/`. All metrics are computed locally against hand-verified human ground-truth annotations stored in `data/evaluation_datasets/`.
+
+### 17.1 Mathematical Metrics Implemented
+* **Object Detection (YOLOv8n)**:
+  * **Intersection-over-Union (IoU)**: $\text{IoU} = \frac{\text{Area}(\text{Intersection})}{\text{Area}(\text{Union})}$ with evaluation threshold $\text{IoU} \ge 0.50$.
+  * **Precision, Recall, F1-Score**: Evaluated per image and globally across all detected bounding boxes.
+  * **Mean Average Precision (mAP@0.5)**: 11-point interpolated precision-recall curve integration.
+* **Linguistic Caption Generation (BLIP Base)**:
+  * **BLEU-1, BLEU-2, BLEU-4**: Multi-reference n-gram precision with brevity penalty ($BP = \exp(\min(0, 1 - r/c))$).
+  * **ROUGE-L**: Longest Common Subsequence (LCS) F1 score ($R_{LCS}, P_{LCS}, F_{LCS}$) measuring grammatical and semantic coherence.
+* **Visual Question Answering (BLIP-VQA)**:
+  * **Top-1 Exact Match**: String normalized exact equality against accepted ground-truth answers.
+  * **Soft Semantic Match**: Token-level overlap and synonym normalization.
+* **Temporal Transition Detection (VideoEngine & TemporalService)**:
+  * **Transition Precision, Recall, and F1-Score**: Match temporal state changes against ground truth within an explicit tolerance window ($\pm 1.5\text{ seconds}$).
+  * **Segment Activity Alignment**: Verifies parsed temporal segments against chronological ground-truth intervals.
+* **Operational Telemetry & Redundancy Filter Efficiency**:
+  * **Redundancy Filter Compute Savings**: Measured percentage of redundant video frames and camera frames skipped via $64 \times 64$ L1 pixel difference thresholding without deep inference dispatch.
+  * **Latency Speedup**: Up to **$270\times$ faster** frame turnaround on redundant frames ($27\text{ ms}$ cached vs. $7500\text{ ms}$ full multimodal pipeline).
+
+### 17.2 The 3-Category Isolation Policy
+The dashboard enforces strict distinction across three visual tags to ensure complete scientific integrity:
+1. <span style="background: #EEF2FF; color: #4338CA; padding: 2px 8px; border-radius: 4px; font-weight: 600;">1. Evaluation Quality</span>: Evaluated strictly against independent human ground truth (IoU, mAP@0.5, BLEU, ROUGE-L, VQA accuracy, Transition F1).
+2. <span style="background: #F0FDF4; color: #15803D; padding: 2px 8px; border-radius: 4px; font-weight: 600;">2. Model Confidence</span>: Internal softmax/confidence probabilities output by individual models during inference (detection confidence, presence certainty, prediction support status).
+3. <span style="background: #F8FAFC; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 600;">3. Operational Telemetry</span>: Empirical runtime hardware measurements (cold init, warm median latency, Metal shader JIT tracing, RAM stability, redundancy filter rate).
+
+### 17.3 Empirical Benchmark Results (Apple Silicon M1 / Offline)
+
+| Modality | Component / Subsystem | Metric | Measured Value | Benchmark Ground Truth Basis |
+| :--- | :--- | :--- | :--- | :--- |
+| **Image** | YOLOv8n Detection | **mAP@0.5** | **0.749 (74.9%)** | 15 Labeled Images (IoU $\ge$ 0.5) |
+| **Image** | YOLOv8n Detection | **Precision** | **0.7544 (75.4%)** | Hand-Verified Bounding Boxes |
+| **Image** | YOLOv8n Detection | **Recall** | **0.9247 (92.5%)** | Hand-Verified Bounding Boxes |
+| **Image** | YOLOv8n Detection | **F1 Score** | **0.8309 (83.1%)** | Harmonic Mean of Precision & Recall |
+| **Image** | BLIP Captioning | **BLEU-1** | **0.4885 (48.9%)** | Multi-Reference Human Descriptions |
+| **Image** | BLIP Captioning | **BLEU-2** | **0.2870 (28.7%)** | Multi-Reference Human Descriptions |
+| **Image** | BLIP Captioning | **BLEU-4** | **0.0994 (9.9%)** | Multi-Reference Human Descriptions |
+| **Image** | BLIP Captioning | **ROUGE-L F1** | **0.3962 (39.6%)** | Longest Common Subsequence |
+| **Image** | BLIP-VQA | **Exact Match** | **13.33%** | Top-1 Exact Normalized String Match |
+| **Video** | TemporalService | **Transition F1** | **0.6667 (66.7%)** | Ground-Truth State Changes ($\pm 1.5\text{s}$) |
+| **Video** | VideoEngine | **Compute Saved** | **50.0%** | Redundant Frame Gating |
+| **Live** | LiveEngine | **Compute Saved** | **66.7%** | Redundant Frame Gating |
+| **Live** | LiveEngine | **Skip Speedup** | **$\approx 272\times$** | $27.69\text{ ms}$ skip vs $7545\text{ ms}$ full pass |
+| **Telemetry**| Full Pipeline | **Image Median Latency** | **$3964.17\text{ ms}$** | Warm MPS Inference on Apple M1 |
+
+### 17.4 Running the Quantitative Benchmark
+To recompute the complete quantitative evaluation benchmark across all modalities:
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 YOLO_OFFLINE=1 python scripts/evaluate_all_modalities.py
+```
+This script updates:
+* `data/evaluation_results/master_evaluation_summary.json`
+* `data/evaluation_results/evaluation_metrics_summary.csv`
+* `data/evaluation_results/quantitative_image_evaluation.json`
+* `data/evaluation_results/quantitative_video_evaluation.json`
+* `data/evaluation_results/quantitative_live_evaluation.json`
+
+Users can inspect these live results in the interactive **Model Evaluation & Quantitative Benchmarks** dashboard modal directly in the web UI, or export them via the CSV and JSON download buttons.
+
 
 
 

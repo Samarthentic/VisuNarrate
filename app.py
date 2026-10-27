@@ -34,7 +34,7 @@ from typing import Set, Dict, Any, Optional
 from pathlib import Path
 import psutil
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, request, jsonify, url_for, send_file
 from PIL import Image
 
 from core.image_engine import ImageEngine
@@ -1059,6 +1059,115 @@ def api_live_delete_session(session_id: str):
     if deleted:
         return jsonify({"success": True, "message": f"Session '{session_id}' deleted."})
     return jsonify({"success": False, "error": f"Session '{session_id}' not found."}), 404
+
+
+# =============================================================================
+# Evaluation & Benchmark Endpoints (Phase 14 Quantitative Architecture)
+# =============================================================================
+
+@app.route("/api/evaluation/summary", methods=["GET"])
+def api_evaluation_summary():
+    """Returns consolidated master quantitative evaluation summary across all modalities.
+
+    Includes ground-truth validated metrics (mAP@0.5, Precision, Recall, F1, BLEU-1..4,
+    ROUGE-L, VQA accuracy, Video Transition F1), redundancy filtering efficiency,
+    and operational hardware telemetry.
+    """
+    try:
+        from evaluation.report_generator import EvaluationReportGenerator
+        generator = EvaluationReportGenerator()
+        summary = generator.build_master_summary()
+        return jsonify({
+            "success": True,
+            "data": summary,
+        })
+    except Exception as e:
+        logger.error(f"[Evaluation] Error generating master evaluation summary: {e}", exc_info=True)
+        return jsonify({"success": False, "error": f"Evaluation summary error: {str(e)}"}), 500
+
+
+@app.route("/api/evaluation/image", methods=["GET"])
+def api_evaluation_image():
+    """Returns detailed quantitative evaluation report for Image Analysis pipeline."""
+    try:
+        from evaluation.report_generator import EvaluationReportGenerator
+        generator = EvaluationReportGenerator()
+        img_data = generator.load_image_evaluation()
+        if img_data:
+            return jsonify({"success": True, "data": img_data})
+        return jsonify({
+            "success": False,
+            "message": "Image benchmark not yet executed. Please run 'python scripts/evaluate_all_modalities.py'",
+        }), 404
+    except Exception as e:
+        logger.error(f"[Evaluation] Error fetching image evaluation: {e}", exc_info=True)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/evaluation/video", methods=["GET"])
+def api_evaluation_video():
+    """Returns detailed quantitative evaluation report for Video Storytelling pipeline."""
+    try:
+        from evaluation.report_generator import EvaluationReportGenerator
+        generator = EvaluationReportGenerator()
+        vid_data = generator.load_video_evaluation()
+        if vid_data:
+            return jsonify({"success": True, "data": vid_data})
+        return jsonify({
+            "success": False,
+            "message": "Video benchmark not yet executed. Please run 'python scripts/evaluate_all_modalities.py'",
+        }), 404
+    except Exception as e:
+        logger.error(f"[Evaluation] Error fetching video evaluation: {e}", exc_info=True)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/evaluation/live", methods=["GET"])
+def api_evaluation_live():
+    """Returns detailed operational telemetry report for Live Camera pipeline."""
+    try:
+        from evaluation.report_generator import EvaluationReportGenerator
+        generator = EvaluationReportGenerator()
+        live_data = generator.load_live_evaluation()
+        if live_data:
+            return jsonify({"success": True, "data": live_data})
+        return jsonify({
+            "success": False,
+            "message": "Live telemetry benchmark not yet executed. Please run 'python scripts/evaluate_all_modalities.py'",
+        }), 404
+    except Exception as e:
+        logger.error(f"[Evaluation] Error fetching live evaluation: {e}", exc_info=True)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/evaluation/report", methods=["GET"])
+def api_evaluation_report_download():
+    """Downloads quantitative benchmark report as a structured CSV or JSON file."""
+    format_type = request.args.get("format", "json").lower()
+    results_dir = os.path.join(BASE_DIR, "data", "evaluation_results")
+
+    if format_type == "csv":
+        csv_path = os.path.join(results_dir, "evaluation_metrics_summary.csv")
+        if not os.path.exists(csv_path):
+            from evaluation.report_generator import EvaluationReportGenerator
+            EvaluationReportGenerator().build_master_summary()
+        return send_file(
+            csv_path,
+            as_attachment=True,
+            download_name="visunarrate_evaluation_metrics.csv",
+            mimetype="text/csv",
+        )
+    else:
+        json_path = os.path.join(results_dir, "master_evaluation_summary.json")
+        if not os.path.exists(json_path):
+            from evaluation.report_generator import EvaluationReportGenerator
+            EvaluationReportGenerator().build_master_summary()
+        return send_file(
+            json_path,
+            as_attachment=True,
+            download_name="visunarrate_master_evaluation.json",
+            mimetype="application/json",
+        )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+Category,Modality,Model / Subsystem,Metric Name,Measured Value,Units / Range,Ground Truth Basis
+Benchmark Quality,Image,YOLOv8n,mAP@0.5,0.749,0.0 - 1.0,Verified Bounding Boxes
+Benchmark Quality,Image,YOLOv8n,Precision,0.7544,0.0 - 1.0,Verified Bounding Boxes
+Benchmark Quality,Image,YOLOv8n,Recall,0.9247,0.0 - 1.0,Verified Bounding Boxes
+Benchmark Quality,Image,YOLOv8n,F1 Score,0.8309,0.0 - 1.0,Harmonic Mean (P & R)
+Benchmark Quality,Image,BLIP Base,BLEU-1,0.4885,0.0 - 1.0,Human Reference Captions
+Benchmark Quality,Image,BLIP Base,BLEU-2,0.287,0.0 - 1.0,Human Reference Captions
+Benchmark Quality,Image,BLIP Base,BLEU-4,0.0994,0.0 - 1.0,Human Reference Captions
+Benchmark Quality,Image,BLIP Base,ROUGE-L F1,0.3962,0.0 - 1.0,Longest Common Subsequence
+Benchmark Quality,Image,BLIP VQA,Exact Match Accuracy,13.33%,Percentage,Ground-Truth Q&A References
+Benchmark Quality,Image,BLIP VQA,Soft Match Accuracy,13.33%,Percentage,Ground-Truth Q&A References
+Benchmark Quality,Video,TemporalService,Transition Precision,0.5,0.0 - 1.0,Annotated State Changes (±1.5s)
+Benchmark Quality,Video,TemporalService,Transition Recall,1.0,0.0 - 1.0,Annotated State Changes (±1.5s)
+Benchmark Quality,Video,TemporalService,Transition F1 Score,0.6667,0.0 - 1.0,Harmonic Mean (P & R)
+Efficiency,Video,VideoEngine,Compute Saved (Redundancy),50.0%,Percentage,Pixel-diff Thresholding
+Efficiency,Live Camera,LiveEngine,Compute Saved (Redundancy),66.7%,Percentage,Pixel-diff Thresholding
+Telemetry,Image,Full Pipeline,Median Warm Latency,3964.17 ms,Milliseconds,Runtime Execution
+Telemetry,Video,Full Pipeline,Avg Frame Latency,5616.27 ms,Milliseconds,Runtime Execution
+Telemetry,Live Camera,Full Pipeline,Median Frame Latency,51.22 ms,Milliseconds,Runtime Execution

@@ -139,8 +139,34 @@ class ImageEngine:
             }
 
             object_result = self.object_detector.detect_objects(pil_image, conf_threshold=0.25)
+            
+            # Map bounding box coordinates back to original image coordinate space
+            orig_dim = metadata.get("original_dimensions", {})
+            proc_dim = metadata.get("processed_dimensions", {})
+            orig_w, orig_h = orig_dim.get("width", 0), orig_dim.get("height", 0)
+            proc_w, proc_h = proc_dim.get("width", 0), proc_dim.get("height", 0)
+
+            scaled_objects = []
+            if orig_w > 0 and proc_w > 0 and orig_h > 0 and proc_h > 0 and (orig_w != proc_w or orig_h != proc_h):
+                scale_x = orig_w / proc_w
+                scale_y = orig_h / proc_h
+                for obj in object_result["objects"]:
+                    b = obj.get("bbox", {})
+                    scaled_objects.append({
+                        "label": obj.get("label"),
+                        "confidence": obj.get("confidence"),
+                        "bbox": {
+                            "x1": round(b.get("x1", 0.0) * scale_x, 1),
+                            "y1": round(b.get("y1", 0.0) * scale_y, 1),
+                            "x2": round(b.get("x2", 0.0) * scale_x, 1),
+                            "y2": round(b.get("y2", 0.0) * scale_y, 1),
+                        }
+                    })
+            else:
+                scaled_objects = object_result["objects"]
+
             object_evidence = {
-                "objects": object_result["objects"],
+                "objects": scaled_objects,
                 "counts": object_result["counts"],
                 "total_detections": object_result["total_detections"],
                 "model": object_result["model"],

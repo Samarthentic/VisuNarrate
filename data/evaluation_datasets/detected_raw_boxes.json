@@ -1,0 +1,1290 @@
+{
+  "ChatGPT Image Aug 20, 2026, 10_31_28 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          38.7,
+          23.2,
+          1114.3,
+          1119.2
+        ],
+        "confidence": 0.902
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          0.1,
+          840.3,
+          187.8,
+          1121.3
+        ],
+        "confidence": 0.885
+      },
+      {
+        "label": "cup",
+        "bbox": [
+          1237.2,
+          950.1,
+          1401.8,
+          1121.5
+        ],
+        "confidence": 0.877
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          3.4,
+          670.3,
+          108.6,
+          870.8
+        ],
+        "confidence": 0.631
+      },
+      {
+        "label": "couch",
+        "bbox": [
+          82.6,
+          564.4,
+          1402.0,
+          1114.9
+        ],
+        "confidence": 0.394
+      },
+      {
+        "label": "couch",
+        "bbox": [
+          976.8,
+          560.3,
+          1401.8,
+          1076.4
+        ],
+        "confidence": 0.353
+      },
+      {
+        "label": "book",
+        "bbox": [
+          0.0,
+          182.1,
+          31.5,
+          336.9
+        ],
+        "confidence": 0.291
+      },
+      {
+        "label": "book",
+        "bbox": [
+          29.9,
+          185.9,
+          69.5,
+          338.9
+        ],
+        "confidence": 0.275
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_33_23 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "laptop",
+        "bbox": [
+          488.3,
+          642.6,
+          1274.3,
+          1054.8
+        ],
+        "confidence": 0.959
+      },
+      {
+        "label": "cup",
+        "bbox": [
+          69.6,
+          866.8,
+          346.0,
+          1086.2
+        ],
+        "confidence": 0.936
+      },
+      {
+        "label": "person",
+        "bbox": [
+          156.1,
+          63.1,
+          1005.3,
+          980.1
+        ],
+        "confidence": 0.904
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          0.5,
+          713.2,
+          201.7,
+          1011.8
+        ],
+        "confidence": 0.814
+      },
+      {
+        "label": "person",
+        "bbox": [
+          0.0,
+          382.8,
+          157.5,
+          599.9
+        ],
+        "confidence": 0.643
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          1252.1,
+          460.4,
+          1402.0,
+          708.6
+        ],
+        "confidence": 0.625
+      },
+      {
+        "label": "cell phone",
+        "bbox": [
+          1241.2,
+          896.4,
+          1402.0,
+          975.6
+        ],
+        "confidence": 0.505
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          16.1,
+          528.6,
+          162.6,
+          609.8
+        ],
+        "confidence": 0.323
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_35_05 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          41.2,
+          138.3,
+          963.2,
+          1120.1
+        ],
+        "confidence": 0.907
+      },
+      {
+        "label": "cup",
+        "bbox": [
+          1091.9,
+          914.7,
+          1297.5,
+          1107.4
+        ],
+        "confidence": 0.903
+      },
+      {
+        "label": "cup",
+        "bbox": [
+          1333.7,
+          951.9,
+          1401.8,
+          1121.2
+        ],
+        "confidence": 0.584
+      },
+      {
+        "label": "book",
+        "bbox": [
+          183.1,
+          291.2,
+          227.0,
+          499.0
+        ],
+        "confidence": 0.356
+      },
+      {
+        "label": "book",
+        "bbox": [
+          146.4,
+          302.9,
+          194.4,
+          503.1
+        ],
+        "confidence": 0.325
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          1100.5,
+          331.5,
+          1401.6,
+          1071.5
+        ],
+        "confidence": 0.324
+      },
+      {
+        "label": "book",
+        "bbox": [
+          109.2,
+          302.6,
+          144.1,
+          501.5
+        ],
+        "confidence": 0.302
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          90.6,
+          606.9,
+          215.5,
+          785.8
+        ],
+        "confidence": 0.294
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          851.7,
+          891.9,
+          1015.2,
+          1122.0
+        ],
+        "confidence": 0.277
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_35_58 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          108.5,
+          22.8,
+          1265.1,
+          973.5
+        ],
+        "confidence": 0.914
+      },
+      {
+        "label": "bowl",
+        "bbox": [
+          515.0,
+          965.6,
+          677.8,
+          1050.5
+        ],
+        "confidence": 0.821
+      },
+      {
+        "label": "sandwich",
+        "bbox": [
+          432.8,
+          848.2,
+          700.3,
+          977.9
+        ],
+        "confidence": 0.777
+      },
+      {
+        "label": "person",
+        "bbox": [
+          178.3,
+          333.1,
+          412.4,
+          653.3
+        ],
+        "confidence": 0.743
+      },
+      {
+        "label": "cup",
+        "bbox": [
+          538.2,
+          482.9,
+          714.3,
+          630.9
+        ],
+        "confidence": 0.622
+      },
+      {
+        "label": "sandwich",
+        "bbox": [
+          347.5,
+          924.9,
+          582.4,
+          1044.4
+        ],
+        "confidence": 0.599
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          1214.8,
+          690.8,
+          1400.4,
+          1065.7
+        ],
+        "confidence": 0.443
+      },
+      {
+        "label": "dining table",
+        "bbox": [
+          54.5,
+          887.5,
+          1391.2,
+          1121.6
+        ],
+        "confidence": 0.435
+      },
+      {
+        "label": "dining table",
+        "bbox": [
+          0.9,
+          898.2,
+          982.4,
+          1120.6
+        ],
+        "confidence": 0.422
+      },
+      {
+        "label": "person",
+        "bbox": [
+          191.6,
+          319.1,
+          294.5,
+          455.9
+        ],
+        "confidence": 0.41
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          1213.8,
+          691.5,
+          1345.9,
+          1041.4
+        ],
+        "confidence": 0.318
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_36_59 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "cup",
+        "bbox": [
+          519.2,
+          976.7,
+          699.3,
+          1121.6
+        ],
+        "confidence": 0.874
+      },
+      {
+        "label": "person",
+        "bbox": [
+          397.5,
+          118.8,
+          1230.2,
+          1007.5
+        ],
+        "confidence": 0.856
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          846.0,
+          248.0,
+          1046.5,
+          482.4
+        ],
+        "confidence": 0.72
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          101.7,
+          834.1,
+          509.7,
+          1121.8
+        ],
+        "confidence": 0.614
+      },
+      {
+        "label": "laptop",
+        "bbox": [
+          847.9,
+          961.0,
+          1401.6,
+          1121.4
+        ],
+        "confidence": 0.392
+      },
+      {
+        "label": "dining table",
+        "bbox": [
+          7.9,
+          930.2,
+          1402.0,
+          1120.7
+        ],
+        "confidence": 0.372
+      },
+      {
+        "label": "couch",
+        "bbox": [
+          0.9,
+          480.1,
+          480.3,
+          905.3
+        ],
+        "confidence": 0.345
+      },
+      {
+        "label": "couch",
+        "bbox": [
+          118.8,
+          510.4,
+          1398.3,
+          1095.5
+        ],
+        "confidence": 0.328
+      },
+      {
+        "label": "book",
+        "bbox": [
+          573.4,
+          76.6,
+          614.1,
+          181.2
+        ],
+        "confidence": 0.325
+      },
+      {
+        "label": "book",
+        "bbox": [
+          581.7,
+          78.5,
+          620.3,
+          178.9
+        ],
+        "confidence": 0.308
+      },
+      {
+        "label": "couch",
+        "bbox": [
+          379.0,
+          497.1,
+          1400.3,
+          1016.4
+        ],
+        "confidence": 0.272
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          993.9,
+          516.8,
+          1401.0,
+          980.5
+        ],
+        "confidence": 0.267
+      },
+      {
+        "label": "book",
+        "bbox": [
+          0.8,
+          979.8,
+          115.3,
+          1038.3
+        ],
+        "confidence": 0.259
+      },
+      {
+        "label": "cell phone",
+        "bbox": [
+          821.8,
+          529.9,
+          930.6,
+          616.1
+        ],
+        "confidence": 0.256
+      },
+      {
+        "label": "couch",
+        "bbox": [
+          0.9,
+          479.3,
+          504.5,
+          1120.1
+        ],
+        "confidence": 0.251
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_37_57 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          392.3,
+          52.8,
+          1023.2,
+          1121.9
+        ],
+        "confidence": 0.93
+      },
+      {
+        "label": "person",
+        "bbox": [
+          42.5,
+          482.3,
+          144.7,
+          783.6
+        ],
+        "confidence": 0.825
+      },
+      {
+        "label": "person",
+        "bbox": [
+          193.7,
+          520.4,
+          252.5,
+          669.2
+        ],
+        "confidence": 0.822
+      },
+      {
+        "label": "person",
+        "bbox": [
+          163.5,
+          527.9,
+          198.8,
+          635.7
+        ],
+        "confidence": 0.63
+      },
+      {
+        "label": "person",
+        "bbox": [
+          123.3,
+          519.8,
+          168.4,
+          665.2
+        ],
+        "confidence": 0.535
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_38_57 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          166.4,
+          159.8,
+          730.7,
+          824.3
+        ],
+        "confidence": 0.936
+      },
+      {
+        "label": "laptop",
+        "bbox": [
+          474.2,
+          718.3,
+          990.7,
+          1008.8
+        ],
+        "confidence": 0.919
+      },
+      {
+        "label": "cell phone",
+        "bbox": [
+          407.7,
+          992.5,
+          612.8,
+          1101.4
+        ],
+        "confidence": 0.886
+      },
+      {
+        "label": "person",
+        "bbox": [
+          709.4,
+          231.9,
+          1128.6,
+          790.9
+        ],
+        "confidence": 0.852
+      },
+      {
+        "label": "person",
+        "bbox": [
+          558.5,
+          247.8,
+          729.8,
+          460.5
+        ],
+        "confidence": 0.835
+      },
+      {
+        "label": "person",
+        "bbox": [
+          0.3,
+          207.7,
+          505.3,
+          1119.6
+        ],
+        "confidence": 0.765
+      },
+      {
+        "label": "person",
+        "bbox": [
+          745.0,
+          219.5,
+          872.3,
+          455.6
+        ],
+        "confidence": 0.745
+      },
+      {
+        "label": "person",
+        "bbox": [
+          112.5,
+          64.8,
+          346.0,
+          301.3
+        ],
+        "confidence": 0.658
+      },
+      {
+        "label": "person",
+        "bbox": [
+          980.3,
+          213.6,
+          1401.6,
+          1069.9
+        ],
+        "confidence": 0.486
+      },
+      {
+        "label": "cell phone",
+        "bbox": [
+          1033.2,
+          940.0,
+          1368.9,
+          1052.8
+        ],
+        "confidence": 0.462
+      },
+      {
+        "label": "chair",
+        "bbox": [
+          654.2,
+          461.5,
+          759.5,
+          603.6
+        ],
+        "confidence": 0.324
+      },
+      {
+        "label": "book",
+        "bbox": [
+          937.4,
+          841.2,
+          1170.7,
+          959.0
+        ],
+        "confidence": 0.278
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_40_13 PM.png": {
+    "size": [
+      1402,
+      1122
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          0.1,
+          254.7,
+          401.1,
+          1078.9
+        ],
+        "confidence": 0.943
+      },
+      {
+        "label": "person",
+        "bbox": [
+          379.0,
+          251.6,
+          768.8,
+          1021.0
+        ],
+        "confidence": 0.927
+      },
+      {
+        "label": "laptop",
+        "bbox": [
+          399.1,
+          574.9,
+          619.3,
+          709.7
+        ],
+        "confidence": 0.893
+      },
+      {
+        "label": "person",
+        "bbox": [
+          745.9,
+          313.6,
+          1370.9,
+          1122.0
+        ],
+        "confidence": 0.87
+      },
+      {
+        "label": "backpack",
+        "bbox": [
+          690.5,
+          723.7,
+          958.7,
+          1035.7
+        ],
+        "confidence": 0.647
+      },
+      {
+        "label": "person",
+        "bbox": [
+          338.0,
+          293.8,
+          479.8,
+          510.3
+        ],
+        "confidence": 0.593
+      },
+      {
+        "label": "person",
+        "bbox": [
+          763.5,
+          253.3,
+          1078.1,
+          753.5
+        ],
+        "confidence": 0.588
+      },
+      {
+        "label": "person",
+        "bbox": [
+          253.6,
+          169.6,
+          371.3,
+          468.9
+        ],
+        "confidence": 0.455
+      },
+      {
+        "label": "backpack",
+        "bbox": [
+          122.5,
+          720.2,
+          300.2,
+          1030.5
+        ],
+        "confidence": 0.454
+      },
+      {
+        "label": "person",
+        "bbox": [
+          652.5,
+          302.4,
+          772.2,
+          445.1
+        ],
+        "confidence": 0.437
+      },
+      {
+        "label": "person",
+        "bbox": [
+          374.1,
+          176.7,
+          465.5,
+          367.4
+        ],
+        "confidence": 0.404
+      },
+      {
+        "label": "person",
+        "bbox": [
+          1.0,
+          219.7,
+          131.7,
+          460.5
+        ],
+        "confidence": 0.385
+      },
+      {
+        "label": "person",
+        "bbox": [
+          138.0,
+          166.7,
+          259.9,
+          283.8
+        ],
+        "confidence": 0.367
+      },
+      {
+        "label": "backpack",
+        "bbox": [
+          22.7,
+          270.1,
+          133.6,
+          418.5
+        ],
+        "confidence": 0.315
+      },
+      {
+        "label": "person",
+        "bbox": [
+          409.0,
+          177.1,
+          483.7,
+          353.2
+        ],
+        "confidence": 0.274
+      },
+      {
+        "label": "person",
+        "bbox": [
+          422.9,
+          179.4,
+          486.4,
+          395.4
+        ],
+        "confidence": 0.271
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_41_18 PM.png": {
+    "size": [
+      1536,
+      1024
+    ],
+    "objects": []
+  },
+  "ChatGPT Image Aug 20, 2026, 10_42_24 PM.png": {
+    "size": [
+      1536,
+      1024
+    ],
+    "objects": [
+      {
+        "label": "car",
+        "bbox": [
+          1124.7,
+          563.6,
+          1516.6,
+          773.7
+        ],
+        "confidence": 0.903
+      },
+      {
+        "label": "car",
+        "bbox": [
+          669.4,
+          546.4,
+          870.8,
+          690.7
+        ],
+        "confidence": 0.787
+      },
+      {
+        "label": "person",
+        "bbox": [
+          1048.6,
+          546.7,
+          1120.9,
+          675.8
+        ],
+        "confidence": 0.462
+      },
+      {
+        "label": "person",
+        "bbox": [
+          200.1,
+          531.4,
+          229.4,
+          600.7
+        ],
+        "confidence": 0.405
+      },
+      {
+        "label": "motorcycle",
+        "bbox": [
+          1046.6,
+          619.7,
+          1137.7,
+          709.1
+        ],
+        "confidence": 0.379
+      },
+      {
+        "label": "person",
+        "bbox": [
+          504.8,
+          544.6,
+          558.8,
+          646.8
+        ],
+        "confidence": 0.298
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_44_22 PM.png": {
+    "size": [
+      1536,
+      1024
+    ],
+    "objects": [
+      {
+        "label": "mouse",
+        "bbox": [
+          475.7,
+          871.6,
+          635.1,
+          995.9
+        ],
+        "confidence": 0.96
+      },
+      {
+        "label": "laptop",
+        "bbox": [
+          40.4,
+          227.3,
+          930.6,
+          867.4
+        ],
+        "confidence": 0.923
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          796.6,
+          261.0,
+          1014.1,
+          552.1
+        ],
+        "confidence": 0.922
+      },
+      {
+        "label": "cup",
+        "bbox": [
+          714.6,
+          444.8,
+          906.3,
+          611.3
+        ],
+        "confidence": 0.851
+      },
+      {
+        "label": "book",
+        "bbox": [
+          958.3,
+          445.2,
+          1386.9,
+          606.3
+        ],
+        "confidence": 0.634
+      },
+      {
+        "label": "book",
+        "bbox": [
+          581.3,
+          691.3,
+          1404.4,
+          1016.2
+        ],
+        "confidence": 0.581
+      },
+      {
+        "label": "book",
+        "bbox": [
+          959.2,
+          491.0,
+          1382.5,
+          609.2
+        ],
+        "confidence": 0.526
+      },
+      {
+        "label": "book",
+        "bbox": [
+          941.9,
+          525.2,
+          1377.8,
+          640.2
+        ],
+        "confidence": 0.523
+      },
+      {
+        "label": "cell phone",
+        "bbox": [
+          196.6,
+          873.1,
+          476.2,
+          1021.8
+        ],
+        "confidence": 0.412
+      },
+      {
+        "label": "bottle",
+        "bbox": [
+          1468.7,
+          414.6,
+          1535.2,
+          689.8
+        ],
+        "confidence": 0.353
+      },
+      {
+        "label": "laptop",
+        "bbox": [
+          1287.1,
+          637.2,
+          1535.3,
+          765.5
+        ],
+        "confidence": 0.352
+      },
+      {
+        "label": "book",
+        "bbox": [
+          936.2,
+          559.7,
+          1372.8,
+          682.1
+        ],
+        "confidence": 0.348
+      }
+    ]
+  },
+  "ChatGPT Image Aug 20, 2026, 10_45_33 PM.png": {
+    "size": [
+      1536,
+      1024
+    ],
+    "objects": [
+      {
+        "label": "laptop",
+        "bbox": [
+          123.1,
+          631.5,
+          714.4,
+          966.9
+        ],
+        "confidence": 0.953
+      },
+      {
+        "label": "potted plant",
+        "bbox": [
+          1051.1,
+          182.8,
+          1327.4,
+          515.9
+        ],
+        "confidence": 0.923
+      },
+      {
+        "label": "backpack",
+        "bbox": [
+          4.6,
+          13.3,
+          762.9,
+          759.9
+        ],
+        "confidence": 0.655
+      },
+      {
+        "label": "bottle",
+        "bbox": [
+          883.2,
+          210.8,
+          1022.6,
+          567.7
+        ],
+        "confidence": 0.641
+      },
+      {
+        "label": "mouse",
+        "bbox": [
+          566.1,
+          898.5,
+          701.1,
+          999.0
+        ],
+        "confidence": 0.633
+      },
+      {
+        "label": "book",
+        "bbox": [
+          625.6,
+          571.1,
+          1002.5,
+          837.4
+        ],
+        "confidence": 0.593
+      },
+      {
+        "label": "laptop",
+        "bbox": [
+          628.4,
+          571.4,
+          1012.0,
+          838.6
+        ],
+        "confidence": 0.511
+      },
+      {
+        "label": "book",
+        "bbox": [
+          1236.0,
+          521.6,
+          1431.1,
+          669.8
+        ],
+        "confidence": 0.358
+      },
+      {
+        "label": "book",
+        "bbox": [
+          920.9,
+          545.8,
+          1262.1,
+          778.3
+        ],
+        "confidence": 0.356
+      },
+      {
+        "label": "dining table",
+        "bbox": [
+          0.0,
+          399.0,
+          1531.9,
+          1024.0
+        ],
+        "confidence": 0.322
+      },
+      {
+        "label": "remote",
+        "bbox": [
+          713.6,
+          845.2,
+          950.1,
+          1024.0
+        ],
+        "confidence": 0.278
+      },
+      {
+        "label": "handbag",
+        "bbox": [
+          19.3,
+          13.5,
+          762.5,
+          742.0
+        ],
+        "confidence": 0.271
+      }
+    ]
+  },
+  "mountain_landscape.jpg": {
+    "size": [
+      800,
+      600
+    ],
+    "objects": [
+      {
+        "label": "frisbee",
+        "bbox": [
+          649.2,
+          49.1,
+          752.2,
+          153.2
+        ],
+        "confidence": 0.439
+      }
+    ]
+  },
+  "portrait_smartphone.jpg": {
+    "size": [
+      4608,
+      3072
+    ],
+    "objects": [
+      {
+        "label": "person",
+        "bbox": [
+          9.6,
+          7.3,
+          3740.6,
+          3018.7
+        ],
+        "confidence": 0.736
+      },
+      {
+        "label": "person",
+        "bbox": [
+          0.5,
+          60.6,
+          1300.9,
+          2910.6
+        ],
+        "confidence": 0.273
+      }
+    ]
+  },
+  "synthetic_graphic.jpg": {
+    "size": [
+      640,
+      480
+    ],
+    "objects": []
+  }
+}
